@@ -64,7 +64,7 @@ public abstract class DebugUtils {
      * <p/>
      * Taken from https://gist.github.com/JakeWharton/f50f3b4d87e57d8e96e9
      */
-    public static void autoUnlock(final Activity activity) {
+    public static void autoUnlockDevice(final Activity activity) {
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 
         PowerManager power = (PowerManager) activity.getSystemService(Context.POWER_SERVICE);

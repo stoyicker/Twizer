@@ -22,7 +22,7 @@ public class InitialActivity extends Activity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DebugUtils.autoUnlock(this);
+        DebugUtils.autoUnlockDevice(this);
 
         final Context appContext = getApplicationContext();
 
