@@ -15,13 +15,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 @SuppressWarnings({"UnusedDeclaration"})
-/**
- * It is not yet possible to use sourceSets directives, so this has to be excluded manually.
- */
 public abstract class DebugUtils {
 
     public static void showTrace(final String tag, final Exception source) {
-        if (!BuildConfig.DEBUG) return;
         final StackTraceElement[] trace = source.getStackTrace();
         final StringBuilder toPrint = new StringBuilder("");
         for (StackTraceElement x : trace) {
@@ -33,7 +29,6 @@ public abstract class DebugUtils {
 
     public static void writeToFile(final String data, final Context context,
                                    final String fileName) {
-        if (!BuildConfig.DEBUG) return;
         File f;
         if ((f = new File(fileName)).exists())
             //noinspection ResultOfMethodCallIgnored
@@ -70,7 +65,6 @@ public abstract class DebugUtils {
      * Taken from https://gist.github.com/JakeWharton/f50f3b4d87e57d8e96e9
      */
     public static void autoUnlock(final Activity activity) {
-        if (!BuildConfig.DEBUG) return;
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 
         PowerManager power = (PowerManager) activity.getSystemService(Context.POWER_SERVICE);

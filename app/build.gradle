@@ -52,11 +52,6 @@ android {
         }
 
         debug {
-            minifyEnabled false
-            zipAlignEnabled false
-        }
-
-        travis {
             minifyEnabled true
             proguardFiles 'proguard-rules.pro'
             zipAlignEnabled true
@@ -65,6 +60,8 @@ android {
 
     lintOptions {
         absolutePaths true
+
+        warningsAsErrors true
 
         enable 'IconExpectedSize', 'LogConditional', 'NegativeMargin', 'NewerVersionAvailable',
                 'SelectableText', 'TypographyQuotes', 'UnusedIds'

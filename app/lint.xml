@@ -17,8 +17,8 @@
     <issue id="UnusedAttribute">
         <ignore path="src/main/AndroidManifest.xml"/>
     </issue>
-    <!--The logs are conditional, it's just that I don't want to replicate all jumps-->
+    <!--It's the debug source...-->
     <issue id="LogConditional">
-        <ignore path="src/main/java/org/jorge/twizer/debug/DevUtils.java"/>
+        <ignore path="src/debug/*"/>
     </issue>
 </lint>
