@@ -4,12 +4,14 @@ android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
-    defaultConfig {
-        applicationId "org.jorge.twizer"
-        minSdkVersion 15
-        targetSdkVersion 22
-        versionCode 1
-        versionName "0"
+    productFlavors {
+        standard {
+            applicationId "org.jorge.twizer"
+            minSdkVersion 15
+            targetSdkVersion 22
+            versionCode 1
+            versionName "0"
+        }
     }
 
     signingConfigs {
