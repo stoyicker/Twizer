@@ -1,5 +1,4 @@
-Random for Twitter - master [![!](https://travis-ci.org/Stoyicker/Twizer.svg?branch=master)]
-(https://travis-ci.org/Stoyicker/Twizer)
+Random for Twitter - master [![!](https://travis-ci.org/Stoyicker/Twizer.svg?branch=master)](https://travis-ci.org/Stoyicker/Twizer)
 =======
 
 **Legal notice: See [LICENSE](https://raw.githubusercontent.com/Stoyicker/Twizer/master/LICENSE "LICENSE")**
