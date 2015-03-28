@@ -10,7 +10,7 @@ Feel free to take a story or add yours!
 
 Random tweets right in the palm of your hand!
 
-Free and open-source app for Android Lollipop.
+Free and open-source app for Android.
 <br>
 I am not affiliated with Twitter in any ways, this app does not represent Twitter nor its
 employees' opinions nor they do represent mine, and all that stuff.
