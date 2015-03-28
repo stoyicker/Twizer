@@ -4,6 +4,7 @@ sudo: false
 android:
   components:
     - build-tools-22.0.1
+    - android-22
     - extra-android-m2repository
 branches:
   only:
@@ -11,7 +12,7 @@ branches:
 before_install:
 # Signature stub start
     - echo "stub keystore" > twizer.keystore
-    - echo "stub storage pwd" > twizer.pwd
+    - echo "stub storage pwd" > twizerstorage.pwd
     - echo "stub key pwd" > twizer.pwd
 # Signature stub end
     - chmod +x ./gradlew
