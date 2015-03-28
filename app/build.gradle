@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.0"
+
+    defaultConfig {
+        applicationId "org.jorge.twizer"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "0"
+    }
+
+    signingConfigs {
+        release {
+            storeFile new File("twizer.keystore")
+            storePassword(new File("twizer.pwd").text)
+            keyAlias("twizer")
+            keyPassword(new File("twizerstorage.pwd").text)
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles 'proguard-rules.pro'
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            minifyEnabled false
+            zipAlignEnabled false
+        }
+
+        travis {
+            minifyEnabled true
+            proguardFiles 'proguard-rules.pro'
+            zipAlignEnabled true
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:22.0.0'
+}
