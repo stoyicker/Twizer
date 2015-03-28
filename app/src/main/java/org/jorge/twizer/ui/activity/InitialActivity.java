@@ -8,6 +8,7 @@ import com.crashlytics.android.Crashlytics;
 
 import org.jorge.twizer.DebugUtils;
 import org.jorge.twizer.R;
+import org.jorge.twizer.io.files.FileOperations;
 
 import java.io.File;
 
@@ -38,7 +39,8 @@ public class InitialActivity extends Activity {
         final Integer CACHE_SIZE_LIMIT_BYTES = context.getResources().getInteger(R.integer
                 .max_cache_size_bytes);
         if ((cacheDir = context.getCacheDir()).length() > CACHE_SIZE_LIMIT_BYTES) {
-//            FileManager.recursiveDelete(cacheDir);
+            if (!FileOperations.recursiveDelete(cacheDir))
+                throw new RuntimeException("Cache was full but could not be cleaned.");
         }
     }
 }
