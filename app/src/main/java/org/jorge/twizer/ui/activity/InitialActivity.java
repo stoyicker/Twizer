@@ -2,7 +2,9 @@ package org.jorge.twizer.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -28,6 +30,7 @@ public class InitialActivity extends Activity {
 
         initCrashlytics(appContext);
         flushCacheIfNecessary(appContext);
+        start(appContext);
     }
 
     private void initCrashlytics(final Context context) {
@@ -42,5 +45,19 @@ public class InitialActivity extends Activity {
             if (!FileOperations.recursiveDelete(cacheDir))
                 throw new RuntimeException("Cache was full but could not be cleaned.");
         }
+    }
+
+    private void start(final Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        ActivityCompat.finishAfterTransition(this);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        finish();
+        startActivity(new Intent(getApplicationContext(), InitialActivity.class));
     }
 }
