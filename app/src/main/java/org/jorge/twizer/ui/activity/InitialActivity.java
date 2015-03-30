@@ -1,6 +1,5 @@
 package org.jorge.twizer.ui.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +18,7 @@ import io.fabric.sdk.android.Fabric;
 /**
  * @author stoyicker.
  */
-public class InitialActivity extends Activity {
+public class InitialActivity extends IcedActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,12 +51,5 @@ public class InitialActivity extends Activity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         ActivityCompat.finishAfterTransition(this);
         startActivity(intent);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        finish();
-        startActivity(new Intent(getApplicationContext(), InitialActivity.class));
     }
 }
