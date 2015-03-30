@@ -52,11 +52,4 @@ public class InitialActivity extends IcedActivity {
         ActivityCompat.finishAfterTransition(this);
         startActivity(intent);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        finish();
-        startActivity(new Intent(getApplicationContext(), InitialActivity.class));
-    }
 }
