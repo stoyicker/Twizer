@@ -1,6 +1,5 @@
 package org.jorge.twizer.ui.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +18,7 @@ import io.fabric.sdk.android.Fabric;
 /**
  * @author stoyicker.
  */
-public class InitialActivity extends Activity {
+public class InitialActivity extends IcedActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

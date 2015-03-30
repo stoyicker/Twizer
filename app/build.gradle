@@ -10,10 +10,6 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-}
-
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
@@ -67,9 +63,16 @@ android {
     }
 }
 
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+    maven { url "https://clojars.org/repo/" }
+}
+
 dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.2.2@aar') {
         transitive = true;
     }
+    compile 'frankiesardo:icepick:3.0.3-SNAPSHOT'
+    provided 'frankiesardo:icepick-processor:3.0.3-SNAPSHOT'
 }
