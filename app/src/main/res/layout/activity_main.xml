@@ -7,23 +7,26 @@
                 android:layout_height="wrap_content">
 
 
-    <com.andexert.library.RippleView
+    <com.andexert.ripple.RippleView
+        android:id="@+id/action_settings"
         android:layout_width="?android:actionBarSize"
         android:layout_height="?android:actionBarSize"
         ripple:rv_centered="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        ripple:rv_color="@color/material_light_blue_500">
+        ripple:rv_rippleDuration="@integer/ripple_duration_millis"
+        ripple:rv_color="@android:color/black">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_settings"
+            android:src="@drawable/ic_action_settings"
+            android:scaleType="centerInside"
             style="@android:style/Widget.ActionButton"
             android:background="@null"
             android:contentDescription="@string/action_settings"/>
 
-    </com.andexert.library.RippleView>
+    </com.andexert.ripple.RippleView>
 
     <LinearLayout
         android:orientation="vertical"

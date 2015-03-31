@@ -79,5 +79,6 @@ dependencies {
     }
     compile 'frankiesardo:icepick:3.0.3-SNAPSHOT'
     provided 'frankiesardo:icepick-processor:3.0.3-SNAPSHOT'
-    compile 'com.github.traex.rippleeffect:library:1.2.4'
+    compile 'com.jakewharton:butterknife:6.1.0'
+    compile project (':ripple')
 }
