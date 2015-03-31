@@ -24,4 +24,8 @@
     <issue id="InvalidPackage">
         <ignore path="*/clojure-1.6.0.jar"/>
     </issue>
+    <!--I am not using an ActionBar.-->
+    <issue id="IconColors">
+        <ignore path="*/ic_action_settings.png"/>
+    </issue>
 </lint>
