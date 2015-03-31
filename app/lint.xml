@@ -21,4 +21,7 @@
     <issue id="LogConditional">
         <ignore path="src/debug/*"/>
     </issue>
+    <issue id="InvalidPackage">
+        <ignore path="*/clojure-1.6.0.jar"/>
+    </issue>
 </lint>
