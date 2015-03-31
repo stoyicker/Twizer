@@ -7,5 +7,3 @@ crashlytics-build.properties
 fabric.properties
 *.keystore
 *.pwd
-*.alias
-com_crashlytics_export_strings.xml

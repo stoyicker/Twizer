@@ -2,11 +2,8 @@ package org.jorge.twizer; /**
  * @author stoyicker.
  */
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.PowerManager;
 import android.util.Log;
-import android.view.WindowManager;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -56,24 +53,8 @@ public abstract class DebugUtils {
         Log.d(tag, msg);
     }
 
-    /**
-     * Show the activity over the lockscreen and wake up the device. If you launched the app
-     * manually both of these conditions are already true. If you deployed from the IDE,
-     * however, this will save you from hundreds of power button presses and pattern swiping per
-     * day!
-     * <p/>
-     * Taken from https://gist.github.com/JakeWharton/f50f3b4d87e57d8e96e9
-     */
-    public static void autoUnlockDevice(final Activity activity) {
-        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-
-        PowerManager power = (PowerManager) activity.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock lock =
-                power.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager
-                                .ACQUIRE_CAUSES_WAKEUP |
-                                PowerManager.ON_AFTER_RELEASE,
-                        "Rise and shine!");
-        lock.acquire();
-        lock.release();
+    public static void e(final String tag, final String msg) {
+        if (!BuildConfig.DEBUG) return;
+        Log.e(tag, msg);
     }
 }

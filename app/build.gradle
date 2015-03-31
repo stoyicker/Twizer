@@ -40,6 +40,8 @@ android {
 
     buildTypes {
         release {
+            buildConfigField "boolean", "USE_CRASHLYTICS", "true"
+            ext.enableCrashlytics = true
             minifyEnabled true
             proguardFiles 'proguard-rules.pro'
             zipAlignEnabled true
@@ -47,6 +49,8 @@ android {
         }
 
         debug {
+            buildConfigField "boolean", "USE_CRASHLYTICS", "false"
+            ext.enableCrashlytics = false
             minifyEnabled true
             proguardFiles 'proguard-rules.pro'
             zipAlignEnabled true

@@ -7,7 +7,7 @@ import android.support.v4.app.ActivityCompat;
 
 import com.crashlytics.android.Crashlytics;
 
-import org.jorge.twizer.DebugUtils;
+import org.jorge.twizer.BuildConfig;
 import org.jorge.twizer.R;
 import org.jorge.twizer.io.files.FileOperations;
 
@@ -23,8 +23,6 @@ public class InitialActivity extends IcedActivity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DebugUtils.autoUnlockDevice(this);
-
         final Context appContext = getApplicationContext();
 
         initCrashlytics(appContext);
@@ -33,7 +31,8 @@ public class InitialActivity extends IcedActivity {
     }
 
     private void initCrashlytics(final Context context) {
-        Fabric.with(context, new Crashlytics());
+        if (BuildConfig.USE_CRASHLYTICS)
+            Fabric.with(context, new Crashlytics());
     }
 
     private void flushCacheIfNecessary(final Context context) {
