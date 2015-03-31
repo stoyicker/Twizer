@@ -24,12 +24,8 @@ public class MainActivity extends IcedActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        actionSettings.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
-            @Override
-            public void onComplete(final RippleView rippleView) {
-                MainActivity.this.openSettings();
-            }
-        });
+        actionSettings.setOnRippleCompleteListener(rippleView -> MainActivity.this.openSettings
+                ());
     }
 
     private void openSettings() {
