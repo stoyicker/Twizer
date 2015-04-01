@@ -6,16 +6,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 
 import com.andexert.ripple.RippleView;
 
-import org.jorge.twizer.DebugUtils;
 import org.jorge.twizer.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.codetail.animation.SupportAnimator;
+import io.codetail.animation.ViewAnimationUtils;
 
 /**
  * @author stoyicker.
@@ -33,7 +35,6 @@ public class MainActivity extends IcedActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-        DebugUtils.d("debug", "onCreate(d)");
 
         final Context context = getApplicationContext();
 
@@ -44,36 +45,44 @@ public class MainActivity extends IcedActivity {
     }
 
     private void scheduleReveal(final Context context) {
-        DebugUtils.d("debug", "scheduleReveal");
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(() -> {
             final TranslateAnimation translateAnimation = new TranslateAnimation(Animation
                     .RELATIVE_TO_SELF, 0, Animation
                     .RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-                    Animation.RELATIVE_TO_SELF, -1);
+                    Animation.RELATIVE_TO_SELF, -1); //FIXME Correctly align top
             translateAnimation.setDuration(context.getResources().getInteger(R.integer
                     .splash_anim_duration_millis));
             translateAnimation.setFillAfter(Boolean.TRUE);
             translateAnimation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
-                    DebugUtils.d("debug", "onAnimationStart");
                 }
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     //TODO Reveal the views
-                    DebugUtils.d("debug", "onAnimationEnd");
+                    circularRevealView(actionSettings);
+                }
+
+                private void circularRevealView(final View viewToReveal) {
+                    final Integer width = viewToReveal.getWidth(),
+                            height = viewToReveal.getHeight();
+                    final SupportAnimator animator = ViewAnimationUtils.createCircularReveal
+                            (viewToReveal, width,
+                                    height, 0, Math.max(width, height));
+                    animator.setInterpolator(new AccelerateDecelerateInterpolator());
+                    animator.setDuration(context.getResources().getInteger(R.integer
+                            .circular_reveal_duration_millis));
+                    viewToReveal.setVisibility(View.VISIBLE);
+                    animator.start();
                 }
 
                 @Override
                 public void onAnimationRepeat(Animation animation) {
-                    DebugUtils.d("debug", "onAnimationRepeat");
                 }
             });
-            DebugUtils.d("debug", "About to startAnimation");
             logoView.startAnimation(translateAnimation);
-            DebugUtils.d("debug", "Animation started");
         }, context.getResources().getInteger(R.integer
                 .splash_delay_millis));
     }

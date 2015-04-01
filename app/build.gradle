@@ -74,6 +74,7 @@ android {
 repositories {
     maven { url 'https://maven.fabric.io/public' }
     maven { url "https://clojars.org/repo/" }
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -85,4 +86,5 @@ dependencies {
     provided 'frankiesardo:icepick-processor:3.0.3-SNAPSHOT'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile project(':ripple')
+    compile 'com.github.ozodrukh:CircularReveal:1.0.4@aar'
 }

@@ -14,3 +14,5 @@
 }
 # Retrolambda
 -dontwarn java.lang.invoke.*
+# CircularReveal
+-dontwarn com.nineoldandroids.**
