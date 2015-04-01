@@ -29,6 +29,6 @@ public class MainActivity extends IcedActivity {
     }
 
     private void openSettings() {
-        startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+        startActivity(new Intent(getApplicationContext(), SettingsIcedActivity.class));
     }
 }

@@ -6,7 +6,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-
     <com.andexert.ripple.RippleView
         android:id="@+id/action_settings"
         android:layout_width="?android:actionBarSize"
@@ -15,7 +14,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         ripple:rv_rippleDuration="@integer/ripple_duration_millis"
-        ripple:rv_color="@android:color/black">
+        ripple:rv_color="?attr/colorAccent">
 
         <ImageView
             android:layout_width="match_parent"
