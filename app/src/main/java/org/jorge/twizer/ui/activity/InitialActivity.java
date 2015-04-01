@@ -19,6 +19,7 @@ import io.fabric.sdk.android.Fabric;
  * @author stoyicker.
  */
 public class InitialActivity extends IcedActivity {
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
