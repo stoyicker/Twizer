@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ActionBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:background">@color/material_light_blue_500</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
+
+</resources>

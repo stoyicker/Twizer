@@ -29,7 +29,6 @@
 
         <activity
             android:name=".ui.activity.SettingsIcedActivity"
-            android:theme="@style/SettingsTheme"
             android:label="@string/action_settings"
             android:logo="@drawable/ic_action_settings_blank">
             <meta-data

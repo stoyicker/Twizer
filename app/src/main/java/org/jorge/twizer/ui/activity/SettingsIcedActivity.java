@@ -1,5 +1,6 @@
 package org.jorge.twizer.ui.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -27,6 +28,8 @@ public class SettingsIcedActivity extends ActionBarActivity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Icepick.restoreInstanceState(this, savedInstanceState);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            setTheme(R.style.SupportSettingsTheme);
         setContentView(R.layout.activity_settings);
         ButterKnife.inject(this);
 
