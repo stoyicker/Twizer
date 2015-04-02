@@ -21,7 +21,7 @@ android {
     productFlavors {
         standard {
             applicationId "org.jorge.twizer"
-            minSdkVersion 15
+            minSdkVersion 16
             targetSdkVersion 22
             versionCode 1
             versionName "0"
@@ -86,6 +86,5 @@ dependencies {
     provided 'frankiesardo:icepick-processor:3.0.3-SNAPSHOT'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile project(':ripple')
-    compile 'com.github.ozodrukh:CircularReveal:1.0.4@aar'
-    provided 'com.nineoldandroids:library:2.4.0'
+    compile project(':circularreveal')
 }

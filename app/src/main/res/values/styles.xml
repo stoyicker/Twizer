@@ -7,8 +7,13 @@
         <item name="colorAccent">@color/material_light_blue_a200</item>
     </style>
 
-    <style name="ActionBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="colorPrimary">@color/material_light_blue_500</item>
+    <style name="SettingsTheme" parent="AppTheme">
+        <item name="actionBarStyle">@style/ActionBarTheme</item>
+        <item name="android:actionBarStyle">@style/ActionBarTheme</item>
+    </style>
+
+    <style name="ActionBarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/material_light_blue_500</item>
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 

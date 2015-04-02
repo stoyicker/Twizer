@@ -66,11 +66,11 @@ public class MainActivity extends IcedActivity {
                 }
 
                 private void circularRevealView(final View viewToReveal) {
-                    final Integer width = viewToReveal.getWidth(),
-                            height = viewToReveal.getHeight();
+                    final Integer cx = (viewToReveal.getLeft() + viewToReveal.getRight()) / 2,
+                            cy = (viewToReveal.getTop() + viewToReveal.getBottom()) / 2;
                     final SupportAnimator animator = ViewAnimationUtils.createCircularReveal
-                            (viewToReveal, width,
-                                    height, 0, Math.max(width, height));
+                            (viewToReveal, cx,
+                                    cy, 0, Math.max(viewToReveal.getWidth(), viewToReveal.getHeight()));
                     animator.setInterpolator(new AccelerateDecelerateInterpolator());
                     animator.setDuration(context.getResources().getInteger(R.integer
                             .circular_reveal_duration_millis));

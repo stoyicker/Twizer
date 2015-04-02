@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 21
+    buildToolsVersion '22.0.1'
 
     defaultConfig {
-        minSdkVersion 9
+        minSdkVersion 10
         targetSdkVersion 22
     }
 
@@ -32,5 +32,5 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-annotations:22.0.0'
+    compile 'com.nineoldandroids:library:2.4.0'
 }
