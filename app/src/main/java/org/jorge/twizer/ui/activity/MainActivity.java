@@ -2,6 +2,7 @@ package org.jorge.twizer.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,6 +14,7 @@ import android.view.animation.TranslateAnimation;
 import com.andexert.ripple.RippleView;
 
 import org.jorge.twizer.R;
+import org.jorge.twizer.ui.Utils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -46,6 +48,8 @@ public class MainActivity extends IcedActivity {
 
     private void scheduleReveal(final Context context) {
         final Handler handler = new Handler(Looper.getMainLooper());
+        //noinspection ResourceType
+        setRequestedOrientation(Utils.getScreenOrientation(context));
         handler.postDelayed(() -> {
             final TranslateAnimation translateAnimation = new TranslateAnimation(Animation
                     .RELATIVE_TO_SELF, 0, Animation
@@ -63,6 +67,7 @@ public class MainActivity extends IcedActivity {
                 public void onAnimationEnd(Animation animation) {
                     //TODO Reveal the views
                     circularRevealView(actionSettings);
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
                 }
 
                 private void circularRevealView(final View viewToReveal) {
@@ -70,7 +75,8 @@ public class MainActivity extends IcedActivity {
                             cy = (viewToReveal.getTop() + viewToReveal.getBottom()) / 2;
                     final SupportAnimator animator = ViewAnimationUtils.createCircularReveal
                             (viewToReveal, cx,
-                                    cy, 0, Math.max(viewToReveal.getWidth(), viewToReveal.getHeight()));
+                                    cy, 0, Math.max(viewToReveal.getWidth(),
+                                            viewToReveal.getHeight()));
                     animator.setInterpolator(new AccelerateDecelerateInterpolator());
                     animator.setDuration(context.getResources().getInteger(R.integer
                             .circular_reveal_duration_millis));
