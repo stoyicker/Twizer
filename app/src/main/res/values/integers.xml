@@ -4,5 +4,5 @@
     <integer name="max_cache_size_bytes">1048576</integer>
     <integer name="splash_delay_millis">1000</integer>
     <integer name="splash_anim_duration_millis">500</integer>
-    <integer name="circular_reveal_duration_millis">250</integer>
+    <integer name="circular_reveal_duration_millis">1000</integer>
 </resources>
