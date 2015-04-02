@@ -9,7 +9,6 @@
         android:icon="@mipmap/ic_launcher"
         android:logo="@drawable/ic_logo"
         android:theme="@style/AppTheme"
-        android:configChanges="orientation|screenSize|keyboardHidden"
         android:launchMode="singleTop"
         android:supportsRtl="true">
 
@@ -25,7 +24,8 @@
 
         <activity
             android:name=".ui.activity.MainActivity"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
 
         <activity
             android:name=".ui.activity.SettingsIcedActivity"
