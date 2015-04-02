@@ -1,19 +1,16 @@
 package org.jorge.twizer.ui.activity;
 
-import android.os.Build;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import org.jorge.twizer.R;
 import org.jorge.twizer.ui.fragment.SettingsPreferenceFragment;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import icepick.Icepick;
 
 /**
@@ -21,30 +18,21 @@ import icepick.Icepick;
  */
 public class SettingsIcedActivity extends ActionBarActivity {
 
-    @InjectView(R.id.toolbar)
-    Toolbar toolbar;
-
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Icepick.restoreInstanceState(this, savedInstanceState);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-            setTheme(R.style.SupportSettingsTheme);
         setContentView(R.layout.activity_settings);
-        ButterKnife.inject(this);
 
-        if (toolbar != null) {
-            toolbar.setTitle(R.string.action_settings);
-            setSupportActionBar(toolbar);
-        }
+        final Context appContext = getApplicationContext();
 
         final ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
+        }
 
         getFragmentManager().beginTransaction().replace(R.id.settings_list,
-                new SettingsPreferenceFragment(),
-                getApplicationContext().getString(R.string.action_settings))
+                new SettingsPreferenceFragment(), appContext.getString(R.string.action_settings))
                 .commit();
     }
 

@@ -4,18 +4,12 @@
         <item name="android:windowBackground">@android:color/white</item>
     </style>
 
-    <style name="SupportSettingsTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/ActionBarTheme</item>
+    <style name="SettingsTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/ActionBarTheme</item>
     </style>
 
-    <style name="ActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/material_light_blue_500</item>
-        <item name="android:titleTextStyle">@style/ActionBarTitleText</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_action_arrow_back</item>
-    </style>
-
-    <style name="ActionBarTitleText" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@android:color/white</item>
+    <style name="ActionBarTheme" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="background">@color/material_light_blue_500</item>
     </style>
 
 </resources>
