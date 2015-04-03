@@ -9,7 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
 import org.jorge.twizer.R;
-import org.jorge.twizer.ui.Utils;
+import org.jorge.twizer.ui.UiUtils;
 
 import icepick.Icepick;
 
@@ -24,7 +24,7 @@ public class SettingsIcedActivity extends ActionBarActivity {
         Icepick.restoreInstanceState(this, savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            Utils.setTaskDescription(this);
+            UiUtils.setTaskDescription(this);
 
         setContentView(R.layout.activity_settings);
 

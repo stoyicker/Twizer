@@ -24,8 +24,7 @@
 
         <activity
             android:name=".ui.activity.MainActivity"
-            android:launchMode="singleTop"
-            android:configChanges="orientation|screenSize|keyboardHidden"/>
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".ui.activity.SettingsIcedActivity"

@@ -3,7 +3,6 @@ package org.jorge.twizer.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,7 +16,7 @@ import android.widget.RelativeLayout;
 import com.andexert.ripple.RippleView;
 
 import org.jorge.twizer.R;
-import org.jorge.twizer.ui.Utils;
+import org.jorge.twizer.ui.UiUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -52,24 +51,31 @@ public class MainActivity extends DescribedIcedActivity {
                 (context));
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        //FIXME The logo has to replace itself, and test also if the configuration change happens
-        // in another activity
-    }
-
     private void scheduleReveal(final Context context) {
         final Handler handler = new Handler(Looper.getMainLooper());
+        final Integer initialOrientation = UiUtils.getScreenOrientation(context);
         //noinspection ResourceType
-        setRequestedOrientation(Utils.getScreenOrientation(context));
+        setRequestedOrientation(initialOrientation);
         handler.postDelayed(() -> {
-            final Integer verticalShift = -(Utils.getScreenHeight(context) - logoView
-                    .getMeasuredHeight()) / 2;
-            final TranslateAnimation translateAnimation = new TranslateAnimation(Animation
-                    .RELATIVE_TO_SELF, 0, Animation
-                    .RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-                    Animation.ABSOLUTE, verticalShift);
+            Integer shift;
+            TranslateAnimation translateAnimation;
+            if (initialOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
+                    initialOrientation ==
+                            ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT) {
+                shift = -(UiUtils.getScreenHeight(context) - logoView
+                        .getMeasuredHeight()) / 2;
+                translateAnimation = new TranslateAnimation(Animation
+                        .RELATIVE_TO_SELF, 0, Animation
+                        .RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+                        Animation.ABSOLUTE, shift);
+            } else {
+                shift = -(UiUtils.getScreenWidth(context) - logoView
+                        .getMeasuredWidth()) / 2;
+                translateAnimation = new TranslateAnimation(Animation
+                        .RELATIVE_TO_SELF, 0, Animation
+                        .ABSOLUTE, shift, Animation.RELATIVE_TO_SELF, 0,
+                        Animation.RELATIVE_TO_SELF, 0);
+            }
             translateAnimation.setDuration(context.getResources().getInteger(R.integer
                     .splash_anim_duration_millis));
             translateAnimation.setFillAfter(Boolean.TRUE);
@@ -82,7 +88,13 @@ public class MainActivity extends DescribedIcedActivity {
                 public void onAnimationEnd(Animation animation) {
                     final RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)
                             bodyGroup.getLayoutParams();
-                    lp.setMargins(0, logoView.getHeight(), 0, 0);
+                    if (initialOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
+                            initialOrientation ==
+                                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT)
+                        lp.setMargins(0, logoView.getHeight(), 0, 0);
+                    else {
+                        lp.setMargins(logoView.getWidth(), 0, 0, 0);
+                    }
                     bodyGroup.setLayoutParams(lp);
                     Integer childrenAmount = bodyGroup.getChildCount() - 1;
                     for (; childrenAmount >= 0; childrenAmount--) {

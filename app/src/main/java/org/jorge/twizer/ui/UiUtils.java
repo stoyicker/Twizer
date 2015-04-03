@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Build;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
@@ -20,7 +19,7 @@ import org.jorge.twizer.R;
 /**
  * @author stoyicker.
  */
-public abstract class Utils {
+public abstract class UiUtils {
 
     public static Integer getScreenOrientation(final Context context) {
         final WindowManager winMan = (WindowManager) context.getSystemService(Activity
@@ -50,7 +49,7 @@ public abstract class Utils {
                     orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
                     break;
                 default:
-                    Log.e("debug", "Unknown screen orientation. Defaulting to portrait.");
+                    DebugUtils.e("debug", "Unknown screen orientation. Defaulting to portrait.");
                     orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
                     break;
             }
@@ -79,6 +78,14 @@ public abstract class Utils {
         }
 
         return orientation;
+    }
+
+    public static Integer getScreenWidth(final Context context) {
+        final Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE))
+                .getDefaultDisplay();
+        final Point size = new Point();
+        display.getSize(size);
+        return size.x;
     }
 
     public static Integer getScreenHeight(final Context context) {
