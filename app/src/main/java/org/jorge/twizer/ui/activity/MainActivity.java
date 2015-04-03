@@ -1,5 +1,6 @@
 package org.jorge.twizer.ui.activity;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -96,11 +97,9 @@ public class MainActivity extends DescribedIcedActivity {
                         lp.setMargins(logoView.getWidth(), 0, 0, 0);
                     }
                     bodyGroup.setLayoutParams(lp);
-                    Integer childrenAmount = bodyGroup.getChildCount() - 1;
-                    for (; childrenAmount >= 0; childrenAmount--) {
-                        final View c = bodyGroup.getChildAt(childrenAmount);
-                        circularRevealView(c);
-                    }
+                    final Fragment contentFragment = getFragmentManager().findFragmentById(R.id
+                            .content_fragment);
+                    circularRevealView(contentFragment.getView());
                     circularRevealView(actionSettings);
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
                 }

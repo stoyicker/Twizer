@@ -46,21 +46,19 @@
             android:scaleType="centerInside"
             android:layout_centerInParent="true"/>
 
-        <io.codetail.widget.RevealLinearLayout
+        <io.codetail.widget.RevealFrameLayout
             android:id="@+id/body"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="@bool/is_portrait"
             android:layout_centerVertical="@bool/is_landscape">
-            <!--TODO Make the content a Fragment-->
-            <ImageView
+
+            <fragment
+                android:id="@+id/content_fragment"
+                android:name="org.jorge.twizer.ui.fragment.ContentFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_action_settings"
-                android:scaleType="fitCenter"
-                tools:ignore="ContentDescription"
-                android:visibility="invisible"/>
-        </io.codetail.widget.RevealLinearLayout>
+                android:layout_height="match_parent"/>
+        </io.codetail.widget.RevealFrameLayout>
     </RelativeLayout>
 </RelativeLayout>
