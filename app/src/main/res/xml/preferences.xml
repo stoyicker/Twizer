@@ -5,4 +5,14 @@
             android:key="@string/pref_key_log_out"
             android:title="@string/pref_title_log_out"/>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preference_category_title_about">
+        <Preference
+            android:key="@string/pref_key_about_the_author"
+            android:title="@string/pref_title_about_the_author"
+            android:summary="@string/pref_summary_about_the_author"/>
+        <Preference
+            android:key="@string/pref_key_see_the_source"
+            android:title="@string/pref_title_see_the_source"
+            android:summary="@string/pref_summary_see_the_source"/>
+    </PreferenceCategory>
 </PreferenceScreen>

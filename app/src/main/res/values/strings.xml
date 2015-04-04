@@ -5,4 +5,17 @@
     <string name="pref_title_log_out">Log out</string>
     <string name="pref_key_log_out" translatable="false">key_log_out</string>
     <string name="transition_key_logo">transition_logo</string>
+    <string name="preference_category_title_about">ABOUT</string>
+    <string name="pref_title_about_the_author">About the author</string>
+    <string name="pref_title_see_the_source">This app is open-source</string>
+    <string name="pref_summary_see_the_source">Fork it!</string>
+    <string name="pref_summary_about_the_author" translatable="false">Jorge Antonio Diaz-Benito
+        Soriano</string>
+    <string name="pref_key_about_the_author">key_about_the_author</string>
+    <string name="pref_key_see_the_source">key_see_the_source</string>
+    <string name="about_the_author_link" translatable="false">https://www.linkedin
+        .com/in/jorgediazbenitosoriano</string>
+    <string name="author_linkedin_id" translatable="false">169653526</string>
+    <string name="linkedin_intent_pattern" translatable="false">linkedin://profile/%s</string>
+    <string name="github_repository_url" translatable="false">https://github.com/Stoyicker/Twizer</string>
 </resources>
