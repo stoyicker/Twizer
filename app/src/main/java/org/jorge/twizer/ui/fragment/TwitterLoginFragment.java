@@ -12,7 +12,7 @@ import org.jorge.twizer.R;
 /**
  * @author stoyicker.
  */
-public class ContentFragment extends CircularRevealedFragment {
+public class TwitterLoginFragment extends CircularRevealedFragment {
 
     private static volatile Fragment mInstance;
     private static final Object LOCK = new Object();
@@ -23,7 +23,7 @@ public class ContentFragment extends CircularRevealedFragment {
             synchronized (LOCK) {
                 ret = mInstance;
                 if (ret == null) {
-                    ret = Fragment.instantiate(context, ContentFragment.class.getName());
+                    ret = Fragment.instantiate(context, TwitterLoginFragment.class.getName());
                     mInstance = ret;
                 }
             }
@@ -34,7 +34,17 @@ public class ContentFragment extends CircularRevealedFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_content, container, Boolean.FALSE);
+        return inflater.inflate(R.layout.fragment_twitter_login, container, Boolean.FALSE);
     }
 
+    public interface ILoginListener {
+
+        public void onLoginSuccessful();
+
+        public void onLoginRequested();
+
+        public void onLoginErrored();
+
+        public void onLoginFailed();
+    }
 }

@@ -4,12 +4,12 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.RelativeLayout;
@@ -18,16 +18,19 @@ import com.andexert.ripple.RippleView;
 
 import org.jorge.twizer.R;
 import org.jorge.twizer.ui.UiUtils;
+import org.jorge.twizer.ui.fragment.ContentFragment;
+import org.jorge.twizer.ui.fragment.TwitterLoginFragment;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.codetail.animation.SupportAnimator;
-import io.codetail.animation.ViewAnimationUtils;
+
+import static org.jorge.twizer.ui.UiUtils.circularRevealView;
 
 /**
  * @author stoyicker.
  */
-public class MainActivity extends DescribedIcedActivity {
+public class MainActivity extends DescribedIcedActivity implements TwitterLoginFragment
+        .ILoginListener {
 
     @InjectView(R.id.action_settings)
     RippleView actionSettings;
@@ -38,23 +41,52 @@ public class MainActivity extends DescribedIcedActivity {
     @InjectView(R.id.body)
     ViewGroup bodyGroup;
 
+    private Context mContext;
+
     @Override
     public final void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        final Context context = getApplicationContext();
+        mContext = getApplicationContext();
 
-        scheduleReveal(context);
+        actionSettings.setOnRippleCompleteListener(rippleView -> MainActivity.this.openSettings());
 
-        actionSettings.setOnRippleCompleteListener(rippleView -> MainActivity.this.openSettings
-                (context));
+        if (Boolean.FALSE) //TODO Means: if credentials were found
+        {
+            //Verify the credentials. The onLoginX methods will respond
+        } else {
+            scheduleTwitterLoginScreenReveal();
+        }
     }
 
-    private void scheduleReveal(final Context context) {
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation != mContext.getResources().getConfiguration().orientation)
+            if (Boolean.FALSE) { //TODO This should check instead if the user is logged in
+                scheduleMainScreenReveal();
+            } else {
+                scheduleTwitterLoginScreenReveal();
+            }
+    }
+
+    private void scheduleTwitterLoginScreenReveal() {
+        final Fragment fragment = TwitterLoginFragment.getInstance(mContext);
+        scheduleSplashAwayWithContentReveal(fragment, Boolean.FALSE);
+    }
+
+    private void scheduleMainScreenReveal() {
+        final Fragment fragment = ContentFragment.getInstance(mContext);
+        scheduleSplashAwayWithContentReveal(fragment, Boolean.TRUE);
+    }
+
+    private void scheduleSplashAwayWithContentReveal(final Fragment contentToReveal, final Boolean
+            revealSettings) {
         final Handler handler = new Handler(Looper.getMainLooper());
-        final Integer initialOrientation = UiUtils.getScreenOrientation(context);
+        final Integer initialOrientation = UiUtils.getScreenOrientation(mContext);
+
         //noinspection ResourceType
         setRequestedOrientation(initialOrientation);
         handler.postDelayed(() -> {
@@ -63,21 +95,21 @@ public class MainActivity extends DescribedIcedActivity {
             if (initialOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
                     initialOrientation ==
                             ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT) {
-                shift = -(UiUtils.getScreenHeight(context) - logoView
+                shift = -(UiUtils.getScreenHeight(mContext) - logoView
                         .getMeasuredHeight()) / 2;
                 translateAnimation = new TranslateAnimation(Animation
                         .RELATIVE_TO_SELF, 0, Animation
                         .RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
                         Animation.ABSOLUTE, shift);
             } else {
-                shift = -(UiUtils.getScreenWidth(context) - logoView
+                shift = -(UiUtils.getScreenWidth(mContext) - logoView
                         .getMeasuredWidth()) / 2;
                 translateAnimation = new TranslateAnimation(Animation
                         .RELATIVE_TO_SELF, 0, Animation
                         .ABSOLUTE, shift, Animation.RELATIVE_TO_SELF, 0,
                         Animation.RELATIVE_TO_SELF, 0);
             }
-            translateAnimation.setDuration(context.getResources().getInteger(R.integer
+            translateAnimation.setDuration(mContext.getResources().getInteger(R.integer
                     .splash_anim_duration_millis));
             translateAnimation.setFillAfter(Boolean.TRUE);
             translateAnimation.setAnimationListener(new Animation.AnimationListener() {
@@ -97,25 +129,12 @@ public class MainActivity extends DescribedIcedActivity {
                         lp.setMargins(logoView.getWidth(), 0, 0, 0);
                     }
                     bodyGroup.setLayoutParams(lp);
-                    final Fragment contentFragment = getFragmentManager().findFragmentById(R.id
-                            .content_fragment);
-                    circularRevealView(contentFragment.getView());
-                    circularRevealView(actionSettings);
+                    getFragmentManager().beginTransaction().replace(R.id.content_layout,
+                            contentToReveal, null)
+                            .commit();
+                    if (revealSettings)
+                        circularRevealView(mContext, actionSettings);
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
-                }
-
-                private void circularRevealView(final View viewToReveal) {
-                    final Integer cx = (viewToReveal.getLeft() + viewToReveal.getRight()) / 2,
-                            cy = (viewToReveal.getTop() + viewToReveal.getBottom()) / 2;
-                    final SupportAnimator animator = ViewAnimationUtils.createCircularReveal
-                            (viewToReveal, cx,
-                                    cy, 0, Math.max(viewToReveal.getWidth(),
-                                            viewToReveal.getHeight()));
-                    animator.setInterpolator(new AccelerateDecelerateInterpolator());
-                    animator.setDuration(context.getResources().getInteger(R.integer
-                            .circular_reveal_duration_millis));
-                    viewToReveal.setVisibility(View.VISIBLE);
-                    animator.start();
                 }
 
                 @Override
@@ -123,11 +142,62 @@ public class MainActivity extends DescribedIcedActivity {
                 }
             });
             logoView.startAnimation(translateAnimation);
-        }, context.getResources().getInteger(R.integer
+        }, mContext.getResources().getInteger(R.integer
                 .splash_delay_millis));
     }
 
-    private void openSettings(final Context context) {
-        startActivity(new Intent(context, SettingsIcedActivity.class));
+    private void immediateMoveSplashToCenter() {
+        final Integer initialOrientation = UiUtils.getScreenOrientation(mContext);
+
+        //noinspection ResourceType
+        Integer shift;
+        TranslateAnimation translateAnimation;
+        if (initialOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
+                initialOrientation ==
+                        ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT) {
+            shift = UiUtils.getScreenHeight(mContext) - logoView
+                    .getMeasuredHeight() / 2;
+            translateAnimation = new TranslateAnimation(Animation
+                    .RELATIVE_TO_SELF, 0, Animation
+                    .RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+                    Animation.ABSOLUTE, shift);
+        } else {
+            shift = UiUtils.getScreenWidth(mContext) - logoView
+                    .getMeasuredWidth() / 2;
+            translateAnimation = new TranslateAnimation(Animation
+                    .RELATIVE_TO_SELF, 0, Animation
+                    .ABSOLUTE, shift, Animation.RELATIVE_TO_SELF, 0,
+                    Animation.RELATIVE_TO_SELF, 0);
+        }
+        translateAnimation.setDuration(mContext.getResources().getInteger(R.integer
+                .splash_anim_duration_millis));
+        translateAnimation.setFillAfter(Boolean.TRUE);
+    }
+
+    private void openSettings() {
+        startActivity(new Intent(mContext, SettingsIcedActivity.class));
+    }
+
+    @Override
+    public void onLoginSuccessful() {
+        scheduleMainScreenReveal();
+    }
+
+    @Override
+    public void onLoginRequested() {
+        immediateMoveSplashToCenter();
+        //TODO Request login
+    }
+
+    @Override
+    public void onLoginFailed() {
+        scheduleTwitterLoginScreenReveal();
+        //TODO Show some complaint
+    }
+
+    @Override
+    public void onLoginErrored() {
+        scheduleTwitterLoginScreenReveal();
+        //TODO Show some complaint and delete existent credentials, if any
     }
 }

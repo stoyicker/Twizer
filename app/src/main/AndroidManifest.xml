@@ -30,6 +30,7 @@
             android:name=".ui.activity.SettingsIcedActivity"
             android:label="@string/action_settings"
             android:theme="@style/SettingsTheme"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:logo="@android:color/transparent">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

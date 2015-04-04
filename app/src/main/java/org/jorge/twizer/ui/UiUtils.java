@@ -11,10 +11,15 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Surface;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import org.jorge.twizer.DebugUtils;
 import org.jorge.twizer.R;
+
+import io.codetail.animation.SupportAnimator;
+import io.codetail.animation.ViewAnimationUtils;
 
 /**
  * @author stoyicker.
@@ -105,5 +110,53 @@ public abstract class UiUtils {
                 BitmapFactory.decodeResource(context.getResources(), R.mipmap
                         .ic_launcher), context.getResources().getColor(R.color
                 .material_light_blue_500)));
+    }
+
+    public static void circularRevealView(final Context context, final View viewToReveal) {
+        final Integer cx = (viewToReveal.getLeft() + viewToReveal.getRight()) / 2,
+                cy = (viewToReveal.getTop() + viewToReveal.getBottom()) / 2;
+        final SupportAnimator animator = ViewAnimationUtils.createCircularReveal
+                (viewToReveal, cx,
+                        cy, 0, Math.max(viewToReveal.getWidth(),
+                                viewToReveal.getHeight()));
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.setDuration(context.getResources().getInteger(R.integer
+                .circular_reveal_duration_millis));
+        viewToReveal.setVisibility(View.VISIBLE);
+        animator.start();
+    }
+
+    public static void circularHideView(final Context context, final View viewToHide) {
+        final Integer cx = (viewToHide.getLeft() + viewToHide.getRight()) / 2,
+                cy = (viewToHide.getTop() + viewToHide.getBottom()) / 2;
+        final SupportAnimator animator = ViewAnimationUtils.createCircularReveal
+                (viewToHide, cx,
+                        cy, Math.max(viewToHide.getWidth(),
+                                viewToHide.getHeight()), 0);
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.setDuration(context.getResources().getInteger(R.integer
+                .circular_reveal_duration_millis));
+        animator.addListener(new SupportAnimator.AnimatorListener() {
+            @Override
+            public void onAnimationStart() {
+
+            }
+
+            @Override
+            public void onAnimationEnd() {
+                viewToHide.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationCancel() {
+
+            }
+
+            @Override
+            public void onAnimationRepeat() {
+
+            }
+        });
+        animator.start();
     }
 }
