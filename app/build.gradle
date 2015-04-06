@@ -79,7 +79,7 @@ repositories {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.2.2@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
         transitive = true;
     }
     compile 'frankiesardo:icepick:3.0.3-SNAPSHOT'

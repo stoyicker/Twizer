@@ -3,7 +3,9 @@ local.properties
 .idea
 build
 *.iml
+crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 *.keystore
 *.pwd
+crashlytics
