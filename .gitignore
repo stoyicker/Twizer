@@ -4,8 +4,6 @@ local.properties
 build
 *.iml
 crashlytics.properties
-crashlytics-build.properties
 fabric.properties
 *.keystore
 *.pwd
-crashlytics
