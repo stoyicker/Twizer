@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
 import com.crashlytics.android.Crashlytics;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
 
 import org.jorge.twizer.BuildConfig;
 import org.jorge.twizer.R;
@@ -32,8 +34,12 @@ public class InitialActivity extends DescribedIcedActivity {
     }
 
     private void initCrashlytics(final Context context) {
-        if (BuildConfig.USE_CRASHLYTICS)
-            Fabric.with(context, new Crashlytics());
+        final TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
+        if (BuildConfig.USE_CRASHLYTICS) {
+            Fabric.with(context, new Crashlytics(), new Twitter(authConfig));
+        } else {
+            Fabric.with(context, new Twitter(authConfig));
+        }
     }
 
     private void flushCacheIfNecessary(final Context context) {

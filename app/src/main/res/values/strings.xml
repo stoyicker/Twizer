@@ -18,4 +18,5 @@
     <string name="author_linkedin_id" translatable="false">169653526</string>
     <string name="linkedin_intent_pattern" translatable="false">linkedin://profile/%s</string>
     <string name="github_repository_url" translatable="false">https://github.com/Stoyicker/Twizer</string>
+    <string name="fragment_tag_twitter_login" translatable="false">fragment_tag_twitter_login</string>
 </resources>

@@ -12,11 +12,17 @@ branches:
   only:
     - master
 before_install:
-# Signature stub start
+# Signature stub ##START##
     - echo "stub keystore" > twizer.keystore
     - echo "stub storage pwd" > twizerstorage.pwd
     - echo "stub key pwd" > twizer.pwd
-# Signature stub end
+# Signature stub ##END##
+# Twitter keys stub ##START##
+    - echo "\"stub twitter secret\"" > app/twitter.secret
+    - echo "\"stub twitter key\"" > app/twitter.key
+# Twitter keys stub ##END#
+# Mark Gradle as executable ##START##
     - chmod +x ./gradlew
+# Mark Gradle as executable ##END##
 script:
     - ./gradlew clean assembleStandardDebug

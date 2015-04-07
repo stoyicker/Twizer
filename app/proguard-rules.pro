@@ -14,3 +14,5 @@
 }
 # Retrolambda
 -dontwarn java.lang.invoke.*
+# Twitter Login
+-include proguard-com.twitter.sdk.android.twitter.txt

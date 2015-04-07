@@ -44,7 +44,9 @@ android {
 
     buildTypes {
         release {
-            buildConfigField "boolean", "USE_CRASHLYTICS", "true"
+            buildConfigField "String", "TWITTER_SECRET", new File("app/twitter.secret").text
+            buildConfigField "String", "TWITTER_KEY", new File("app/twitter.key").text
+            buildConfigField "Boolean", "USE_CRASHLYTICS", "true"
             ext.enableCrashlytics = true
             minifyEnabled true
             proguardFiles 'proguard-rules.pro'
@@ -53,7 +55,9 @@ android {
         }
 
         debug {
-            buildConfigField "boolean", "USE_CRASHLYTICS", "false"
+            buildConfigField "String", "TWITTER_SECRET", new File("app/twitter.secret").text
+            buildConfigField "String", "TWITTER_KEY", new File("app/twitter.key").text
+            buildConfigField "Boolean", "USE_CRASHLYTICS", "Boolean.FALSE"
             ext.enableCrashlytics = false
             minifyEnabled true
             proguardFiles 'proguard-rules.pro'
@@ -87,4 +91,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.1.0'
     compile project(':ripple')
     compile project(':circularreveal')
+    compile('com.twitter.sdk.android:twitter:1.4.0@aar') {
+        transitive = true;
+    }
 }

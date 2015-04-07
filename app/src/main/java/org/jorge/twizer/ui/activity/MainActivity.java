@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.andexert.ripple.RippleView;
 
+import org.jorge.twizer.DebugUtils;
 import org.jorge.twizer.R;
 import org.jorge.twizer.ui.UiUtils;
 import org.jorge.twizer.ui.fragment.ContentFragment;
@@ -174,29 +175,43 @@ public class MainActivity extends DescribedIcedActivity implements TwitterLoginF
         translateAnimation.setFillAfter(Boolean.TRUE);
     }
 
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        final Fragment fragment = getFragmentManager().findFragmentByTag(mContext.getString(R.string.fragment_tag_twitter_login));
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
     private void openSettings() {
         startActivity(new Intent(mContext, SettingsIcedActivity.class));
     }
 
     @Override
     public void onLoginSuccessful() {
+        DebugUtils.d("debug", "onLoginSuccessful");
         scheduleMainScreenReveal();
     }
 
     @Override
     public void onLoginRequested() {
+        DebugUtils.d("debug", "onLoginRequested");
         immediateMoveSplashToCenter();
         //TODO Request login
     }
 
     @Override
     public void onLoginFailed() {
+        DebugUtils.d("debug", "onLoginFailed");
         scheduleTwitterLoginScreenReveal();
         //TODO Show some complaint
     }
 
     @Override
     public void onLoginErrored() {
+        DebugUtils.d("debug", "onLoginErrored");
         scheduleTwitterLoginScreenReveal();
         //TODO Show some complaint and delete existent credentials, if any
     }

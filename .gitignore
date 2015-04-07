@@ -4,6 +4,7 @@ local.properties
 build
 *.iml
 crashlytics.properties
-fabric.properties
 *.keystore
 *.pwd
+twitter.secret
+twitter.key
