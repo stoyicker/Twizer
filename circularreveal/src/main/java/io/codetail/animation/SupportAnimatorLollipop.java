@@ -8,29 +8,29 @@ import android.view.animation.Interpolator;
 import java.lang.ref.WeakReference;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-final class SupportAnimatorLollipop extends SupportAnimator{
+final class SupportAnimatorLollipop extends SupportAnimator {
 
     WeakReference<Animator> mNativeAnimator;
 
     SupportAnimatorLollipop(Animator animator) {
-        mNativeAnimator = new WeakReference<Animator>(animator);
+        mNativeAnimator = new WeakReference<>(animator);
     }
 
     @Override
     public boolean isNativeAnimator() {
-        return true;
+        return Boolean.TRUE;
     }
 
     @Override
     public Object get() {
-        return mNativeAnimator;
+        return mNativeAnimator.get();
     }
 
 
     @Override
     public void start() {
         Animator a = mNativeAnimator.get();
-        if(a != null) {
+        if (a != null) {
             a.start();
         }
     }
@@ -38,7 +38,7 @@ final class SupportAnimatorLollipop extends SupportAnimator{
     @Override
     public void setDuration(int duration) {
         Animator a = mNativeAnimator.get();
-        if(a != null) {
+        if (a != null) {
             a.setDuration(duration);
         }
     }
@@ -46,7 +46,7 @@ final class SupportAnimatorLollipop extends SupportAnimator{
     @Override
     public void setInterpolator(Interpolator value) {
         Animator a = mNativeAnimator.get();
-        if(a != null) {
+        if (a != null) {
             a.setInterpolator(value);
         }
     }
@@ -54,11 +54,11 @@ final class SupportAnimatorLollipop extends SupportAnimator{
     @Override
     public void addListener(final AnimatorListener listener) {
         Animator a = mNativeAnimator.get();
-        if(a == null) {
+        if (a == null) {
             return;
         }
 
-        if(listener == null){
+        if (listener == null) {
             a.addListener(null);
             return;
         }

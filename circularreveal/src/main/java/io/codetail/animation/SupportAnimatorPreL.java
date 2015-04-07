@@ -11,12 +11,12 @@ final class SupportAnimatorPreL extends SupportAnimator {
     WeakReference<Animator> mSupportFramework;
 
     SupportAnimatorPreL(Animator animator) {
-        mSupportFramework = new WeakReference<Animator>(animator);
+        mSupportFramework = new WeakReference<>(animator);
     }
 
     @Override
     public boolean isNativeAnimator() {
-        return false;
+        return Boolean.FALSE;
     }
 
     @Override
@@ -27,7 +27,7 @@ final class SupportAnimatorPreL extends SupportAnimator {
     @Override
     public void start() {
         Animator a = mSupportFramework.get();
-        if(a != null) {
+        if (a != null) {
             a.start();
         }
     }
@@ -35,7 +35,7 @@ final class SupportAnimatorPreL extends SupportAnimator {
     @Override
     public void setDuration(int duration) {
         Animator a = mSupportFramework.get();
-        if(a != null) {
+        if (a != null) {
             a.setDuration(duration);
         }
     }
@@ -43,7 +43,7 @@ final class SupportAnimatorPreL extends SupportAnimator {
     @Override
     public void setInterpolator(Interpolator value) {
         Animator a = mSupportFramework.get();
-        if(a != null) {
+        if (a != null) {
             a.setInterpolator(value);
         }
     }
@@ -51,11 +51,11 @@ final class SupportAnimatorPreL extends SupportAnimator {
     @Override
     public void addListener(final AnimatorListener listener) {
         Animator a = mSupportFramework.get();
-        if(a == null) {
+        if (a == null) {
             return;
         }
 
-        if(listener == null){
+        if (listener == null) {
             a.addListener(null);
             return;
         }
