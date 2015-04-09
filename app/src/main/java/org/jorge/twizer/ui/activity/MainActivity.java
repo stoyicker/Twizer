@@ -75,16 +75,15 @@ public class MainActivity extends DescribedIcedActivity implements TwitterLoginF
 
     private void scheduleTwitterLoginScreenReveal() {
         final Fragment fragment = TwitterLoginFragment.getInstance(mContext);
-        scheduleSplashAwayWithContentReveal(fragment, Boolean.FALSE);
+        scheduleSplashAwayWithContentReveal(fragment, Boolean.FALSE, mContext.getString(R.string.fragment_tag_twitter_login));
     }
 
     private void scheduleMainScreenReveal() {
         final Fragment fragment = ContentFragment.getInstance(mContext);
-        scheduleSplashAwayWithContentReveal(fragment, Boolean.TRUE);
+        scheduleSplashAwayWithContentReveal(fragment, Boolean.TRUE, null);
     }
 
-    private void scheduleSplashAwayWithContentReveal(final Fragment contentToReveal, final Boolean
-            revealSettings) {
+    private void scheduleSplashAwayWithContentReveal(final Fragment contentToReveal, final Boolean revealSettings, final String fragmentTag) {
         final Handler handler = new Handler(Looper.getMainLooper());
         final Integer initialOrientation = UiUtils.getScreenOrientation(mContext);
 
@@ -131,7 +130,7 @@ public class MainActivity extends DescribedIcedActivity implements TwitterLoginF
                     }
                     bodyGroup.setLayoutParams(lp);
                     getFragmentManager().beginTransaction().replace(R.id.content_layout,
-                            contentToReveal, null)
+                            contentToReveal, fragmentTag)
                             .commit();
                     if (revealSettings)
                         circularRevealView(mContext, actionSettings);
@@ -192,27 +191,21 @@ public class MainActivity extends DescribedIcedActivity implements TwitterLoginF
     @Override
     public void onLoginSuccessful() {
         DebugUtils.d("debug", "onLoginSuccessful");
-        scheduleMainScreenReveal();
-    }
-
-    @Override
-    public void onLoginRequested() {
-        DebugUtils.d("debug", "onLoginRequested");
         immediateMoveSplashToCenter();
-        //TODO Request login
+        scheduleMainScreenReveal();
     }
 
     @Override
     public void onLoginFailed() {
         DebugUtils.d("debug", "onLoginFailed");
-        scheduleTwitterLoginScreenReveal();
         //TODO Show some complaint
+        scheduleTwitterLoginScreenReveal();
     }
 
     @Override
     public void onLoginErrored() {
         DebugUtils.d("debug", "onLoginErrored");
+        //TODO Show some error message and delete existent credentials, if any
         scheduleTwitterLoginScreenReveal();
-        //TODO Show some complaint and delete existent credentials, if any
     }
 }
