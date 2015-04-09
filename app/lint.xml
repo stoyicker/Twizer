@@ -28,4 +28,8 @@
     <issue id="IconColors">
         <ignore path="*/ic_action_settings.png"/>
     </issue>
+    <!-- Butterknife should be able to export itself as an id-type resource consumer...-->
+    <issue id="UnusedResources">
+        <ignore path="*/*.xml"/>
+    </issue>
 </lint>

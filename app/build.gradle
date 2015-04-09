@@ -58,7 +58,7 @@ android {
             buildConfigField "String", "TWITTER_SECRET", new File("app/twitter.secret").text
             buildConfigField "String", "TWITTER_KEY", new File("app/twitter.key").text
             buildConfigField "Boolean", "USE_CRASHLYTICS", "Boolean.FALSE"
-            ext.enableCrashlytics = false
+            ext.enableCrashlytics = true
             minifyEnabled true
             proguardFiles 'proguard-rules.pro'
             zipAlignEnabled true
@@ -71,7 +71,7 @@ android {
         warningsAsErrors true
 
         enable 'IconExpectedSize', 'LogConditional', 'NegativeMargin', 'NewerVersionAvailable',
-                'SelectableText', 'TypographyQuotes', 'UnusedIds'
+                'SelectableText', 'TypographyQuotes'
     }
 }
 
