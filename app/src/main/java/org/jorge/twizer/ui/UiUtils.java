@@ -1,89 +1,25 @@
 package org.jorge.twizer.ui;
 
+import android.animation.Animator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Build;
-import android.util.DisplayMetrics;
 import android.view.Display;
-import android.view.Surface;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
-import org.jorge.twizer.DebugUtils;
 import org.jorge.twizer.R;
-
-import io.codetail.animation.SupportAnimator;
-import io.codetail.animation.ViewAnimationUtils;
 
 /**
  * @author stoyicker.
  */
 public abstract class UiUtils {
-
-    public static Integer getScreenOrientation(final Context context) {
-        final WindowManager winMan = (WindowManager) context.getSystemService(Activity
-                .WINDOW_SERVICE);
-        final Integer rotation = winMan.getDefaultDisplay().getRotation();
-        final DisplayMetrics dm = new DisplayMetrics();
-        winMan.getDefaultDisplay().getMetrics(dm);
-        final Integer width = dm.widthPixels;
-        final Integer height = dm.heightPixels;
-        final Integer orientation;
-        // if the device's natural orientation is portrait:
-        if ((rotation == Surface.ROTATION_0
-                || rotation == Surface.ROTATION_180) && height > width ||
-                (rotation == Surface.ROTATION_90
-                        || rotation == Surface.ROTATION_270) && width > height) {
-            switch (rotation) {
-                case Surface.ROTATION_0:
-                    orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-                    break;
-                case Surface.ROTATION_90:
-                    orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-                    break;
-                case Surface.ROTATION_180:
-                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
-                    break;
-                case Surface.ROTATION_270:
-                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
-                    break;
-                default:
-                    DebugUtils.e("debug", "Unknown screen orientation. Defaulting to portrait.");
-                    orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-                    break;
-            }
-        }
-        // if the device's natural orientation is landscape or if the device
-        // is square:
-        else {
-            switch (rotation) {
-                case Surface.ROTATION_0:
-                    orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-                    break;
-                case Surface.ROTATION_90:
-                    orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-                    break;
-                case Surface.ROTATION_180:
-                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
-                    break;
-                case Surface.ROTATION_270:
-                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
-                    break;
-                default:
-                    DebugUtils.e("debug", "Unknown screen orientation. Defaulting to landscape.");
-                    orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-                    break;
-            }
-        }
-
-        return orientation;
-    }
 
     public static Integer getScreenWidth(final Context context) {
         final Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE))
@@ -115,7 +51,7 @@ public abstract class UiUtils {
     public static void circularRevealView(final Context context, final View viewToReveal) {
         final Integer cx = (viewToReveal.getLeft() + viewToReveal.getRight()) / 2,
                 cy = (viewToReveal.getTop() + viewToReveal.getBottom()) / 2;
-        final SupportAnimator animator = ViewAnimationUtils.createCircularReveal
+        final Animator animator = ViewAnimationUtils.createCircularReveal
                 (viewToReveal, cx,
                         cy, 0, Math.max(viewToReveal.getWidth(),
                                 viewToReveal.getHeight()));
@@ -129,31 +65,31 @@ public abstract class UiUtils {
     public static void circularHideView(final Context context, final View viewToHide) {
         final Integer cx = (viewToHide.getLeft() + viewToHide.getRight()) / 2,
                 cy = (viewToHide.getTop() + viewToHide.getBottom()) / 2;
-        final SupportAnimator animator = ViewAnimationUtils.createCircularReveal
+        final Animator animator = ViewAnimationUtils.createCircularReveal
                 (viewToHide, cx,
                         cy, Math.max(viewToHide.getWidth(),
                                 viewToHide.getHeight()), 0);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.setDuration(context.getResources().getInteger(R.integer
                 .circular_reveal_duration_millis));
-        animator.addListener(new SupportAnimator.AnimatorListener() {
+        animator.addListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart() {
+            public void onAnimationStart(final Animator animator) {
 
             }
 
             @Override
-            public void onAnimationEnd() {
+            public void onAnimationEnd(final Animator animator) {
                 viewToHide.setVisibility(View.INVISIBLE);
             }
 
             @Override
-            public void onAnimationCancel() {
+            public void onAnimationCancel(final Animator animator) {
 
             }
 
             @Override
-            public void onAnimationRepeat() {
+            public void onAnimationRepeat(final Animator animator) {
 
             }
         });
