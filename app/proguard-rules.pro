@@ -1,7 +1,3 @@
-# Icepick
--dontwarn icepick.**
--keep class **$$Icicle { *; }
--keepnames class * { @icepick.Icicle *;}
 # ButterKnife
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**

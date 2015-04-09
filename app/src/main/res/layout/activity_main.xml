@@ -52,8 +52,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="@bool/is_portrait"
-            android:layout_centerVertical="@bool/is_landscape">
+            android:layout_centerHorizontal="true">
 
             <FrameLayout
                 android:id="@+id/content_layout"

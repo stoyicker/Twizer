@@ -21,7 +21,7 @@ android {
     productFlavors {
         standard {
             applicationId "org.jorge.twizer"
-            minSdkVersion 16
+            minSdkVersion 21
             targetSdkVersion 22
             versionCode 1
             versionName "0"
@@ -77,7 +77,6 @@ android {
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
-    maven { url "https://clojars.org/repo/" }
     maven { url "https://jitpack.io" }
 }
 
@@ -86,12 +85,8 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
         transitive = true;
     }
-    compile 'frankiesardo:icepick:3.0.3-SNAPSHOT'
-    provided 'frankiesardo:icepick-processor:3.0.3-SNAPSHOT'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile project(':ripple')
-    compile 'com.github.ozodrukh:CircularReveal:1.0.5@aar'
-    provided 'com.nineoldandroids:library:2.4.0'
     compile('com.twitter.sdk.android:twitter:1.4.0@aar') {
         transitive = true;
     }

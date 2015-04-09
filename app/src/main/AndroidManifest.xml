@@ -24,13 +24,14 @@
 
         <activity
             android:name=".ui.activity.MainActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop"/>
 
         <activity
-            android:name=".ui.activity.SettingsIcedActivity"
+            android:name=".ui.activity.SettingsActivity"
+            android:screenOrientation="locked"
             android:label="@string/action_settings"
             android:theme="@style/SettingsTheme"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:logo="@android:color/transparent">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

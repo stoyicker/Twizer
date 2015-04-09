@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,7 +29,7 @@ import static org.jorge.twizer.ui.UiUtils.circularRevealView;
 /**
  * @author stoyicker.
  */
-public class MainActivity extends DescribedIcedActivity implements TwitterLoginFragment
+public class MainActivity extends DescribedActivity implements TwitterLoginFragment
         .ILoginListener {
 
     @InjectView(R.id.action_settings)
@@ -54,23 +53,8 @@ public class MainActivity extends DescribedIcedActivity implements TwitterLoginF
 
         actionSettings.setOnRippleCompleteListener(rippleView -> MainActivity.this.openSettings());
 
-        if (Boolean.FALSE) //TODO Means: if credentials were found
-        {
-            //Verify the credentials. The onLoginX methods will respond
-        } else {
-            scheduleTwitterLoginScreenReveal();
-        }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation != mContext.getResources().getConfiguration().orientation)
-            if (Boolean.FALSE) { //TODO This should check instead if the user is logged in
-                scheduleMainScreenReveal();
-            } else {
-                scheduleTwitterLoginScreenReveal();
-            }
+        //TODO Try to login while the splash is shown so that I know which screen to choose
+        scheduleTwitterLoginScreenReveal();
     }
 
     private void scheduleTwitterLoginScreenReveal() {
@@ -80,7 +64,7 @@ public class MainActivity extends DescribedIcedActivity implements TwitterLoginF
 
     private void scheduleMainScreenReveal() {
         final Fragment fragment = ContentFragment.getInstance(mContext);
-        scheduleSplashAwayWithContentReveal(fragment, Boolean.TRUE, null);
+        scheduleSplashAwayWithContentReveal(fragment, Boolean.TRUE, mContext.getString(R.string.fragment_tag_content));
     }
 
     private void scheduleSplashAwayWithContentReveal(final Fragment contentToReveal, final Boolean revealSettings, final String fragmentTag) {
@@ -131,7 +115,7 @@ public class MainActivity extends DescribedIcedActivity implements TwitterLoginF
                     bodyGroup.setLayoutParams(lp);
                     getFragmentManager().beginTransaction().replace(R.id.content_layout,
                             contentToReveal, fragmentTag)
-                            .commit();
+                            .commitAllowingStateLoss();
                     if (revealSettings)
                         circularRevealView(mContext, actionSettings);
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
@@ -185,7 +169,7 @@ public class MainActivity extends DescribedIcedActivity implements TwitterLoginF
     }
 
     private void openSettings() {
-        startActivity(new Intent(mContext, SettingsIcedActivity.class));
+        startActivity(new Intent(mContext, SettingsActivity.class));
     }
 
     @Override
