@@ -21,14 +21,6 @@ import org.jorge.twizer.R;
  */
 public abstract class UiUtils {
 
-    public static Integer getScreenWidth(final Context context) {
-        final Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE))
-                .getDefaultDisplay();
-        final Point size = new Point();
-        display.getSize(size);
-        return size.x;
-    }
-
     public static Integer getScreenHeight(final Context context) {
         final Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE))
                 .getDefaultDisplay();
