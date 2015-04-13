@@ -24,8 +24,6 @@ import butterknife.InjectView;
 
 import static org.jorge.twizer.ui.UiUtils.circularRevealView;
 
-//import org.jorge.twizer.DebugUtils;
-
 /**
  * @author stoyicker.
  */

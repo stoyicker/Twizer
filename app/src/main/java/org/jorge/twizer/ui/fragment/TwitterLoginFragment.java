@@ -14,7 +14,6 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
-import org.jorge.twizer.DebugUtils;
 import org.jorge.twizer.R;
 
 import butterknife.ButterKnife;
@@ -68,15 +67,12 @@ public class TwitterLoginFragment extends CircularRevealedFragment {
         mTwitterLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(final Result<TwitterSession> twitterSessionResult) {
-                DebugUtils.d("debug", "Successful login");
                 if (mLoginListener != null)
                     mLoginListener.onLoginSuccessful();
             }
 
             @Override
             public void failure(final TwitterException e) {
-                DebugUtils.d("debug", "Failed login");
-                DebugUtils.d("debug", e.getMessage());
                 //TODO Check if it's an error (e.g. no internet) or a failure (e.g. bad credentials)
                 if (mLoginListener != null) {
                     mLoginListener.onLoginErrored();
