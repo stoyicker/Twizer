@@ -5,6 +5,7 @@
 
     <application
         android:allowBackup="true"
+        android:name=".app.TwizerApplication"
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:logo="@drawable/ic_logo"

@@ -90,4 +90,5 @@ dependencies {
     compile('com.twitter.sdk.android:twitter:1.4.0@aar') {
         transitive = true;
     }
+    debugCompile 'com.facebook.stetho:stetho:1.1.0'
 }
