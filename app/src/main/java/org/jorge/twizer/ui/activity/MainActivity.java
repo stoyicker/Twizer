@@ -3,7 +3,6 @@ package org.jorge.twizer.ui.activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -98,7 +97,6 @@ public class MainActivity extends DescribedActivity implements TwitterLoginFragm
                             .commitAllowingStateLoss();
                     if (revealSettings)
                         circularRevealView(mContext, actionSettings);
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
                 }
 
                 @Override
