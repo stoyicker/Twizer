@@ -28,18 +28,20 @@ public class InitialActivity extends DescribedActivity {
 
         final Context appContext = getApplicationContext();
 
-        initCrashlytics(appContext);
+        initCrashlytics();
         flushCacheIfNecessary(appContext);
         start(appContext);
     }
 
-    private void initCrashlytics(final Context context) {
+    private void initCrashlytics() {
         final TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
+        Fabric fabricKits;
         if (BuildConfig.USE_CRASHLYTICS) {
-            Fabric.with(context, new Crashlytics(), new Twitter(authConfig));
+            fabricKits = new Fabric.Builder(this).kits(new Crashlytics(), new Twitter(authConfig)).debuggable(BuildConfig.DEBUG).build();
         } else {
-            Fabric.with(context, new Twitter(authConfig));
+            fabricKits = new Fabric.Builder(this).kits(new Twitter(authConfig)).debuggable(BuildConfig.DEBUG).build();
         }
+        Fabric.with(fabricKits);
     }
 
     private void flushCacheIfNecessary(final Context context) {

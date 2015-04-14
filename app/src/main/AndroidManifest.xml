@@ -13,6 +13,11 @@
         android:launchMode="singleTop"
         android:supportsRtl="true">
 
+        <!--No comments for this, Twitter. "It won't work for others" is not enough.-->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="86e97245af3721940bc1f7a5fff3927950c2ac7c"/>
+
         <activity
             android:name=".ui.activity.InitialActivity"
             android:screenOrientation="portrait"

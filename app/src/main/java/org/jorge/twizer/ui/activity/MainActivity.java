@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.andexert.ripple.RippleView;
 
+import org.jorge.twizer.DebugUtils;
 import org.jorge.twizer.R;
 import org.jorge.twizer.ui.UiUtils;
 import org.jorge.twizer.ui.fragment.ContentFragment;
@@ -134,21 +135,21 @@ public class MainActivity extends DescribedActivity implements TwitterLoginFragm
 
     @Override
     public void onLoginSuccessful() {
-//        DebugUtils.d("debug", "onLoginSuccessful");
+        DebugUtils.d("debug", "onLoginSuccessful");
         immediateMoveSplashToCenter();
         scheduleMainScreenReveal();
     }
 
     @Override
     public void onLoginFailed() {
-//        DebugUtils.d("debug", "onLoginFailed");
+        DebugUtils.d("debug", "onLoginFailed");
         //TODO Show some complaint
         scheduleTwitterLoginScreenReveal();
     }
 
     @Override
     public void onLoginErrored() {
-//        DebugUtils.d("debug", "onLoginErrored");
+        DebugUtils.d("debug", "onLoginErrored");
         //TODO Show some error message and delete existent credentials, if any
         scheduleTwitterLoginScreenReveal();
     }
