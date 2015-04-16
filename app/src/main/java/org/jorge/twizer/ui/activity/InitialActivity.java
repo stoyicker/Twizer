@@ -5,17 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
-import com.crashlytics.android.Crashlytics;
-import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-
-import org.jorge.twizer.BuildConfig;
 import org.jorge.twizer.R;
 import org.jorge.twizer.io.files.FileOperations;
 
 import java.io.File;
-
-import io.fabric.sdk.android.Fabric;
 
 /**
  * @author stoyicker.
@@ -28,21 +21,10 @@ public class InitialActivity extends DescribedActivity {
 
         final Context appContext = getApplicationContext();
 
-        initCrashlytics();
         flushCacheIfNecessary(appContext);
         start(appContext);
     }
 
-    private void initCrashlytics() {
-        final TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_KEY, BuildConfig.TWITTER_SECRET);
-        Fabric fabricKits;
-        if (BuildConfig.USE_CRASHLYTICS) {
-            fabricKits = new Fabric.Builder(this).kits(new Crashlytics(), new Twitter(authConfig)).debuggable(BuildConfig.DEBUG).build();
-        } else {
-            fabricKits = new Fabric.Builder(this).kits(new Twitter(authConfig)).debuggable(BuildConfig.DEBUG).build();
-        }
-        Fabric.with(fabricKits);
-    }
 
     private void flushCacheIfNecessary(final Context context) {
         final File cacheDir;

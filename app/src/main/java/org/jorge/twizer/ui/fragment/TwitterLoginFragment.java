@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
+import org.jorge.twizer.BuildConfig;
 import org.jorge.twizer.R;
 
 import butterknife.ButterKnife;
@@ -67,12 +69,16 @@ public class TwitterLoginFragment extends CircularRevealedFragment {
         mTwitterLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(final Result<TwitterSession> twitterSessionResult) {
+                if (BuildConfig.DEBUG)
+                    Log.d("debug", "SUCCESS!");
                 if (mLoginListener != null)
                     mLoginListener.onLoginSuccessful();
             }
 
             @Override
             public void failure(final TwitterException e) {
+                if (BuildConfig.DEBUG)
+                    Log.d("debug", "Failure...");
                 //TODO Check if it's an error (e.g. no internet) or a failure (e.g. bad credentials)
                 if (mLoginListener != null) {
                     mLoginListener.onLoginErrored();
