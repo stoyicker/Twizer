@@ -17,10 +17,9 @@ before_install:
     - echo "stub storage pwd" > twizerstorage.pwd
     - echo "stub key pwd" > twizer.pwd
 # Signature stub ##END##
-# Twitter keys stub ##START##
-    - echo "\"stub twitter secret\"" > app/twitter.secret
-    - echo "\"stub twitter key\"" > app/twitter.key
-# Twitter keys stub ##END#
+# Twitter data stub ##START##
+    - echo "stub twitter data" > app/crashlytics.properties
+# Twitter data stub ##END#
 # Mark Gradle as executable ##START##
     - chmod +x ./gradlew
 # Mark Gradle as executable ##END##

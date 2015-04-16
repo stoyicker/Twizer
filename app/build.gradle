@@ -17,7 +17,7 @@ apply plugin: 'me.tatarka.retrolambda'
 Properties props = new Properties()
 try {
     props.load(file('crashlytics.properties').newDataInputStream())
-} catch (Exception ex) {
+} catch (Exception ignored) {
     throw new GradleException("Missing crashlytics.properties, check the crashlytics.properties file.");
 }
 
@@ -65,7 +65,7 @@ android {
             buildConfigField "String", "TWITTER_CONSUMER_KEY", "\"${props.getProperty("twitterConsumerKey")}\""
             buildConfigField "String", "TWITTER_CONSUMER_SECRET", "\"${props.getProperty("twitterConsumerSecret")}\""
             buildConfigField "Boolean", "USE_CRASHLYTICS", "Boolean.FALSE"
-            ext.enableCrashlytics = false
+            ext.enableCrashlytics = true
             minifyEnabled true
             proguardFiles 'proguard-rules.pro'
             zipAlignEnabled true
