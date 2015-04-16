@@ -3,6 +3,7 @@ package org.jorge.twizer.ui.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -86,6 +87,14 @@ public class TwitterLoginFragment extends CircularRevealedFragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        mTwitterLoginButton.onActivityResult(requestCode, resultCode,
+                data);
     }
 
     public interface ILoginListener {
