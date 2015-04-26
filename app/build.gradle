@@ -66,9 +66,14 @@ android {
             buildConfigField "String", "TWITTER_CONSUMER_SECRET", "\"${props.getProperty("twitterConsumerSecret")}\""
             buildConfigField "Boolean", "USE_CRASHLYTICS", "Boolean.FALSE"
             ext.enableCrashlytics = true
-            minifyEnabled true
-            proguardFiles 'proguard-rules.pro'
-            zipAlignEnabled true
+            minifyEnabled false
+            zipAlignEnabled false
+        }
+
+        travis.initWith(buildTypes.debug)
+
+        travis {
+            ext.enableCrashlytics = false
         }
     }
 
