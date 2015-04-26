@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
+import com.twitter.sdk.android.Twitter;
+
 import org.jorge.twizer.R;
 import org.jorge.twizer.io.files.FileOperations;
 
@@ -26,6 +28,9 @@ public class InitialActivity extends DescribedActivity {
         start(appContext);
     }
 
+    private Boolean isUserLoggedIn() {
+        return Twitter.getSessionManager().getActiveSession() != null;
+    }
 
     private void flushCacheIfNecessary(final Context context) {
         final File cacheDir;
@@ -38,7 +43,7 @@ public class InitialActivity extends DescribedActivity {
     }
 
     private void start(final Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
+        Intent intent = new Intent(context, isUserLoggedIn() ? MainActivity.class : LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         ActivityCompat.finishAfterTransition(this);
         //noinspection unchecked

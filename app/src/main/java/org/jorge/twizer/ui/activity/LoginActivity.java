@@ -47,14 +47,7 @@ public class LoginActivity extends DescribedActivity implements TwitterLoginFrag
 
         mContext = getApplicationContext();
 
-        if (isUserLoggedIn()) {
-            onLoginSuccessful();
-        } else
-            scheduleTwitterLoginScreenReveal();
-    }
-
-    private Boolean isUserLoggedIn() {
-        return Twitter.getSessionManager().getActiveSession() != null;
+        scheduleTwitterLoginScreenReveal();
     }
 
     private void scheduleTwitterLoginScreenReveal() {
