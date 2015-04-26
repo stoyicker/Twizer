@@ -61,6 +61,7 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
     }
 
     private void logOut(final Context context) {
+        Twitter.getSessionManager().clearActiveSession();
         Twitter.logOut();
         final Intent intent = new Intent(context, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -14,6 +14,8 @@ import android.view.animation.TranslateAnimation;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.twitter.sdk.android.Twitter;
+
 import org.jorge.twizer.R;
 import org.jorge.twizer.ui.UiUtils;
 import org.jorge.twizer.ui.fragment.TwitterLoginFragment;
@@ -44,11 +46,14 @@ public class LoginActivity extends DescribedActivity implements TwitterLoginFrag
 
         mContext = getApplicationContext();
 
-        //TODO Try to login while the splash is shown so that I know which screen to choose.
-        if (Boolean.FALSE) {
+        if (isUserLoggedIn()) {
             onLoginSuccessful();
         } else
             scheduleTwitterLoginScreenReveal();
+    }
+
+    private Boolean isUserLoggedIn() {
+        return Twitter.getSessionManager().getActiveSession() != null;
     }
 
     private void scheduleTwitterLoginScreenReveal() {
