@@ -1,6 +1,7 @@
 package org.jorge.twizer.ui.fragment;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,6 +24,8 @@ import java.util.Locale;
  */
 public class SettingsPreferenceFragment extends PreferenceFragment {
 
+    private Activity mActivity;
+
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
@@ -34,7 +37,8 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
 
         addPreferencesFromResource(R.xml.preferences);
 
-        final Context context = getActivity().getApplicationContext();
+        mActivity = getActivity();
+        final Context context = mActivity.getApplicationContext();
 
         findPreference(context.getString(R.string.pref_key_about_the_author))
                 .setOnPreferenceClickListener(preference -> {
@@ -65,8 +69,8 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
         Twitter.logOut();
         final Intent intent = new Intent(context, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        ActivityCompat.finishAfterTransition(getActivity());
-        startActivity(intent);
+        ActivityCompat.finishAfterTransition(mActivity);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
     }
 
     private void showGitHubRepository(final Context context) {

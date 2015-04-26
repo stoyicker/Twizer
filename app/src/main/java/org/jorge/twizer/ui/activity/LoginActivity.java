@@ -1,5 +1,6 @@
 package org.jorge.twizer.ui.activity;
 
+import android.app.ActivityOptions;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -113,7 +114,8 @@ public class LoginActivity extends DescribedActivity implements TwitterLoginFrag
     @Override
     public void onLoginSuccessful() {
         ActivityCompat.finishAfterTransition(this);
-        startActivity(new Intent(mContext, MainActivity.class));
+        //noinspection unchecked
+        startActivity(new Intent(mContext, MainActivity.class), ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     @Override

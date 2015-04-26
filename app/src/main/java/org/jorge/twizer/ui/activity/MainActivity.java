@@ -1,5 +1,6 @@
 package org.jorge.twizer.ui.activity;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class MainActivity extends DescribedActivity {
     }
 
     private void openSettings() {
-        startActivity(new Intent(mContext, SettingsActivity.class));
+        //noinspection unchecked
+        startActivity(new Intent(mContext, SettingsActivity.class), ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 }
