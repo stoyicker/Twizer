@@ -45,7 +45,6 @@ public class LoginActivity extends DescribedActivity implements TwitterLoginFrag
         mContext = getApplicationContext();
 
         //TODO Try to login while the splash is shown so that I know which screen to choose.
-        //If successful, just launch the MainActivity
         if (Boolean.FALSE) {
             onLoginSuccessful();
         } else
@@ -108,8 +107,8 @@ public class LoginActivity extends DescribedActivity implements TwitterLoginFrag
 
     @Override
     public void onLoginSuccessful() {
-        startActivity(new Intent(mContext, MainActivity.class));
         ActivityCompat.finishAfterTransition(this);
+        startActivity(new Intent(mContext, MainActivity.class));
     }
 
     @Override

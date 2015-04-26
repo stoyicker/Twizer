@@ -32,7 +32,9 @@
         </com.andexert.ripple.RippleView>
     </FrameLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -42,14 +44,12 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_banner"
             tools:ignore="ContentDescription"
-            android:scaleType="centerInside"
-            android:layout_centerVertical="false"
-            android:layout_centerHorizontal="true"/>
+            android:scaleType="centerInside"/>
 
         <fragment
             android:id="@+id/body"
             android:name="org.jorge.twizer.ui.fragment.ContentFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-    </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>
