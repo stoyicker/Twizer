@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v4.app.ActivityCompat;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.twitter.sdk.android.Twitter;
 
 import org.jorge.twizer.R;
@@ -24,8 +25,6 @@ import java.util.Locale;
  */
 public class SettingsPreferenceFragment extends PreferenceFragment {
 
-    private Activity mActivity;
-
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
@@ -37,8 +36,8 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
 
         addPreferencesFromResource(R.xml.preferences);
 
-        mActivity = getActivity();
-        final Context context = mActivity.getApplicationContext();
+        final Activity activity = getActivity();
+        final Context context = activity.getApplicationContext();
 
         findPreference(context.getString(R.string.pref_key_about_the_author))
                 .setOnPreferenceClickListener(preference -> {
@@ -54,23 +53,34 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
 
 
         findPreference(context.getString(R.string.pref_key_log_out)).setOnPreferenceClickListener(preference -> {
-            if (Boolean.TRUE) { //TODO Show a confirmation materialdialog
-                logOut(context);
-                return Boolean.TRUE;
-            } else {
-                return Boolean.FALSE;
-            }
+            confirmLogOut(activity);
+            return Boolean.FALSE;
         });
 
     }
 
-    private void logOut(final Context context) {
+    private void confirmLogOut(final Activity activity) {
+        new MaterialDialog.Builder(activity)
+                .content(R.string.confirm_log_out)
+                .negativeText(android.R.string.cancel)
+                .positiveText(R.string.pref_title_log_out)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(final MaterialDialog dialog) {
+                        logOut(activity);
+                    }
+                })
+                .autoDismiss(Boolean.TRUE)
+                .show();
+    }
+
+    private void logOut(final Activity activity) {
         Twitter.getSessionManager().clearActiveSession();
         Twitter.logOut();
-        final Intent intent = new Intent(context, LoginActivity.class);
+        final Intent intent = new Intent(activity.getApplicationContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        ActivityCompat.finishAfterTransition(mActivity);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mActivity).toBundle());
+        ActivityCompat.finishAfterTransition(activity);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
     }
 
     private void showGitHubRepository(final Context context) {
