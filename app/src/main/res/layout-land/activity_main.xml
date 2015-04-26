@@ -38,13 +38,14 @@
 
         <ImageView
             android:id="@+id/logo"
+            android:layout_margin="@dimen/logo_margins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_banner"
             tools:ignore="ContentDescription"
             android:scaleType="centerInside"
-            android:layout_centerVertical="false"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="false"/>
 
         <fragment
             android:id="@+id/body"
