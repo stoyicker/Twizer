@@ -3,7 +3,7 @@ package org.jorge.twizer.ui.activity;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import org.jorge.twizer.R;
@@ -12,7 +12,7 @@ import org.jorge.twizer.ui.UiUtils;
 /**
  * @author stoyicker.
  */
-public class SettingsActivity extends ActionBarActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {

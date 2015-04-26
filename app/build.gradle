@@ -85,10 +85,12 @@ android {
 repositories {
     maven { url 'https://maven.fabric.io/public' }
     maven { url "https://jitpack.io" }
+    maven {url "https://clojars.org/repo/"}
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'frankiesardo:icepick:3.0.3-SNAPSHOT'
+    compile 'com.android.support:appcompat-v7:22.1.1'
     compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
         transitive = true;
     }

@@ -30,9 +30,13 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"/>
+
+        <activity
+            android:name=".ui.activity.MainActivity"
             android:launchMode="singleTop"/>
 
         <activity
@@ -44,7 +48,7 @@
             android:logo="@android:color/transparent">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity"/>
+                android:value=".ui.activity.LoginActivity"/>
         </activity>
     </application>
 </manifest>

@@ -13,7 +13,6 @@ import org.jorge.twizer.ui.UiUtils;
  */
 public abstract class CircularRevealedFragment extends Fragment {
     private Context mContext;
-    private View mView;
 
     @Override
     public void onAttach(final Activity activity) {
@@ -26,7 +25,6 @@ public abstract class CircularRevealedFragment extends Fragment {
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mView = view;
         view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(final View v, final int left, final int top,
@@ -38,11 +36,5 @@ public abstract class CircularRevealedFragment extends Fragment {
             }
 
         });
-    }
-
-    @Override
-    public void onDestroyView() {
-        UiUtils.circularHideView(mContext, mView);
-        super.onDestroyView();
     }
 }

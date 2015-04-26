@@ -53,38 +53,4 @@ public abstract class UiUtils {
         viewToReveal.setVisibility(View.VISIBLE);
         animator.start();
     }
-
-    public static void circularHideView(final Context context, final View viewToHide) {
-        final Integer cx = (viewToHide.getLeft() + viewToHide.getRight()) / 2,
-                cy = (viewToHide.getTop() + viewToHide.getBottom()) / 2;
-        final Animator animator = ViewAnimationUtils.createCircularReveal
-                (viewToHide, cx,
-                        cy, Math.max(viewToHide.getWidth(),
-                                viewToHide.getHeight()), 0);
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        animator.setDuration(context.getResources().getInteger(R.integer
-                .circular_reveal_duration_millis));
-        animator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(final Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(final Animator animator) {
-                viewToHide.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onAnimationCancel(final Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(final Animator animator) {
-
-            }
-        });
-        animator.start();
-    }
 }

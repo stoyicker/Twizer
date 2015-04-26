@@ -13,7 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import com.twitter.sdk.android.Twitter;
 
 import org.jorge.twizer.R;
-import org.jorge.twizer.ui.activity.MainActivity;
+import org.jorge.twizer.ui.activity.LoginActivity;
 
 import java.util.List;
 import java.util.Locale;
@@ -51,7 +51,7 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
 
         findPreference(context.getString(R.string.pref_key_log_out)).setOnPreferenceClickListener(preference -> {
             if (Boolean.TRUE) { //TODO Show a confirmation materialdialog
-                logOutAndRelaunch(context);
+                logOut(context);
                 return Boolean.TRUE;
             } else {
                 return Boolean.FALSE;
@@ -60,9 +60,9 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
 
     }
 
-    private void logOutAndRelaunch(final Context context) {
+    private void logOut(final Context context) {
         Twitter.logOut();
-        final Intent intent = new Intent(context, MainActivity.class);
+        final Intent intent = new Intent(context, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         ActivityCompat.finishAfterTransition(getActivity());
         startActivity(intent);

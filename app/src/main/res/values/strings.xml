@@ -19,4 +19,5 @@
     <string name="github_repository_url" translatable="false">https://github.com/Stoyicker/Twizer</string>
     <string name="fragment_tag_twitter_login" translatable="false">fragment_tag_twitter_login</string>
     <string name="fragment_tag_content" translatable="false">fragment_tag_content</string>
+    <string name="error_msg_login">Could not login.</string>
 </resources>

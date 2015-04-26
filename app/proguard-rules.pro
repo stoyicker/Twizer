@@ -10,5 +10,9 @@
 }
 # Retrolambda
 -dontwarn java.lang.invoke.*
+# Icepick
+-dontwarn icepick.**
+-keep class **$$Icicle { *; }
+-keepnames class * { @icepick.Icicle *;}
 # Twitter Login
 -include proguard-com.twitter.sdk.android.twitter.txt
