@@ -54,10 +54,10 @@ public class LoginActivity extends DescribedActivity implements TwitterLoginFrag
 
     private void scheduleTwitterLoginScreenReveal() {
         final Fragment fragment = TwitterLoginFragment.getInstance(mContext);
-        scheduleSplashAwayWithContentReveal(fragment);
+        scheduleSplashAwayWithContentReveal(fragment, getString(R.string.fragment_tag_twitter_login));
     }
 
-    private void scheduleSplashAwayWithContentReveal(final Fragment contentToReveal) {
+    private void scheduleSplashAwayWithContentReveal(final Fragment contentToReveal, final String fragmentTag) {
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(() -> {
             final Integer shift = -(UiUtils.getScreenHeight(mContext) - logoView
@@ -83,7 +83,7 @@ public class LoginActivity extends DescribedActivity implements TwitterLoginFrag
 
                     bodyGroup.setLayoutParams(lp);
                     getFragmentManager().beginTransaction().replace(R.id.content_layout,
-                            contentToReveal)
+                            contentToReveal, fragmentTag)
                             .commitAllowingStateLoss();
                 }
 
