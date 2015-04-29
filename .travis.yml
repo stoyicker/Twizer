@@ -1,6 +1,7 @@
 language: android
-# Enable container-based infrastructure
+# Enable container-based infrastructure ##START##
 sudo: false
+# Enable container-based infrastructure ##END##
 android:
   components:
     - build-tools-22.0.1
