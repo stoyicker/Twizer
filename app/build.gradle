@@ -95,6 +95,9 @@ repositories {
 }
 
 dependencies {
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.squareup.okhttp:okhttp:2.4.0-SNAPSHOT'
+    compile 'com.squareup.retrofit:retrofit:2.0.0-SNAPSHOT'
     //TODO PersistentSearch is going to have some interesting updates: check the newer version(s)
     compile 'com.quinny898.library.persistentsearch:library:1.0.0-SNAPSHOT'
     compile 'frankiesardo:icepick:3.0.3-SNAPSHOT'
