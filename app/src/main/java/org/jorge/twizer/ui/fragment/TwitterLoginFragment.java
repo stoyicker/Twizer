@@ -67,7 +67,7 @@ public class TwitterLoginFragment extends CircularRevealedFragment {
     public void initTwitterLoginButton() {
         mTwitterLoginButton.setCallback(new Callback<TwitterSession>() {
             @Override
-            public void success(final Result<TwitterSession> twitterSessionResult) {
+            public void success(final Result<TwitterSession> result) {
                 if (mLoginListener != null)
                     mLoginListener.onLoginSuccessful();
             }

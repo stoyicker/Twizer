@@ -51,7 +51,7 @@ public class ContentFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initSearchBox();
+        initSearchBox(mSearchBox);
     }
 
     @Override
@@ -64,27 +64,32 @@ public class ContentFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void initSearchBox() {
-        initSearchVoiceRecognition();
-        initSearchables();
+    private void initSearchBox(final SearchBox searchBox) {
+        initSearchHint(searchBox);
+        initSearchVoiceRecognition(searchBox);
+        initSearchables(searchBox);
     }
 
-    private void initSearchVoiceRecognition() {
-        mSearchBox.enableVoiceRecognition(this);
+    private void initSearchHint(final SearchBox searchBox) {
+        //TODO Offer something like searchBox.setHintText();
     }
 
-    private void initSearchables() {
-        //TODO Replace this by actual logic
+    private void initSearchVoiceRecognition(final SearchBox searchBox) {
+        searchBox.enableVoiceRecognition(this);
+    }
+
+    private void initSearchables(final SearchBox searchBox) {
+        //TODO Replace this by the trending topics retrieved from the API
         final Drawable resultDrawable = mContext.getDrawable(R.drawable.ic_search_suggestion);
-        mSearchBox.addSearchable(new SearchResult("1", resultDrawable));
-        mSearchBox.addSearchable(new SearchResult("2", resultDrawable));
-        mSearchBox.addSearchable(new SearchResult("3", resultDrawable));
-        mSearchBox.addSearchable(new SearchResult("4", resultDrawable));
-        mSearchBox.addSearchable(new SearchResult("5", resultDrawable));
-        mSearchBox.addSearchable(new SearchResult("16", resultDrawable));
-        mSearchBox.addSearchable(new SearchResult("7", resultDrawable));
-        mSearchBox.addSearchable(new SearchResult("8", resultDrawable));
-        mSearchBox.addSearchable(new SearchResult("9", resultDrawable));
-        mSearchBox.addSearchable(new SearchResult("10", resultDrawable));
+        searchBox.addSearchable(new SearchResult("1", resultDrawable));
+        searchBox.addSearchable(new SearchResult("2", resultDrawable));
+        searchBox.addSearchable(new SearchResult("3", resultDrawable));
+        searchBox.addSearchable(new SearchResult("4", resultDrawable));
+        searchBox.addSearchable(new SearchResult("5", resultDrawable));
+        searchBox.addSearchable(new SearchResult("16", resultDrawable));
+        searchBox.addSearchable(new SearchResult("7", resultDrawable));
+        searchBox.addSearchable(new SearchResult("8", resultDrawable));
+        searchBox.addSearchable(new SearchResult("9", resultDrawable));
+        searchBox.addSearchable(new SearchResult("10", resultDrawable));
     }
 }
