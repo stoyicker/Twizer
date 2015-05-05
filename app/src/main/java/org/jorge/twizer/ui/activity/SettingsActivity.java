@@ -12,7 +12,7 @@ import org.jorge.twizer.ui.UiUtils;
 /**
  * @author stoyicker.
  */
-public class SettingsActivity extends AppCompatActivity {
+public final class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {

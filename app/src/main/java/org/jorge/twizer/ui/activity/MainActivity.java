@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import icepick.Icepick;
 
-public class MainActivity extends DescribedActivity {
+public final class MainActivity extends DescribedActivity {
 
     @InjectView(R.id.action_settings)
     RippleView actionSettings;

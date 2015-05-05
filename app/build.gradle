@@ -96,9 +96,11 @@ repositories {
 
 dependencies {
     compile 'com.google.code.gson:gson:2.3'
-    compile 'com.squareup.okhttp:okhttp:2.4.0-SNAPSHOT'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
+    compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
-    //TODO PersistentSearch is going to have some interesting updates: check the newer version(s)
+    debugCompile 'com.facebook.stetho:stetho:1.1.1'
+    //TODO Replace this with my fork
     compile 'com.quinny898.library.persistentsearch:library:1.0.0-SNAPSHOT'
     compile 'frankiesardo:icepick:3.0.3-SNAPSHOT'
     compile 'com.afollestad:material-dialogs:0.7.2.8'

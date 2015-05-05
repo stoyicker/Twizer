@@ -23,7 +23,7 @@ import butterknife.InjectView;
 /**
  * @author stoyicker.
  */
-public class TwitterLoginFragment extends CircularRevealedFragment {
+public final class TwitterLoginFragment extends CircularRevealedFragment {
 
     private static volatile Fragment mInstance;
     private static final Object LOCK = new Object();

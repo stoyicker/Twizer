@@ -16,7 +16,7 @@ import java.io.File;
 /**
  * @author stoyicker.
  */
-public class InitialActivity extends DescribedActivity {
+public final class InitialActivity extends DescribedActivity {
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {

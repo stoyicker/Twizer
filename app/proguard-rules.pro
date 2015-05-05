@@ -92,21 +92,21 @@
 -include proguard-com.twitter.sdk.android.twitter.txt
 # Retrofit and OkHttp
 -dontwarn rx.**
-
 -dontwarn okio.**
-
 -dontwarn com.squareup.okhttp.**
 -keep class com.squareup.okhttp.** { *; }
 -keep interface com.squareup.okhttp.** { *; }
-
 -dontwarn retrofit.**
 -dontwarn retrofit.appengine.UrlFetchClient
 -keep class retrofit.** { *; }
 -keepclasseswithmembers class * {
     @retrofit.http.* <methods>;
 }
-
 -keepattributes Signature
 -keepattributes *Annotation*
 # GSON
 -include proguard-com.google.code.gson.txt
+#Support V4 (for Stetho)
+-dontwarn android.support.v4.**
+-keep class android.support.v4.** { ; }
+-keep interface android.support.v4.* { *; }

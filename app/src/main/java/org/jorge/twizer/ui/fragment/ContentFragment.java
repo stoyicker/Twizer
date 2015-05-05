@@ -24,7 +24,7 @@ import butterknife.InjectView;
 /**
  * @author stoyicker.
  */
-public class ContentFragment extends Fragment {
+public final class ContentFragment extends Fragment {
 
     @InjectView(R.id.search_box)
     SearchBox mSearchBox;

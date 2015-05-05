@@ -23,7 +23,7 @@ import java.util.Locale;
 /**
  * @author stoyicker.
  */
-public class SettingsPreferenceFragment extends PreferenceFragment {
+public final class SettingsPreferenceFragment extends PreferenceFragment {
 
     @Override
     public void onAttach(final Activity activity) {

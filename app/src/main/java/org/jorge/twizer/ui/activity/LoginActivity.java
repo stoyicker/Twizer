@@ -15,8 +15,6 @@ import android.view.animation.TranslateAnimation;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.twitter.sdk.android.Twitter;
-
 import org.jorge.twizer.R;
 import org.jorge.twizer.ui.UiUtils;
 import org.jorge.twizer.ui.fragment.TwitterLoginFragment;
@@ -27,7 +25,7 @@ import butterknife.InjectView;
 /**
  * @author stoyicker.
  */
-public class LoginActivity extends DescribedActivity implements TwitterLoginFragment
+public final class LoginActivity extends DescribedActivity implements TwitterLoginFragment
         .ILoginListener {
 
     @InjectView(R.id.logo)
