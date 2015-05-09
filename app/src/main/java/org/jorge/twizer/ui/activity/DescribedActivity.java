@@ -9,7 +9,7 @@ import org.jorge.twizer.ui.UiUtils;
  * @author stoyicker.
  */
 public abstract class DescribedActivity extends Activity {
-
+    //TODO Convert this into DescribedIcedActivity
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
