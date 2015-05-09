@@ -104,6 +104,7 @@ dependencies {
     //TODO Replace this with my fork
     compile 'com.quinny898.library.persistentsearch:library:1.0.0-SNAPSHOT'
     compile 'frankiesardo:icepick:3.0.3-SNAPSHOT'
+    provided 'frankiesardo:icepick-processor:3.0.3-SNAPSHOT'
     compile 'com.afollestad:material-dialogs:0.7.2.8'
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {

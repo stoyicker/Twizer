@@ -7,7 +7,7 @@ public final class StethoTwizerApplication extends TwizerApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        //TODO Why u no run?
         initStetho();
     }
 
