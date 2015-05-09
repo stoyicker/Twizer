@@ -110,5 +110,5 @@
 -keep class com.facebook.stetho.** {*;}
 #Support V4 (for Stetho)
 -dontwarn android.support.v4.**
--keep class android.support.v4.** { ; }
+-keep class android.support.v4.** { *; }
 -keep interface android.support.v4.* { *; }

@@ -8,3 +8,7 @@ crashlytics.properties
 *.pwd
 twitter.secret
 twitter.key
+class_files.txt
+mapping.txt
+seeds.txt
+unused.txt
