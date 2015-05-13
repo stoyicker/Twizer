@@ -19,10 +19,7 @@ import org.jorge.twizer.R;
 /**
  * @author stoyicker.
  */
-public final class UiUtils {
-
-    private UiUtils() {
-    }
+public abstract class UiUtils {
 
     public static Integer getScreenHeight(final Context context) {
         final Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE))
