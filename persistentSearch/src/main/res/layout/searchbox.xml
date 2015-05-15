@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<io.codetail.widget.RevealFrameLayout
+    android:id="@+id/searchbox_rfl"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/search_root"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-4dp"
+        android:layout_marginRight="-4dp"
+        android:layout_marginTop="-4dp"
+        android:background="@drawable/search_bg"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/card_view">
+        </ListView>
+
+        <RelativeLayout
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="4dp">
+
+            <TextView
+                android:id="@+id/logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/material_menu_button"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="54dp"
+                android:layout_toStartOf="@+id/mic"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#212121"/>
+
+            <EditText
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/material_menu_button"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="64dp"
+                android:background="@null"
+                android:ems="10"
+                android:imeOptions="actionSearch"
+                android:inputType="textAutoCorrect|textCapSentences"
+                android:singleLine="true"
+                android:textColor="#212121"
+                android:visibility="gone"
+                tools:ignore="LabelFor">
+
+                <requestFocus/>
+            </EditText>
+
+            <ImageView
+                android:id="@+id/mic"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignBottom="@+id/material_menu_button"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="13dp"
+                android:src="@drawable/ic_action_mic"
+                tools:ignore="ContentDescription"/>
+
+            <com.balysv.materialmenu.MaterialMenuView
+                android:id="@+id/material_menu_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:mm_color="#616161"
+                app:mm_strokeWidth="2"
+                app:mm_transformDuration="500"/>
+
+            <ProgressBar
+                android:id="@+id/pb"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignBottom="@+id/material_menu_button"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="13dp"
+                android:layout_toStartOf="@+id/mic"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/drawer_logo"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                tools:ignore="ContentDescription"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</io.codetail.widget.RevealFrameLayout>

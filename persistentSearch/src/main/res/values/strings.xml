@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="speak_now">Speak now</string>
+    <string name="content_description_icon">Icon</string>
+    <string name="content_description_search_suggestion_select">Select</string>
+
+</resources>

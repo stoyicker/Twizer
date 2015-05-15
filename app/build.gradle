@@ -77,6 +77,11 @@ android {
         }
     }
 
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
     lintOptions {
         absolutePaths true
 
@@ -101,8 +106,6 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     debugCompile 'com.facebook.stetho:stetho:1.1.1'
     travisCompile 'com.facebook.stetho:stetho:1.1.1'
-    //TODO Replace this with my fork
-    compile 'com.quinny898.library.persistentsearch:library:1.0.0-SNAPSHOT'
     compile 'frankiesardo:icepick:3.0.3-SNAPSHOT'
     compile 'com.afollestad:material-dialogs:0.7.2.8'
     compile 'com.android.support:appcompat-v7:22.1.1'
@@ -111,6 +114,7 @@ dependencies {
     }
     compile 'com.jakewharton:butterknife:6.1.0'
     compile project(':ripple')
+    compile project(':persistentSearch')
     compile('com.twitter.sdk.android:twitter:1.4.0@aar') {
         transitive = true;
     }
