@@ -184,6 +184,7 @@ public class SearchBox extends RelativeLayout {
         return list.size() > 0;
     }
 
+
     /**
      * Reveal the searchbox from a menu item. Specify the menu item id and pass the activity so the item can be found
      *
@@ -211,7 +212,7 @@ public class SearchBox extends RelativeLayout {
      * @param activity Activity
      */
     @SuppressWarnings("unused")
-    public void hideCircularly(Activity activity) {
+    public void hideCircularly(final Activity activity) {
         Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         final FrameLayout layout = (FrameLayout) activity.getWindow().getDecorView()
@@ -272,7 +273,6 @@ public class SearchBox extends RelativeLayout {
      */
     @SuppressWarnings("unused")
     public void hideResults() {
-        this.mEditText.setVisibility(View.GONE);
         this.results.setVisibility(View.GONE);
     }
 
@@ -321,13 +321,14 @@ public class SearchBox extends RelativeLayout {
     /**
      * Enable voice recognition for Support Fragment
      *
-     * @param context Fragment
+     * @param fragment Fragment
      */
     @SuppressWarnings("unused")
-    public void enableVoiceRecognition(android.support.v4.app.Fragment context) {
-        mContainerSupportFragment = context;
+    public void enableVoiceRecognition(android.support.v4.app.Fragment fragment) {
+        mContainerSupportFragment = fragment;
         micStateChanged();
     }
+
 
     private boolean isMicEnabled() {
         return isVoiceRecognitionIntentSupported && (mContainerActivity != null || mContainerSupportFragment != null || mContainerFragment != null);
@@ -363,7 +364,7 @@ public class SearchBox extends RelativeLayout {
      */
     public void micClick() {
         if (!isMic) {
-            setSearchString("");
+            setSearchText("");
         } else {
             startVoiceRecognition();
         }
@@ -381,7 +382,7 @@ public class SearchBox extends RelativeLayout {
         if (matches.isEmpty())
             return;
         final String text = matches.get(0).trim();
-        setSearchString(text);
+        setSearchText(text);
         search(text);
     }
 
@@ -469,16 +470,6 @@ public class SearchBox extends RelativeLayout {
     }
 
     /**
-     * Set hint of the mEditText box
-     *
-     * @param text Text
-     */
-    @SuppressWarnings("unused")
-    public void setHintText(final String text) {
-        setLogoTextHint(text);
-    }
-
-    /**
      * Set the image drawable of the drawer mIcon logo (do not set if you have not hidden the menu mIcon)
      *
      * @param icon Icon
@@ -495,15 +486,6 @@ public class SearchBox extends RelativeLayout {
      */
     public String getSearchText() {
         return mEditText.getText().toString();
-    }
-
-    /**
-     * Set the searchbox's current text manually
-     *
-     * @param text Text
-     */
-    public void setSearchString(String text) {
-        mEditText.setText(text);
     }
 
     /**
@@ -640,11 +622,10 @@ public class SearchBox extends RelativeLayout {
         animator.start();
     }
 
-    private void search(SearchResult result) {
+    private void search(final SearchResult result) {
         if (!searchWithoutSuggestions && getNumberOfResults() == 0) return;
-        setSearchString(result.mTitle);
+        setSearchText(result.mTitle);
         if (!TextUtils.isEmpty(getSearchText())) {
-            setLogoTextHint(result.mTitle);
             if (listener != null)
                 listener.onSearch(result.mTitle);
         }
@@ -652,11 +633,11 @@ public class SearchBox extends RelativeLayout {
     }
 
 
-    private void openSearch(Boolean openKeyboard) {
+    public void openSearch(Boolean openKeyboard) {
         this.materialMenu.animateState(IconState.ARROW);
         this.logo.setVisibility(View.GONE);
         this.drawerLogo.setVisibility(View.GONE);
-        this.mEditText.setVisibility(View.VISIBLE);
+        mEditText.setVisibility(View.VISIBLE);
         mEditText.requestFocus();
         this.results.setVisibility(View.VISIBLE);
         animate = Boolean.TRUE;
@@ -725,7 +706,7 @@ public class SearchBox extends RelativeLayout {
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.toggleSoftInputFromWindow(
                     getApplicationWindowToken(),
-                    InputMethodManager.SHOW_FORCED, 0);
+                    InputMethodManager.SHOW_IMPLICIT, 0);
         }
     }
 
@@ -750,7 +731,6 @@ public class SearchBox extends RelativeLayout {
         this.materialMenu.animateState(IconState.BURGER);
         this.logo.setVisibility(View.VISIBLE);
         this.drawerLogo.setVisibility(View.VISIBLE);
-        this.mEditText.setVisibility(View.GONE);
         this.results.setVisibility(View.GONE);
         if (listener != null)
             listener.onSearchClosed();
@@ -764,16 +744,15 @@ public class SearchBox extends RelativeLayout {
                 0);
     }
 
-
-    private void setLogoTextHint(final String text) {
-        logo.setHint(text);
-    }
-
-
     private void search(String text) {
         SearchResult option = new SearchResult(text, null);
         search(option);
+    }
 
+    public void setSearchText(final String text) {
+        mEditText.setText(text);
+        invalidate();
+        requestLayout();
     }
 
 
@@ -818,7 +797,7 @@ public class SearchBox extends RelativeLayout {
             up.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setSearchString(title.getText().toString());
+                    setSearchText(title.getText().toString());
                     mEditText.setSelection(mEditText.getText().length());
                 }
             });

@@ -31,6 +31,11 @@ public final class ContentFragment extends Fragment {
 
     Context mContext;
 
+    public ContentFragment() {
+        super();
+        setRetainInstance(Boolean.TRUE);
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -48,10 +53,12 @@ public final class ContentFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         initSearchBox(mSearchBox);
+        if (savedInstanceState != null)
+            initSearchBoxVisibility(mSearchBox);
     }
 
     @Override
@@ -65,13 +72,12 @@ public final class ContentFragment extends Fragment {
     }
 
     private void initSearchBox(final SearchBox searchBox) {
-        initSearchHint(searchBox);
         initSearchVoiceRecognition(searchBox);
         initSearchables(searchBox);
     }
 
-    private void initSearchHint(final SearchBox searchBox) {
-        //TODO Offer something like searchBox.setHintText();
+    private void initSearchBoxVisibility(final SearchBox searchBox) {
+        searchBox.openSearch(Boolean.FALSE);
     }
 
     private void initSearchVoiceRecognition(final SearchBox searchBox) {
