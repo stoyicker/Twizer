@@ -104,8 +104,6 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
-    debugCompile 'com.facebook.stetho:stetho:1.1.1'
-    travisCompile 'com.facebook.stetho:stetho:1.1.1'
     compile 'com.afollestad:material-dialogs:0.7.2.8'
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
