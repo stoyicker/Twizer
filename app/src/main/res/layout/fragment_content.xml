@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:elevation="@dimen/tweet_container_elevation"
         android:fadeScrollbars="true"
-        android:overScrollMode="always"
+        android:overScrollMode="never"
         android:requiresFadingEdge="vertical"
         android:scrollbars="vertical">
 
