@@ -10,6 +10,8 @@ import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ScrollView;
 
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
@@ -27,16 +29,15 @@ import butterknife.InjectView;
 public final class ContentFragment extends Fragment {
 
     private static final String KEY_IS_SEARCH_BOX_OPEN = "IS_SEARCH_BOX_OPEN";
+
     @InjectView(R.id.search_box)
     SearchBox mSearchBox;
 
+    @InjectView(R.id.tweet_container)
+    ScrollView mTweetContainer;
+
     Context mContext;
     private Boolean mWasSearchBoxOpen;
-
-    public ContentFragment() {
-        super();
-        setRetainInstance(Boolean.TRUE);
-    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -51,6 +52,11 @@ public final class ContentFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_content, container, Boolean.FALSE);
         ButterKnife.inject(this, view);
 
+        view.post(() -> {
+            final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mTweetContainer.getLayoutParams();
+            layoutParams.setMargins(layoutParams.leftMargin, layoutParams.topMargin + mSearchBox.getHeight(), layoutParams.rightMargin, layoutParams.bottomMargin);
+        });
+
         return view;
     }
 
@@ -58,8 +64,9 @@ public final class ContentFragment extends Fragment {
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (savedInstanceState != null)
+        if (savedInstanceState != null) {
             mWasSearchBoxOpen = savedInstanceState.getBoolean(KEY_IS_SEARCH_BOX_OPEN);
+        }
 
         initSearchBox(mSearchBox);
     }
