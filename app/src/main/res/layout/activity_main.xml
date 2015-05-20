@@ -26,7 +26,6 @@
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:contentDescription="@string/action_settings"
-                android:scaleType="centerInside"
                 android:src="@drawable/ic_action_settings"/>
 
         </com.andexert.ripple.RippleView>

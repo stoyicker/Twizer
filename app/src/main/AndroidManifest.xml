@@ -42,7 +42,7 @@
             android:theme="@style/SettingsTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.LoginActivity"/>
+                android:value=".ui.activity.MainActivity"/>
         </activity>
     </application>
 </manifest>

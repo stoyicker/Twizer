@@ -756,16 +756,12 @@ public class SearchBox extends RelativeLayout {
         search(option);
     }
 
-    public void searchWithoutToggle() {
+    public void mockSearch() {
         final String text = getSearchText();
         final SearchResult option = new SearchResult(text, null);
         if (!searchWithoutSuggestions && getNumberOfResults() == 0) return;
         setSearchText(option.mTitle);
         logo.setHint(option.mTitle);
-        if (!TextUtils.isEmpty(getSearchText())) {
-            if (listener != null)
-                listener.onSearch(option.mTitle);
-        }
     }
 
     public void setSearchText(final String text) {
