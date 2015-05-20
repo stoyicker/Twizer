@@ -26,10 +26,12 @@ import butterknife.InjectView;
  */
 public final class ContentFragment extends Fragment {
 
+    private static final String KEY_IS_SEARCH_BOX_OPEN = "IS_SEARCH_BOX_OPEN";
     @InjectView(R.id.search_box)
     SearchBox mSearchBox;
 
     Context mContext;
+    private Boolean mWasSearchBoxOpen;
 
     public ContentFragment() {
         super();
@@ -56,6 +58,9 @@ public final class ContentFragment extends Fragment {
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (savedInstanceState != null)
+            mWasSearchBoxOpen = savedInstanceState.getBoolean(KEY_IS_SEARCH_BOX_OPEN);
+
         initSearchBox(mSearchBox);
     }
 
@@ -76,9 +81,20 @@ public final class ContentFragment extends Fragment {
     }
 
     private void initSearchBoxVisibility(final SearchBox searchBox) {
-        searchBox.post(() -> {
-            searchBox.openSearch(Boolean.FALSE);
-        });
+        if (mWasSearchBoxOpen != null)
+            searchBox.post(() -> {
+                if (mWasSearchBoxOpen)
+                    searchBox.openSearch(Boolean.FALSE);
+                else
+                    searchBox.search();
+            });
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean(KEY_IS_SEARCH_BOX_OPEN, mSearchBox.isOpen());
     }
 
     private void initSearchVoiceRecognition(final SearchBox searchBox) {

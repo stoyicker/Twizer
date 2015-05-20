@@ -32,4 +32,8 @@
     <issue id="UnusedResources">
         <ignore path="*/*.xml"/>
     </issue>
+    <!-- Lint what the heck... -->
+    <issue id="UnusedResources">
+        <ignore regexp="ic_search_suggestion.png"/>
+    </issue>
 </lint>

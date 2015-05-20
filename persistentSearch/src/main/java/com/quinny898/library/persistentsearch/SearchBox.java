@@ -118,9 +118,8 @@ public class SearchBox extends RelativeLayout {
         materialMenu.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (searchOpen) {
-                    toggleSearch();
+                    closeSearch();
                 } else {
                     if (menuListener != null)
                         menuListener.onMenuClick();
@@ -175,6 +174,7 @@ public class SearchBox extends RelativeLayout {
                 micClick();
             }
         });
+        closeSearch();
     }
 
     private static boolean isIntentAvailable(Context context, Intent intent) {
@@ -636,7 +636,6 @@ public class SearchBox extends RelativeLayout {
         this.logo.setVisibility(View.GONE);
         this.drawerLogo.setVisibility(View.GONE);
         mEditText.setVisibility(View.VISIBLE);
-        mEditText.requestFocus();
         this.results.setVisibility(View.VISIBLE);
         animate = Boolean.TRUE;
         results.setAdapter(new SearchAdapter(context, resultList));
@@ -706,6 +705,12 @@ public class SearchBox extends RelativeLayout {
                     getApplicationWindowToken(),
                     InputMethodManager.SHOW_IMPLICIT, 0);
         }
+        mEditText.post(new Runnable() {
+            @Override
+            public void run() {
+                mEditText.requestFocus();
+            }
+        });
         searchOpen = Boolean.TRUE;
     }
 
@@ -729,6 +734,8 @@ public class SearchBox extends RelativeLayout {
     public void closeSearch() {
         this.materialMenu.animateState(IconState.BURGER);
         this.logo.setVisibility(View.VISIBLE);
+        this.mEditText.setVisibility(View.GONE);
+        logo.setHint(mEditText.getText());
         this.drawerLogo.setVisibility(View.VISIBLE);
         this.results.setVisibility(View.GONE);
         if (listener != null)
@@ -749,10 +756,18 @@ public class SearchBox extends RelativeLayout {
         search(option);
     }
 
+    public void search() {
+        search(getSearchText());
+    }
+
     public void setSearchText(final String text) {
         mEditText.setText(text);
         invalidate();
         requestLayout();
+    }
+
+    public Boolean isOpen() {
+        return searchOpen;
     }
 
 
