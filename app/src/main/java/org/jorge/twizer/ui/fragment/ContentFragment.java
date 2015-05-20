@@ -57,8 +57,6 @@ public final class ContentFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initSearchBox(mSearchBox);
-        if (savedInstanceState != null)
-            initSearchBoxVisibility(mSearchBox);
     }
 
     @Override
@@ -74,10 +72,13 @@ public final class ContentFragment extends Fragment {
     private void initSearchBox(final SearchBox searchBox) {
         initSearchVoiceRecognition(searchBox);
         initSearchables(searchBox);
+        initSearchBoxVisibility(searchBox);
     }
 
     private void initSearchBoxVisibility(final SearchBox searchBox) {
-        searchBox.openSearch(Boolean.FALSE);
+        searchBox.post(() -> {
+            searchBox.openSearch(Boolean.FALSE);
+        });
     }
 
     private void initSearchVoiceRecognition(final SearchBox searchBox) {
