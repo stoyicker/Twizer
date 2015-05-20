@@ -4,4 +4,5 @@
     <dimen name="content_margin">16dp</dimen>
     <dimen name="search_box_elevation">12dp</dimen>
     <dimen name="tweet_container_elevation">4dp</dimen>
+    <dimen name="tweet_container_bottom_margin">8dp</dimen>
 </resources>

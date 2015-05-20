@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ScrollView;
 
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
@@ -34,7 +33,7 @@ public final class ContentFragment extends Fragment {
     SearchBox mSearchBox;
 
     @InjectView(R.id.tweet_container)
-    ScrollView mTweetContainer;
+    ViewGroup mTweetContainer;
 
     Context mContext;
     private Boolean mWasSearchBoxOpen;
