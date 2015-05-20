@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
+              xmlns:twittersdk="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:animateLayoutChanges="true"
+              android:orientation="vertical">
 
     <com.quinny898.library.persistentsearch.SearchBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/search_box"
-        />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
-    <ImageView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/black"
-        tools:ignore="ContentDescription"/>
+        android:fadeScrollbars="true"
+        android:overScrollMode="always"
+        android:requiresFadingEdge="vertical"
+        android:scrollbars="vertical">
+
+        <com.twitter.sdk.android.tweetui.TweetView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            twittersdk:tw__tweet_id="601032129313525760"/>
+
+    </ScrollView>
+
 </LinearLayout>

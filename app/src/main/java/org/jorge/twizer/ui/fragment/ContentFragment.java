@@ -86,7 +86,7 @@ public final class ContentFragment extends Fragment {
                 if (mWasSearchBoxOpen)
                     searchBox.openSearch(Boolean.FALSE);
                 else
-                    searchBox.search();
+                    searchBox.searchWithoutToggle();
             });
     }
 
