@@ -20,4 +20,6 @@
     <string name="fragment_tag_twitter_login" translatable="false">fragment_tag_twitter_login</string>
     <string name="error_msg_login">Could not login.</string>
     <string name="confirm_log_out">Log out?</string>
+    <string name="error">Error</string>
+    <string name="inital_tweet_id">602884483973517314</string>
 </resources>

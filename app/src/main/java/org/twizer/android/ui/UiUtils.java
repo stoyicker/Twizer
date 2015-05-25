@@ -1,4 +1,4 @@
-package org.jorge.twizer.ui;
+package org.twizer.android.ui;
 
 import android.animation.Animator;
 import android.annotation.TargetApi;
@@ -14,7 +14,7 @@ import android.view.ViewAnimationUtils;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
-import org.jorge.twizer.R;
+import org.twizer.android.R;
 
 /**
  * @author stoyicker.

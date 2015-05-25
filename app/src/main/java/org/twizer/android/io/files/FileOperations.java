@@ -1,4 +1,4 @@
-package org.jorge.twizer.io.files;
+package org.twizer.android.io.files;
 
 import java.io.File;
 

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:twittersdk="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
     <com.quinny898.library.persistentsearch.SearchBox
-        android:id="@+id/search_box"
+        android:id="@+id/searchBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="@dimen/search_box_elevation"/>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/tweet_container"
+        android:id="@+id/tweetContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/tweet_container_bottom_margin"
@@ -27,12 +26,10 @@
             android:requiresFadingEdge="vertical"
             android:scrollbars="vertical">
 
-            <com.twitter.sdk.android.tweetui.TweetView
+            <org.twizer.android.ui.widget.NiceLoadTweetView
+                android:id="@+id/niceLoadTweetView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                twittersdk:tw__tweet_id="302058809675886592"/>
-            <!--TODO remove static tweet IDs twittersdk:tw__tweet_id="601141292651966464"/>-->
-
+                android:layout_height="wrap_content"/>
         </ScrollView>
     </android.support.v7.widget.CardView>
 </FrameLayout>

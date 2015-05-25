@@ -1,4 +1,4 @@
-package org.jorge.twizer.ui.activity;
+package org.twizer.android.ui.activity;
 
 import android.app.ActivityOptions;
 import android.app.Fragment;
@@ -15,9 +15,9 @@ import android.view.animation.TranslateAnimation;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import org.jorge.twizer.R;
-import org.jorge.twizer.ui.UiUtils;
-import org.jorge.twizer.ui.fragment.TwitterLoginFragment;
+import org.twizer.android.R;
+import org.twizer.android.ui.UiUtils;
+import org.twizer.android.ui.fragment.TwitterLoginFragment;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

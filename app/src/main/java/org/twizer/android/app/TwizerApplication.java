@@ -1,4 +1,4 @@
-package org.jorge.twizer.app;
+package org.twizer.android.app;
 
 import android.app.Application;
 
@@ -6,7 +6,7 @@ import com.crashlytics.android.Crashlytics;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
-import org.jorge.twizer.BuildConfig;
+import org.twizer.android.BuildConfig;
 
 import io.fabric.sdk.android.Fabric;
 

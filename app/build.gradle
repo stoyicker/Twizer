@@ -27,7 +27,7 @@ android {
 
     productFlavors {
         standard {
-            applicationId "org.jorge.twizer"
+            applicationId "org.twizer.android"
             minSdkVersion 21
             targetSdkVersion 22
             versionCode 1
@@ -100,19 +100,24 @@ repositories {
 }
 
 dependencies {
+    compile project(':ripple')
+    compile project(':persistentSearch')
+
     compile 'com.android.support:cardview-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:22.1.1'
+
     compile 'com.google.code.gson:gson:2.3'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.jakewharton:butterknife:6.1.0'
+
+    compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
     compile 'com.afollestad:material-dialogs:0.7.2.8'
-    compile 'com.android.support:appcompat-v7:22.1.1'
+
     compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
         transitive = true;
     }
-    compile 'com.jakewharton:butterknife:6.1.0'
-    compile project(':ripple')
-    compile project(':persistentSearch')
     compile('com.twitter.sdk.android:twitter:1.4.0@aar') {
         transitive = true;
     }

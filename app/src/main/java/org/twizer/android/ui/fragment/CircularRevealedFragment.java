@@ -1,4 +1,4 @@
-package org.jorge.twizer.ui.fragment;
+package org.twizer.android.ui.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -6,7 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
-import org.jorge.twizer.ui.UiUtils;
+import org.twizer.android.ui.UiUtils;
 
 /**
  * @author stoyicker.

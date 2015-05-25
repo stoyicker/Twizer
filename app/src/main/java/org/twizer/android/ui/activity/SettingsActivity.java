@@ -1,4 +1,4 @@
-package org.jorge.twizer.ui.activity;
+package org.twizer.android.ui.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -6,8 +6,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import org.jorge.twizer.R;
-import org.jorge.twizer.ui.UiUtils;
+import org.twizer.android.R;
+import org.twizer.android.ui.UiUtils;
 
 /**
  * @author stoyicker.

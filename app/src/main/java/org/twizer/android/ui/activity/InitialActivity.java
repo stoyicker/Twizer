@@ -1,4 +1,4 @@
-package org.jorge.twizer.ui.activity;
+package org.twizer.android.ui.activity;
 
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -8,8 +8,9 @@ import android.support.v4.app.ActivityCompat;
 
 import com.twitter.sdk.android.Twitter;
 
-import org.jorge.twizer.R;
-import org.jorge.twizer.io.files.FileOperations;
+import org.twizer.android.R;
+import org.twizer.android.io.files.FileOperations;
+import org.twizer.android.io.prefs.PreferenceAssistant;
 
 import java.io.File;
 
@@ -25,7 +26,14 @@ public final class InitialActivity extends DescribedActivity {
         final Context appContext = getApplicationContext();
 
         flushCacheIfNecessary(appContext);
+        setInitialTweet(appContext);
         start(appContext);
+    }
+
+    private void setInitialTweet(final Context context) {
+        if (PreferenceAssistant.readSharedLong(context, PreferenceAssistant.PREF_LAST_TWEET_ID, -1L) == -1L) {
+            PreferenceAssistant.writeSharedLong(context, PreferenceAssistant.PREF_LAST_TWEET_ID, Long.parseLong(context.getResources().getString(R.string.inital_tweet_id)));
+        }
     }
 
     private Boolean isUserLoggedIn() {

@@ -1,4 +1,4 @@
-package org.jorge.twizer.ui.fragment;
+package org.twizer.android.ui.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -15,7 +15,7 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
-import org.jorge.twizer.R;
+import org.twizer.android.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -28,6 +28,7 @@ public final class TwitterLoginFragment extends CircularRevealedFragment {
     private static volatile Fragment mInstance;
     private static final Object LOCK = new Object();
     private ILoginListener mLoginListener;
+
     @InjectView(R.id.twitter_login_button)
     TwitterLoginButton mTwitterLoginButton;
 
@@ -91,8 +92,8 @@ public final class TwitterLoginFragment extends CircularRevealedFragment {
 
     public interface ILoginListener {
 
-        public void onLoginSuccessful();
+        void onLoginSuccessful();
 
-        public void onLoginFailed();
+        void onLoginFailed();
     }
 }

@@ -1,4 +1,4 @@
-package org.jorge.twizer.ui.fragment;
+package org.twizer.android.ui.fragment;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -14,8 +14,8 @@ import android.support.v4.app.ActivityCompat;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.twitter.sdk.android.Twitter;
 
-import org.jorge.twizer.R;
-import org.jorge.twizer.ui.activity.LoginActivity;
+import org.twizer.android.R;
+import org.twizer.android.ui.activity.LoginActivity;
 
 import java.util.List;
 import java.util.Locale;
@@ -80,6 +80,7 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
         final Intent intent = new Intent(activity.getApplicationContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         ActivityCompat.finishAfterTransition(activity);
+        //noinspection unchecked
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
     }
 

@@ -1,4 +1,4 @@
-package org.jorge.twizer.ui.activity;
+package org.twizer.android.ui.activity;
 
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.andexert.ripple.RippleView;
 
-import org.jorge.twizer.R;
+import org.twizer.android.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

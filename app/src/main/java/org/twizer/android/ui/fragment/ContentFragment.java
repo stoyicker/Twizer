@@ -1,4 +1,4 @@
-package org.jorge.twizer.ui.fragment;
+package org.twizer.android.ui.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -15,7 +15,9 @@ import android.widget.FrameLayout;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 
-import org.jorge.twizer.R;
+import org.twizer.android.R;
+import org.twizer.android.io.prefs.PreferenceAssistant;
+import org.twizer.android.ui.widget.NiceLoadTweetView;
 
 import java.util.ArrayList;
 
@@ -29,11 +31,14 @@ public final class ContentFragment extends Fragment {
 
     private static final String KEY_IS_SEARCH_BOX_OPEN = "IS_SEARCH_BOX_OPEN";
 
-    @InjectView(R.id.search_box)
+    @InjectView(R.id.searchBox)
     SearchBox mSearchBox;
 
-    @InjectView(R.id.tweet_container)
+    @InjectView(R.id.tweetContainer)
     ViewGroup mTweetContainer;
+
+    @InjectView(R.id.niceLoadTweetView)
+    NiceLoadTweetView mNiceLoadTweetView;
 
     Context mContext;
     private Boolean mWasSearchBoxOpen;
@@ -68,6 +73,13 @@ public final class ContentFragment extends Fragment {
         }
 
         initSearchBox(mSearchBox);
+        loadInitialTweet(mNiceLoadTweetView);
+    }
+
+    private void loadInitialTweet(final NiceLoadTweetView niceLoadTweetView) {
+        final Long tweetId = PreferenceAssistant.readSharedLong(mContext, PreferenceAssistant.PREF_LAST_TWEET_ID, -1L);
+
+        niceLoadTweetView.loadTweet(tweetId);
     }
 
     @Override
