@@ -106,8 +106,7 @@
 -keepattributes *Annotation*
 # GSON
 -include proguard-com.google.code.gson.txt
-# Stetho
--keep class com.facebook.stetho.** {*;}
+-include proguard-com.jpardogo.android.googleprogressbar.txt
 #Support V4 (for Stetho)
 -dontwarn android.support.v4.**
 -keep class android.support.v4.** { *; }

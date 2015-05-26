@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:gpb="http://schemas.android.com/tools"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_gravity="center"
              android:animateLayoutChanges="true">
 
-    <com.gc.materialdesign.views.ProgressBarIndeterminate
-        android:id="@+id/progressBarIndeterminate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/material_light_blue_500"
-        android:visibility="gone"/>
+    <com.jpardogo.android.googleprogressbar.library.GoogleProgressBar
+        android:id="@+id/progressView"
+        android:layout_width="@dimen/progressBarSide"
+        android:layout_height="@dimen/progressBarSide"
+        gpb:type="folding_circles"/>
 
     <ImageView
         android:id="@+id/loadError"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:contentDescription="@string/error"
         android:scaleType="centerInside"
         android:src="@drawable/ic_error"

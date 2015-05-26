@@ -9,27 +9,22 @@
         android:layout_height="wrap_content"
         android:elevation="@dimen/search_box_elevation"/>
 
-    <android.support.v7.widget.CardView
+    <ScrollView
         android:id="@+id/tweetContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/tweet_container_bottom_margin"
         android:clickable="true"
         android:elevation="@dimen/tweet_container_elevation"
-        android:hapticFeedbackEnabled="true">
+        android:fadeScrollbars="true"
+        android:hapticFeedbackEnabled="true"
+        android:overScrollMode="never"
+        android:requiresFadingEdge="vertical"
+        android:scrollbars="vertical">
 
-        <ScrollView
+        <org.twizer.android.ui.widget.NiceLoadTweetView
+            android:id="@+id/niceLoadTweetView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fadeScrollbars="true"
-            android:overScrollMode="never"
-            android:requiresFadingEdge="vertical"
-            android:scrollbars="vertical">
-
-            <org.twizer.android.ui.widget.NiceLoadTweetView
-                android:id="@+id/niceLoadTweetView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </ScrollView>
-    </android.support.v7.widget.CardView>
+            android:layout_height="wrap_content"/>
+    </ScrollView>
 </FrameLayout>

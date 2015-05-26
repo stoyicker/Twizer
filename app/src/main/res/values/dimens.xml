@@ -5,4 +5,5 @@
     <dimen name="search_box_elevation">12dp</dimen>
     <dimen name="tweet_container_elevation">4dp</dimen>
     <dimen name="tweet_container_bottom_margin">8dp</dimen>
+    <dimen name="progressBarSide">32dp</dimen>
 </resources>

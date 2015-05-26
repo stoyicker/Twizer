@@ -25,14 +25,14 @@ public class NiceLoadTweetView extends FrameLayout {
     private Context mContext;
     private View mTweetView;
 
-    @InjectView(R.id.progressBarIndeterminate)
-    View mProgressBar;
-
     @InjectView(R.id.loadError)
     View mErrorView;
 
+    @InjectView(R.id.progressView)
+    View mProgressView;
+
     public NiceLoadTweetView(final Context context, final AttributeSet attrs) {
-        super(context);
+        super(context, attrs);
 
         mContext = context;
         LayoutInflater.from(context).inflate(R.layout.widget_niceloadtweetview, this);
@@ -42,18 +42,19 @@ public class NiceLoadTweetView extends FrameLayout {
     public synchronized void loadTweet(final Long tweetId) {
         if (mTweetView != null)
             removeView(mTweetView);
-        mProgressBar.setVisibility(View.VISIBLE);
+        if (mProgressView.getVisibility() != View.VISIBLE)
+            mProgressView.setVisibility(View.VISIBLE);
         TweetUtils.loadTweet(tweetId, new LoadCallback<Tweet>() {
             @Override
             public void success(final Tweet tweet) {
-                mProgressBar.setVisibility(View.GONE);
-                mErrorView.setVisibility(View.GONE);
                 NiceLoadTweetView.this.addView(mTweetView = new TweetView(mContext, tweet));
+                mErrorView.setVisibility(View.GONE);
             }
 
             @Override
             public void failure(final TwitterException exception) {
-                mProgressBar.setVisibility(View.GONE);
+                mTweetView = null;
+                mProgressView.setVisibility(View.GONE);
                 mErrorView.setVisibility(View.VISIBLE);
             }
         });
