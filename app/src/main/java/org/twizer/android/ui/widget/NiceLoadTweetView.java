@@ -47,15 +47,19 @@ public class NiceLoadTweetView extends FrameLayout {
         TweetUtils.loadTweet(tweetId, new LoadCallback<Tweet>() {
             @Override
             public void success(final Tweet tweet) {
-                NiceLoadTweetView.this.addView(mTweetView = new TweetView(mContext, tweet));
-                mErrorView.setVisibility(View.GONE);
+                NiceLoadTweetView.this.post(() -> {
+                    NiceLoadTweetView.this.addView(mTweetView = new TweetView(mContext, tweet));
+                    mErrorView.setVisibility(View.GONE);
+                });
             }
 
             @Override
             public void failure(final TwitterException exception) {
                 mTweetView = null;
-                mProgressView.setVisibility(View.GONE);
-                mErrorView.setVisibility(View.VISIBLE);
+                NiceLoadTweetView.this.post(() -> {
+                    mProgressView.setVisibility(View.GONE);
+                    mErrorView.setVisibility(View.VISIBLE);
+                });
             }
         });
     }
