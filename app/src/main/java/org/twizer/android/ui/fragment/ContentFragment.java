@@ -27,7 +27,7 @@ import butterknife.InjectView;
 /**
  * @author stoyicker.
  */
-public final class ContentFragment extends Fragment {
+public final class ContentFragment extends Fragment implements NiceLoadTweetView.IErrorViewListener {
 
     private static final String KEY_IS_SEARCH_BOX_OPEN = "IS_SEARCH_BOX_OPEN";
 
@@ -73,10 +73,12 @@ public final class ContentFragment extends Fragment {
         }
 
         initSearchBox(mSearchBox);
-        loadInitialTweet(mNiceLoadTweetView);
+        setupTweetView(mNiceLoadTweetView);
     }
 
-    private void loadInitialTweet(final NiceLoadTweetView niceLoadTweetView) {
+    private void setupTweetView(final NiceLoadTweetView niceLoadTweetView) {
+        niceLoadTweetView.setErrorListener(this);
+
         final Long tweetId = PreferenceAssistant.readSharedLong(mContext, PreferenceAssistant.PREF_LAST_TWEET_ID, -1L);
 
         niceLoadTweetView.loadTweet(tweetId);
@@ -132,5 +134,13 @@ public final class ContentFragment extends Fragment {
         searchBox.addSearchable(new SearchResult("8", resultDrawable));
         searchBox.addSearchable(new SearchResult("9", resultDrawable));
         searchBox.addSearchable(new SearchResult("10", resultDrawable));
+    }
+
+    @Override
+    public void onErrorViewClick() {
+        //TODO This has to be a brand new, DIFFERENT tweet
+        final Long tweetId = PreferenceAssistant.readSharedLong(mContext, PreferenceAssistant.PREF_LAST_TWEET_ID, -1L);
+
+        mNiceLoadTweetView.loadTweet(tweetId);
     }
 }
