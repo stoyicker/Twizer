@@ -4,7 +4,6 @@
         <Preference
             android:defaultValue="@string/trend_location_id_world"
             android:key="@string/pref_key_trend_location"
-            android:summary="@string/pref_summary_trend_location_world"
             android:title="@string/pref_title_trend_location"/>
         <CheckBoxPreference
             android:defaultValue="true"

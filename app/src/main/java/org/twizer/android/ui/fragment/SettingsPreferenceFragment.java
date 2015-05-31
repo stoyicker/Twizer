@@ -21,7 +21,6 @@ import org.twizer.android.ui.activity.LoginActivity;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 /**
  * @author stoyicker.
@@ -42,10 +41,13 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
         final Activity activity = getActivity();
         final Context context = activity.getApplicationContext();
 
-        findPreference(context.getString(R.string.pref_key_trend_location)).setOnPreferenceClickListener(preference -> {
+        final Preference trendLocationPreference = findPreference(context.getString(R.string.pref_key_trend_location));
+        trendLocationPreference.setOnPreferenceClickListener(preference -> {
             toggleTwitterTrendLocation(context, preference);
             return Boolean.TRUE;
         });
+
+        trendLocationPreference.setSummary(PreferenceAssistant.readSharedString(context, context.getString(R.string.pref_key_trend_location), context.getString(R.string.trend_location_id_world)).contentEquals(context.getString(R.string.trend_location_id_world)) ? context.getString(R.string.pref_summary_trend_location_world) : context.getString(R.string.pref_summary_trend_location_local));
 
         findPreference(context.getString(R.string.pref_key_about_the_author))
                 .setOnPreferenceClickListener(preference -> {
@@ -69,9 +71,10 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
 
     private void toggleTwitterTrendLocation(final Context context, final Preference preference) {
         final String prefKey, worldId;
-        final Boolean isWorld = Objects.equals(PreferenceAssistant.readSharedString(context, prefKey = context.getString(R.string.pref_key_trend_location), worldId = context.getResources().getString(R.string.trend_location_id_world)), worldId);
+        final Boolean isWorld = PreferenceAssistant.readSharedString(context, prefKey = context.getString(R.string.pref_key_trend_location), worldId = context.getResources().getString(R.string
+                .trend_location_id_world)).contentEquals(worldId);
         preference.setSummary(isWorld ? R.string.pref_summary_trend_location_local : R.string.pref_summary_trend_location_world);
-        PreferenceAssistant.writeSharedString(context, prefKey, isWorld ? context.getResources().getString(R.string.trend_location_id_none) : worldId);
+        PreferenceAssistant.writeSharedString(context, prefKey, isWorld ? context.getResources().getString(R.string.trend_location_id_local) : worldId);
     }
 
     private void confirmLogOut(final Activity activity) {
