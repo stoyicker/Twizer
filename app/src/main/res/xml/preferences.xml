@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/preference_category_title_trends">
         <Preference
-            android:defaultValue="@string/trend_location_id_world"
+            android:defaultValue="@string/trend_location_mode_world"
             android:key="@string/pref_key_trend_location"
             android:title="@string/pref_title_trend_location"/>
         <CheckBoxPreference

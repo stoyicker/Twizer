@@ -47,7 +47,7 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
             return Boolean.TRUE;
         });
 
-        trendLocationPreference.setSummary(PreferenceAssistant.readSharedString(context, context.getString(R.string.pref_key_trend_location), context.getString(R.string.trend_location_id_world)).contentEquals(context.getString(R.string.trend_location_id_world)) ? context.getString(R.string.pref_summary_trend_location_world) : context.getString(R.string.pref_summary_trend_location_local));
+        trendLocationPreference.setSummary(PreferenceAssistant.readSharedString(context, context.getString(R.string.pref_key_trend_location), context.getString(R.string.trend_location_mode_world)).contentEquals(context.getString(R.string.trend_location_mode_world)) ? context.getString(R.string.pref_summary_trend_location_world) : context.getString(R.string.pref_summary_trend_location_local));
 
         findPreference(context.getString(R.string.pref_key_about_the_author))
                 .setOnPreferenceClickListener(preference -> {
@@ -72,9 +72,9 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
     private void toggleTwitterTrendLocation(final Context context, final Preference preference) {
         final String prefKey, worldId;
         final Boolean isWorld = PreferenceAssistant.readSharedString(context, prefKey = context.getString(R.string.pref_key_trend_location), worldId = context.getResources().getString(R.string
-                .trend_location_id_world)).contentEquals(worldId);
+                .trend_location_mode_world)).contentEquals(worldId);
         preference.setSummary(isWorld ? R.string.pref_summary_trend_location_local : R.string.pref_summary_trend_location_world);
-        PreferenceAssistant.writeSharedString(context, prefKey, isWorld ? context.getResources().getString(R.string.trend_location_id_local) : worldId);
+        PreferenceAssistant.writeSharedString(context, prefKey, isWorld ? context.getResources().getString(R.string.trend_location_mode_local) : worldId);
     }
 
     private void confirmLogOut(final Activity activity) {

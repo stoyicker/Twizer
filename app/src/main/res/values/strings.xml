@@ -31,6 +31,6 @@
     <string name="pref_summary_trend_location_local">Current</string>
     <string name="pref_title_trend_location">Trend location</string>
     <string name="pref_key_last_tweet_id">key_last_tweet_id</string>
-    <string name="trend_location_id_world">1</string>
-    <string name="trend_location_id_local">0</string>
+    <string name="trend_location_mode_world">1</string>
+    <string name="trend_location_mode_local">0</string>
 </resources>
