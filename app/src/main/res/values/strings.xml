@@ -22,4 +22,5 @@
     <string name="confirm_log_out">Log out?</string>
     <string name="error">Error</string>
     <string name="inital_tweet_id" translatable="false">602884483973517314</string>
+    <string name="twitter_api_endpoint" translatable="false">https://api.twitter.com/1.1</string>
 </resources>

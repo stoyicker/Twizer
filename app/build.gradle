@@ -103,6 +103,8 @@ dependencies {
     compile project(':ripple')
     compile project(':persistentSearch')
 
+    compile 'org.apache.commons:commons-lang3:3.4'
+
     compile 'com.google.code.gson:gson:2.3'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'

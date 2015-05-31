@@ -10,6 +10,9 @@ import org.twizer.android.BuildConfig;
 
 import io.fabric.sdk.android.Fabric;
 
+/**
+ * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
+ */
 public class TwizerApplication extends Application {
 
     @Override
