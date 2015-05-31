@@ -25,7 +25,10 @@ public abstract class TwitterApiClient {
             synchronized (LOCK) {
                 ret = apiService;
                 if (ret == null) {
-                    final RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(context.getString(R.string.twitter_api_endpoint)).build();
+                    final RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(context.getString(R.string.twitter_api_endpoint)).setRequestInterceptor(request -> {
+                        //TODO This
+                        request.addHeader("Authorization", getToken());
+                    }).build();
                     ret = restAdapter.create(ITwitterApi.class);
                     apiService = ret;
                 }
