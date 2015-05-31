@@ -39,12 +39,15 @@ public abstract class TwitterApiClient {
         /**
          * <a href="https://dev.twitter.com/rest/reference/get/trends/place">GET trends/place | Twitter Developers</a>
          *
-         * @param id       {@link Long} Required. Yahoo! WOEID for the place. 1 for world trends.
+         * @param id       {@link String} ({@link Long}) Required. Yahoo! WOEID for the place. 1
+         *                 for
+         *                 world
+         *                 trends.
          * @param exclude  {@link String} Not required. Setting this equal to hashtags will remove all hashtags from the trends list.
          * @param callback {@link Callback<TwitterTrendRequest>} The callback to execute when the request is done. Happens on the UI thread.
          * @see org.twizer.android.datamodel.TwitterTrendRequest
          */
         @GET("/trends/place.json")
-        void asyncGetTrendingTopics(@NonNull final Long id, @Nullable final String exclude, @NonNull final Callback<TwitterTrendRequest> callback);
+        void asyncGetTrendingTopics(@NonNull final String id, @Nullable final String exclude, @NonNull final Callback<TwitterTrendRequest> callback);
     }
 }

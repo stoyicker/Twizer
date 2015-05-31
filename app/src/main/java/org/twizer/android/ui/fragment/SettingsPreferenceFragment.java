@@ -70,11 +70,11 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
     }
 
     private void toggleTwitterTrendLocation(final Context context, final Preference preference) {
-        final String prefKey, worldId;
-        final Boolean isWorld = PreferenceAssistant.readSharedString(context, prefKey = context.getString(R.string.pref_key_trend_location), worldId = context.getResources().getString(R.string
-                .trend_location_mode_world)).contentEquals(worldId);
+        final String prefKey, modeWorld;
+        final Boolean isWorld = PreferenceAssistant.readSharedString(context, prefKey = context.getString(R.string.pref_key_trend_location), modeWorld = context.getResources().getString(R.string
+                .trend_location_mode_world)).contentEquals(modeWorld);
         preference.setSummary(isWorld ? R.string.pref_summary_trend_location_local : R.string.pref_summary_trend_location_world);
-        PreferenceAssistant.writeSharedString(context, prefKey, isWorld ? context.getResources().getString(R.string.trend_location_mode_local) : worldId);
+        PreferenceAssistant.writeSharedString(context, prefKey, isWorld ? context.getResources().getString(R.string.trend_location_mode_local) : modeWorld);
     }
 
     private void confirmLogOut(final Activity activity) {

@@ -16,13 +16,20 @@ import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 
 import org.twizer.android.R;
+import org.twizer.android.datamodel.Trend;
+import org.twizer.android.datamodel.TwitterTrendRequest;
+import org.twizer.android.io.net.api.twitter.TwitterApiClient;
 import org.twizer.android.io.prefs.PreferenceAssistant;
 import org.twizer.android.ui.widget.NiceLoadTweetView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * @author stoyicker.
@@ -126,19 +133,31 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         searchBox.enableVoiceRecognition(this);
     }
 
-    private void initSearchables(final SearchBox searchBox) {
-        //TODO Replace this by the trending topics retrieved from the API
-        final Drawable resultDrawable = mContext.getDrawable(R.drawable.ic_search_suggestion);
-        searchBox.addSearchable(new SearchResult("1", resultDrawable));
-        searchBox.addSearchable(new SearchResult("2", resultDrawable));
-        searchBox.addSearchable(new SearchResult("3", resultDrawable));
-        searchBox.addSearchable(new SearchResult("4", resultDrawable));
-        searchBox.addSearchable(new SearchResult("5", resultDrawable));
-        searchBox.addSearchable(new SearchResult("16", resultDrawable));
-        searchBox.addSearchable(new SearchResult("7", resultDrawable));
-        searchBox.addSearchable(new SearchResult("8", resultDrawable));
-        searchBox.addSearchable(new SearchResult("9", resultDrawable));
-        searchBox.addSearchable(new SearchResult("10", resultDrawable));
+    private void initSearchables(final Context context, final SearchBox searchBox) {
+        final String modeWorld;
+        TwitterApiClient.getContactApiClient(context).asyncGetTrendingTopics(
+                PreferenceAssistant.readSharedString(context, context.getString(R.string
+                        .pref_key_trend_location), modeWorld = context.getString(R.string
+                        .trend_location_mode_world)).contentEquals(modeWorld) ? modeWorld :
+                        getWOEID(),
+                PreferenceAssistant.readSharedBoolean(context, context.getString(R.string
+                        .pref_key_include_hashtags), Boolean.FALSE) ? null : context.getString(R.string
+                        .special_hashtag_exclusion_key), new
+                        Callback<TwitterTrendRequest>() {
+                            @Override
+                            public void success(final TwitterTrendRequest twitterTrendRequest, final Response
+                                    response) {
+                                final Drawable resultDrawable = mContext.getDrawable(R.drawable.ic_search_suggestion);
+                                final List<Trend> trendList = twitterTrendRequest.getTrends();
+
+                                for (Trend trend : trendList)
+                                    searchBox.addSearchable(new SearchResult(trend.getName(), resultDrawable));
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                            }
+                        });
     }
 
     @Override

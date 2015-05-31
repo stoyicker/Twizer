@@ -21,4 +21,10 @@ public abstract class PreferenceAssistant {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
         return sharedPref.getString(settingName, defaultValue);
     }
+
+    public static Boolean readSharedBoolean(final Context ctx, @NonNull final String settingName,
+                                            final Boolean defaultValue) {
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return sharedPref.getBoolean(settingName, defaultValue);
+    }
 }
