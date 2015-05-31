@@ -13,7 +13,6 @@
     <string name="pref_key_include_hashtags" translatable="false">key_include_hashtags</string>
     <string name="pref_key_see_the_source" translatable="false">key_see_the_source</string>
     <string name="pref_key_log_out" translatable="false">key_log_out</string>
-    <string name="pref_key_trend_location" translatable="false">key_trend_type</string>
     <string name="about_the_author_link" translatable="false">https://www.linkedin
         .com/in/jorgediazbenitosoriano</string>
     <string name="author_linkedin_id" translatable="false">169653526</string>
@@ -27,11 +26,7 @@
     <string name="twitter_api_endpoint" translatable="false">https://api.twitter.com/1.1</string>
     <string name="pref_title_include_hashtags">Include hashtags</string>
     <string name="preference_category_title_trends">TRENDS</string>
-    <string name="pref_summary_trend_location_world">Global</string>
-    <string name="pref_summary_trend_location_local">Current</string>
-    <string name="pref_title_trend_location">Trend location</string>
     <string name="pref_key_last_tweet_id">key_last_tweet_id</string>
-    <string name="trend_location_mode_world">1</string>
-    <string name="trend_location_mode_local">0</string>
     <string name="special_hashtag_exclusion_key" translatable="false">hashtag</string>
+    <string name="trend_location_id_world">1</string>
 </resources>

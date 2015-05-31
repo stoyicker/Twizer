@@ -11,7 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  *
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
-public class Location {
+public final class Location {
 
     @Expose
     private String name;

@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import org.twizer.android.R;
-import org.twizer.android.datamodel.TwitterTrendRequest;
+import org.twizer.android.datamodel.TrendResultWrapper;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -26,8 +26,8 @@ public abstract class TwitterApiClient {
                 ret = apiService;
                 if (ret == null) {
                     final RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(context.getString(R.string.twitter_api_endpoint)).setRequestInterceptor(request -> {
-                        //TODO This
-                        request.addHeader("Authorization", getToken());
+                        //TODO Authentication
+//                        request.addHeader("Authorization", getToken());
                     }).build();
                     ret = restAdapter.create(ITwitterApi.class);
                     apiService = ret;
@@ -47,10 +47,10 @@ public abstract class TwitterApiClient {
          *                 world
          *                 trends.
          * @param exclude  {@link String} Not required. Setting this equal to hashtags will remove all hashtags from the trends list.
-         * @param callback {@link Callback<TwitterTrendRequest>} The callback to execute when the request is done. Happens on the UI thread.
-         * @see org.twizer.android.datamodel.TwitterTrendRequest
+         * @param callback {@link Callback< TrendResultWrapper >} The callback to execute when the request is done. Happens on the UI thread.
+         * @see TrendResultWrapper
          */
         @GET("/trends/place.json")
-        void asyncGetTrendingTopics(@NonNull final String id, @Nullable final String exclude, @NonNull final Callback<TwitterTrendRequest> callback);
+        void asyncGetTrendingTopics(@NonNull final String id, @Nullable final String exclude, @NonNull final Callback<TrendResultWrapper> callback);
     }
 }

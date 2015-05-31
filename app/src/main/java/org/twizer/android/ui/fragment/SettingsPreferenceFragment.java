@@ -41,14 +41,6 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
         final Activity activity = getActivity();
         final Context context = activity.getApplicationContext();
 
-        final Preference trendLocationPreference = findPreference(context.getString(R.string.pref_key_trend_location));
-        trendLocationPreference.setOnPreferenceClickListener(preference -> {
-            toggleTwitterTrendLocation(context, preference);
-            return Boolean.TRUE;
-        });
-
-        trendLocationPreference.setSummary(PreferenceAssistant.readSharedString(context, context.getString(R.string.pref_key_trend_location), context.getString(R.string.trend_location_mode_world)).contentEquals(context.getString(R.string.trend_location_mode_world)) ? context.getString(R.string.pref_summary_trend_location_world) : context.getString(R.string.pref_summary_trend_location_local));
-
         findPreference(context.getString(R.string.pref_key_about_the_author))
                 .setOnPreferenceClickListener(preference -> {
                     showMyLinkedInProfile(context);
@@ -67,14 +59,6 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
             return Boolean.FALSE;
         });
 
-    }
-
-    private void toggleTwitterTrendLocation(final Context context, final Preference preference) {
-        final String prefKey, modeWorld;
-        final Boolean isWorld = PreferenceAssistant.readSharedString(context, prefKey = context.getString(R.string.pref_key_trend_location), modeWorld = context.getResources().getString(R.string
-                .trend_location_mode_world)).contentEquals(modeWorld);
-        preference.setSummary(isWorld ? R.string.pref_summary_trend_location_local : R.string.pref_summary_trend_location_world);
-        PreferenceAssistant.writeSharedString(context, prefKey, isWorld ? context.getResources().getString(R.string.trend_location_mode_local) : modeWorld);
     }
 
     private void confirmLogOut(final Activity activity) {

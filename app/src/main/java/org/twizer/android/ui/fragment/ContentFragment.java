@@ -17,7 +17,7 @@ import com.quinny898.library.persistentsearch.SearchResult;
 
 import org.twizer.android.R;
 import org.twizer.android.datamodel.Trend;
-import org.twizer.android.datamodel.TwitterTrendRequest;
+import org.twizer.android.datamodel.TrendResultWrapper;
 import org.twizer.android.io.net.api.twitter.TwitterApiClient;
 import org.twizer.android.io.prefs.PreferenceAssistant;
 import org.twizer.android.ui.widget.NiceLoadTweetView;
@@ -79,7 +79,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
             mWasSearchBoxOpen = savedInstanceState.getBoolean(KEY_IS_SEARCH_BOX_OPEN);
         }
 
-        initSearchBox(mSearchBox);
+        initSearchBox(mContext, mSearchBox);
         setupTweetView(mNiceLoadTweetView);
     }
 
@@ -106,9 +106,9 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void initSearchBox(final SearchBox searchBox) {
+    private void initSearchBox(final Context context, final SearchBox searchBox) {
         initSearchVoiceRecognition(searchBox);
-        initSearchables(searchBox);
+        initSearchables(context, searchBox);
         initSearchBoxVisibility(searchBox);
     }
 
@@ -134,21 +134,17 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
     }
 
     private void initSearchables(final Context context, final SearchBox searchBox) {
-        final String modeWorld;
         TwitterApiClient.getContactApiClient(context).asyncGetTrendingTopics(
-                PreferenceAssistant.readSharedString(context, context.getString(R.string
-                        .pref_key_trend_location), modeWorld = context.getString(R.string
-                        .trend_location_mode_world)).contentEquals(modeWorld) ? modeWorld :
-                        getWOEID(),
+                context.getString(R.string.trend_location_id_world),
                 PreferenceAssistant.readSharedBoolean(context, context.getString(R.string
-                        .pref_key_include_hashtags), Boolean.FALSE) ? null : context.getString(R.string
+                        .pref_key_include_hashtags), Boolean.TRUE) ? null : context.getString(R.string
                         .special_hashtag_exclusion_key), new
-                        Callback<TwitterTrendRequest>() {
+                        Callback<TrendResultWrapper>() {
                             @Override
-                            public void success(final TwitterTrendRequest twitterTrendRequest, final Response
+                            public void success(final TrendResultWrapper trendResultWrapper, final Response
                                     response) {
                                 final Drawable resultDrawable = mContext.getDrawable(R.drawable.ic_search_suggestion);
-                                final List<Trend> trendList = twitterTrendRequest.getTrends();
+                                final List<Trend> trendList = trendResultWrapper.getTrends();
 
                                 for (Trend trend : trendList)
                                     searchBox.addSearchable(new SearchResult(trend.getName(), resultDrawable));

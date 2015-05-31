@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
-public class TwitterTrendRequest {
+public final class TrendResultWrapper {
 
     @SerializedName("as_of")
     @Expose
@@ -101,10 +101,10 @@ public class TwitterTrendRequest {
         if (other == this) {
             return true;
         }
-        if ((other instanceof TwitterTrendRequest) == false) {
+        if ((other instanceof TrendResultWrapper) == false) {
             return false;
         }
-        TwitterTrendRequest rhs = ((TwitterTrendRequest) other);
+        TrendResultWrapper rhs = ((TrendResultWrapper) other);
         return new EqualsBuilder().append(asOf, rhs.asOf).append(createdAt, rhs.createdAt).append(locations, rhs.locations).append(trends, rhs.trends).isEquals();
     }
 

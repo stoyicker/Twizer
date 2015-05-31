@@ -12,7 +12,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  *
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
-public class Trend {
+public final class Trend {
 
     @Expose
     private Object events;
