@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/preference_category_title_trends">
+        <Preference
+            android:defaultValue="@string/trend_location_id_world"
+            android:key="@string/pref_key_trend_location"
+            android:summary="@string/pref_summary_trend_location_world"
+            android:title="@string/pref_title_trend_location"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/pref_key_include_hashtags"
+            android:title="@string/pref_title_include_hashtags"/>
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/preference_category_title_account">
         <Preference
             android:key="@string/pref_key_log_out"
@@ -8,11 +19,11 @@
     <PreferenceCategory android:title="@string/preference_category_title_about">
         <Preference
             android:key="@string/pref_key_about_the_author"
-            android:title="@string/pref_title_about_the_author"
-            android:summary="@string/pref_summary_about_the_author"/>
+            android:summary="@string/pref_summary_about_the_author"
+            android:title="@string/pref_title_about_the_author"/>
         <Preference
             android:key="@string/pref_key_see_the_source"
-            android:title="@string/pref_title_see_the_source"
-            android:summary="@string/pref_summary_see_the_source"/>
+            android:summary="@string/pref_summary_see_the_source"
+            android:title="@string/pref_title_see_the_source"/>
     </PreferenceCategory>
 </PreferenceScreen>

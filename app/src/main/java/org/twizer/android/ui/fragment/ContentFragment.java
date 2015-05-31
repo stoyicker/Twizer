@@ -78,10 +78,15 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
     private void setupTweetView(final NiceLoadTweetView niceLoadTweetView) {
         niceLoadTweetView.setErrorListener(this);
+        final String defaultTweetId;
 
-        final Long tweetId = PreferenceAssistant.readSharedLong(mContext, PreferenceAssistant.PREF_LAST_TWEET_ID, -1L);
+        final String tweetId = PreferenceAssistant.readSharedString(mContext, mContext.getString(R.string.pref_key_last_tweet_id), defaultTweetId = mContext.getString(R.string.inital_tweet_id));
 
-        niceLoadTweetView.loadTweet(tweetId);
+        try {
+            niceLoadTweetView.loadTweet(Long.parseLong(tweetId));
+        } catch (NumberFormatException ex) {
+            niceLoadTweetView.loadTweet(Long.parseLong(defaultTweetId));
+        }
     }
 
     @Override
@@ -138,9 +143,15 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
     @Override
     public void onErrorViewClick() {
-        //TODO This has to be a brand new, DIFFERENT tweet
-        final Long tweetId = PreferenceAssistant.readSharedLong(mContext, PreferenceAssistant.PREF_LAST_TWEET_ID, -1L);
+        final String defaultTweetId;
 
-        mNiceLoadTweetView.loadTweet(tweetId);
+        //TODO This has to be a brand new, DIFFERENT tweet
+        final String tweetId = PreferenceAssistant.readSharedString(mContext, mContext.getString(R.string.pref_key_last_tweet_id), defaultTweetId = mContext.getString(R.string.inital_tweet_id));
+
+        try {
+            mNiceLoadTweetView.loadTweet(Long.parseLong(tweetId));
+        } catch (NumberFormatException ex) {
+            mNiceLoadTweetView.loadTweet(Long.parseLong(defaultTweetId));
+        }
     }
 }

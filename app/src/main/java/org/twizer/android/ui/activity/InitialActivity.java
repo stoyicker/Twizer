@@ -10,7 +10,6 @@ import com.twitter.sdk.android.Twitter;
 
 import org.twizer.android.R;
 import org.twizer.android.io.files.FileOperations;
-import org.twizer.android.io.prefs.PreferenceAssistant;
 
 import java.io.File;
 
@@ -26,14 +25,7 @@ public final class InitialActivity extends DescribedActivity {
         final Context appContext = getApplicationContext();
 
         flushCacheIfNecessary(appContext);
-        setInitialTweet(appContext);
         start(appContext);
-    }
-
-    private void setInitialTweet(final Context context) {
-        if (PreferenceAssistant.readSharedLong(context, PreferenceAssistant.PREF_LAST_TWEET_ID, -1L) == -1L) {
-            PreferenceAssistant.writeSharedLong(context, PreferenceAssistant.PREF_LAST_TWEET_ID, Long.parseLong(context.getResources().getString(R.string.inital_tweet_id)));
-        }
     }
 
     private Boolean isUserLoggedIn() {

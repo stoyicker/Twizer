@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v4.app.ActivityCompat;
 
@@ -15,10 +16,12 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.twitter.sdk.android.Twitter;
 
 import org.twizer.android.R;
+import org.twizer.android.io.prefs.PreferenceAssistant;
 import org.twizer.android.ui.activity.LoginActivity;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * @author stoyicker.
@@ -39,6 +42,11 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
         final Activity activity = getActivity();
         final Context context = activity.getApplicationContext();
 
+        findPreference(context.getString(R.string.pref_key_trend_location)).setOnPreferenceClickListener(preference -> {
+            toggleTwitterTrendLocation(context, preference);
+            return Boolean.TRUE;
+        });
+
         findPreference(context.getString(R.string.pref_key_about_the_author))
                 .setOnPreferenceClickListener(preference -> {
                     showMyLinkedInProfile(context);
@@ -57,6 +65,13 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
             return Boolean.FALSE;
         });
 
+    }
+
+    private void toggleTwitterTrendLocation(final Context context, final Preference preference) {
+        final String prefKey, worldId;
+        final Boolean isWorld = Objects.equals(PreferenceAssistant.readSharedString(context, prefKey = context.getString(R.string.pref_key_trend_location), worldId = context.getResources().getString(R.string.trend_location_id_world)), worldId);
+        preference.setSummary(isWorld ? R.string.pref_summary_trend_location_local : R.string.pref_summary_trend_location_world);
+        PreferenceAssistant.writeSharedString(context, prefKey, isWorld ? context.getResources().getString(R.string.trend_location_id_none) : worldId);
     }
 
     private void confirmLogOut(final Activity activity) {
