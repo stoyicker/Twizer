@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import com.quinny898.library.persistentsearch.SearchResult;
 import org.twizer.android.R;
 import org.twizer.android.datamodel.Trend;
 import org.twizer.android.datamodel.TrendResultWrapper;
-import org.twizer.android.io.net.api.twitter.TwitterApiClient;
+import org.twizer.android.io.net.api.twitter.TwitterOAuthorizedApiClient;
 import org.twizer.android.io.prefs.PreferenceAssistant;
 import org.twizer.android.ui.widget.NiceLoadTweetView;
 
@@ -134,7 +135,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
     }
 
     private void initSearchables(final Context context, final SearchBox searchBox) {
-        TwitterApiClient.getContactApiClient(context).asyncGetTrendingTopics(
+        TwitterOAuthorizedApiClient.getContactApiClient(context).asyncGetTrendingTopics(
                 context.getString(R.string.trend_location_id_world),
                 PreferenceAssistant.readSharedBoolean(context, context.getString(R.string
                         .pref_key_include_hashtags), Boolean.TRUE) ? null : context.getString(R.string
@@ -143,15 +144,19 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
                             @Override
                             public void success(final TrendResultWrapper trendResultWrapper, final Response
                                     response) {
+                                Log.d("debug", "Trends loaded successfully"); //TODO Remove this log
                                 final Drawable resultDrawable = mContext.getDrawable(R.drawable.ic_search_suggestion);
                                 final List<Trend> trendList = trendResultWrapper.getTrends();
+
+                                searchBox.clearSearchables();
 
                                 for (Trend trend : trendList)
                                     searchBox.addSearchable(new SearchResult(trend.getName(), resultDrawable));
                             }
 
                             @Override
-                            public void failure(RetrofitError error) {
+                            public void failure(final RetrofitError error) {
+                                Log.e("NETWORKERROR?", error.toString());
                             }
                         });
     }

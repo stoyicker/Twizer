@@ -554,7 +554,7 @@ public class SearchBox extends RelativeLayout {
      * Clear all searchable items
      */
     @SuppressWarnings("unused")
-    public void clearSearchable() {
+    public void clearSearchables() {
         searchables.clear();
     }
 

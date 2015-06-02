@@ -2,6 +2,7 @@ package org.twizer.android.ui.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -64,6 +65,7 @@ public class NiceLoadTweetView extends FrameLayout {
 
             @Override
             public void failure(final TwitterException exception) {
+                Log.e("NETWORK_ERROR?", exception.toString());
                 mTweetView = null;
                 NiceLoadTweetView.this.post(() -> {
                     mProgressView.setVisibility(View.GONE);
