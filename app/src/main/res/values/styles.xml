@@ -11,6 +11,7 @@
         <item name="android:windowSharedElementExitTransition">
             @transition/change_image_transform
         </item>
+        <item name="colorAccent">@color/material_light_blue_500</item>
     </style>
 
     <style name="SettingsTheme" parent="Theme.AppCompat.Light.DarkActionBar">

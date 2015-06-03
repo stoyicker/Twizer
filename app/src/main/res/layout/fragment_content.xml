@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true">
 
     <com.quinny898.library.persistentsearch.SearchBox
         android:id="@+id/searchBox"
@@ -9,7 +11,7 @@
         android:layout_height="wrap_content"
         android:elevation="@dimen/search_box_elevation"/>
 
-    <ScrollView
+    <org.twizer.android.ui.widget.BoundNotifyingScrollView
         android:id="@+id/tweetContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,5 +28,18 @@
             android:id="@+id/niceLoadTweetView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-    </ScrollView>
-</FrameLayout>
+    </org.twizer.android.ui.widget.BoundNotifyingScrollView>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/randomizeFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:gravity="center_horizontal"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_logo_large"
+        android:tint="@android:color/white"
+        app:borderWidth="0dp"/>
+</RelativeLayout>

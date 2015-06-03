@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
@@ -21,6 +21,7 @@ import org.twizer.android.datamodel.Trend;
 import org.twizer.android.datamodel.TrendResultWrapper;
 import org.twizer.android.io.net.api.twitter.TwitterOAuthorizedApiClient;
 import org.twizer.android.io.prefs.PreferenceAssistant;
+import org.twizer.android.ui.widget.BoundNotifyingScrollView;
 import org.twizer.android.ui.widget.NiceLoadTweetView;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ import retrofit.client.Response;
 /**
  * @author stoyicker.
  */
-public final class ContentFragment extends Fragment implements NiceLoadTweetView.IErrorViewListener {
+public final class ContentFragment extends Fragment implements NiceLoadTweetView.IErrorViewListener, BoundNotifyingScrollView.IScrollBoundNotificationListener {
 
     private static final String KEY_IS_SEARCH_BOX_OPEN = "IS_SEARCH_BOX_OPEN";
 
@@ -43,10 +44,13 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
     SearchBox mSearchBox;
 
     @InjectView(R.id.tweetContainer)
-    ViewGroup mTweetContainer;
+    BoundNotifyingScrollView mTweetContainer;
 
     @InjectView(R.id.niceLoadTweetView)
     NiceLoadTweetView mNiceLoadTweetView;
+
+    @InjectView(R.id.randomizeFab)
+    View mRandomizeFab;
 
     Context mContext;
     private Boolean mWasSearchBoxOpen;
@@ -65,7 +69,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         ButterKnife.inject(this, view);
 
         view.post(() -> {
-            final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mTweetContainer.getLayoutParams();
+            final RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mTweetContainer.getLayoutParams();
             layoutParams.setMargins(layoutParams.leftMargin, layoutParams.topMargin + mSearchBox.getHeight(), layoutParams.rightMargin, layoutParams.bottomMargin);
         });
 
@@ -82,6 +86,11 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
         initSearchBox(mContext, mSearchBox);
         setupTweetView(mNiceLoadTweetView);
+        setupFab(mTweetContainer);
+    }
+
+    private void setupFab(final BoundNotifyingScrollView scrollView) {
+        scrollView.setBoundNotificationListener(this);
     }
 
     private void setupTweetView(final NiceLoadTweetView niceLoadTweetView) {
@@ -174,5 +183,19 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         } catch (NumberFormatException ex) {
             mNiceLoadTweetView.loadTweet(Long.parseLong(defaultTweetId));
         }
+    }
+
+    @Override
+    public void onTopBoundReached() {
+    }
+
+    @Override
+    public void onBottomBoundReached() {
+        mRandomizeFab.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onBoundAbandoned() {
+        mRandomizeFab.setVisibility(View.VISIBLE);
     }
 }

@@ -28,8 +28,7 @@
 -keep public class com.android.vending.licensing.ILicensingService
 -dontnote com.android.vending.licensing.ILicensingService
 
-# Explicitly preserve all serialization members. The Serializable interface
-# is only a marker interface, so it wouldn't save them.
+# Explicitly preserve all serialization members. The Serializable interface is only a marker interface, so it wouldn't save them.
 -keepclassmembers class * implements java.io.Serializable {
     static final long serialVersionUID;
     private static final java.io.ObjectStreamField[] serialPersistentFields;
@@ -52,8 +51,7 @@
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
-# Preserve static fields of inner classes of R classes that might be accessed
-# through introspection.
+# Preserve static fields of inner classes of R classes that might be accessed through introspection.
 -keepclassmembers class **.R$* {
   public static <fields>;
 }
@@ -84,10 +82,6 @@
 }
 # Retrolambda
 -dontwarn java.lang.invoke.*
-# Icepick
--dontwarn icepick.**
--keep class **$$Icicle { *; }
--keepnames class * { @icepick.Icicle *;}
 # Twitter Login
 -include proguard-com.twitter.sdk.android.twitter.txt
 # Retrofit and OkHttp
@@ -107,7 +101,5 @@
 # GSON
 -include proguard-com.google.code.gson.txt
 -include proguard-com.jpardogo.android.googleprogressbar.txt
-#Support V4 (for Stetho)
--dontwarn android.support.v4.**
--keep class android.support.v4.** { *; }
--keep interface android.support.v4.* { *; }
+#Design Support
+-dontwarn android.support.design.**
