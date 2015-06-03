@@ -30,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:focusableInTouchMode="true"
             android:paddingBottom="4dp">
 
             <TextView
@@ -47,6 +48,13 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#212121"/>
 
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
+
+
             <EditText
                 android:id="@+id/search"
                 android:layout_width="wrap_content"
@@ -59,12 +67,12 @@
                 android:ems="10"
                 android:imeOptions="actionSearch"
                 android:inputType="textAutoCorrect|textCapSentences"
+                android:nextFocusLeft="@id/search"
+                android:nextFocusUp="@id/search"
                 android:singleLine="true"
                 android:textColor="#212121"
                 android:visibility="gone"
                 tools:ignore="LabelFor">
-
-                <requestFocus/>
             </EditText>
 
             <ImageView

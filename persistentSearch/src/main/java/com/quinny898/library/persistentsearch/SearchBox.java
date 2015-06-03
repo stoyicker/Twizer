@@ -262,7 +262,7 @@ public class SearchBox extends RelativeLayout {
         if (searchOpen) {
             closeSearch();
         } else {
-            openSearch(Boolean.TRUE);
+            openSearch(Boolean.FALSE);
         }
     }
 
@@ -631,7 +631,7 @@ public class SearchBox extends RelativeLayout {
     }
 
 
-    public void openSearch(Boolean openKeyboard) {
+    public void openSearch(final Boolean openKeyboard) {
         this.materialMenu.animateState(IconState.ARROW);
         this.logo.setVisibility(View.GONE);
         this.drawerLogo.setVisibility(View.GONE);
@@ -772,6 +772,16 @@ public class SearchBox extends RelativeLayout {
 
     public Boolean isOpen() {
         return searchOpen;
+    }
+
+    public final ArrayList<String> getSearchableNames() {
+        final ArrayList<String> ret = new ArrayList<>();
+
+        for (final SearchResult x : searchables) {
+            ret.add(x.mTitle);
+        }
+
+        return ret;
     }
 
 

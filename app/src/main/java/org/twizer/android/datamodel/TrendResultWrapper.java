@@ -3,7 +3,6 @@
 package org.twizer.android.datamodel;
 
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -19,71 +18,14 @@ import java.util.List;
  */
 public final class TrendResultWrapper {
 
-    @SerializedName("as_of")
-    @Expose
-    private String asOf;
-    @SerializedName("created_at")
-    @Expose
-    private String createdAt;
-    @Expose
-    private List<Location> locations = new ArrayList<>();
     @Expose
     private List<Trend> trends = new ArrayList<>();
-
-    /**
-     * @return The asOf
-     */
-    public String getAsOf() {
-        return asOf;
-    }
-
-    /**
-     * @param asOf The as_of
-     */
-    public void setAsOf(final String asOf) {
-        this.asOf = asOf;
-    }
-
-    /**
-     * @return The createdAt
-     */
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    /**
-     * @param createdAt The created_at
-     */
-    public void setCreatedAt(final String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    /**
-     * @return The locations
-     */
-    public List<Location> getLocations() {
-        return locations;
-    }
-
-    /**
-     * @param locations The locations
-     */
-    public void setLocations(final List<Location> locations) {
-        this.locations = locations;
-    }
 
     /**
      * @return The trends
      */
     public List<Trend> getTrends() {
         return trends;
-    }
-
-    /**
-     * @param trends The trends
-     */
-    public void setTrends(final List<Trend> trends) {
-        this.trends = trends;
     }
 
     @Override
@@ -93,19 +35,19 @@ public final class TrendResultWrapper {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(asOf).append(createdAt).append(locations).append(trends).toHashCode();
+        return new HashCodeBuilder().append(trends).toHashCode();
     }
 
     @Override
     public boolean equals(final Object other) {
         if (other == this) {
-            return true;
+            return Boolean.TRUE;
         }
-        if ((other instanceof TrendResultWrapper) == false) {
-            return false;
+        if (!(other instanceof TrendResultWrapper)) {
+            return Boolean.FALSE;
         }
         TrendResultWrapper rhs = ((TrendResultWrapper) other);
-        return new EqualsBuilder().append(asOf, rhs.asOf).append(createdAt, rhs.createdAt).append(locations, rhs.locations).append(trends, rhs.trends).isEquals();
+        return new EqualsBuilder().append(trends, rhs.trends).isEquals();
     }
 
 }

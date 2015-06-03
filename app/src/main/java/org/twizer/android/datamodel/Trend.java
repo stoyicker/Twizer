@@ -1,7 +1,6 @@
 package org.twizer.android.datamodel;
 
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -15,30 +14,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public final class Trend {
 
     @Expose
-    private Object events;
-    @Expose
     private String name;
-    @SerializedName("promoted_content")
-    @Expose
-    private Object promotedContent;
-    @Expose
-    private String query;
-    @Expose
-    private String url;
-
-    /**
-     * @return The events
-     */
-    public Object getEvents() {
-        return events;
-    }
-
-    /**
-     * @param events The events
-     */
-    public void setEvents(final Object events) {
-        this.events = events;
-    }
 
     /**
      * @return The name
@@ -54,48 +30,6 @@ public final class Trend {
         this.name = name;
     }
 
-    /**
-     * @return The promotedContent
-     */
-    public Object getPromotedContent() {
-        return promotedContent;
-    }
-
-    /**
-     * @param promotedContent The promoted_content
-     */
-    public void setPromotedContent(final Object promotedContent) {
-        this.promotedContent = promotedContent;
-    }
-
-    /**
-     * @return The query
-     */
-    public String getQuery() {
-        return query;
-    }
-
-    /**
-     * @param query The query
-     */
-    public void setQuery(final String query) {
-        this.query = query;
-    }
-
-    /**
-     * @return The url
-     */
-    public String getUrl() {
-        return url;
-    }
-
-    /**
-     * @param url The url
-     */
-    public void setUrl(final String url) {
-        this.url = url;
-    }
-
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -103,19 +37,19 @@ public final class Trend {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(events).append(name).append(promotedContent).append(query).append(url).toHashCode();
+        return new HashCodeBuilder().append(name).toHashCode();
     }
 
     @Override
     public boolean equals(final Object other) {
         if (other == this) {
-            return true;
+            return Boolean.TRUE;
         }
-        if ((other instanceof Trend) == false) {
-            return false;
+        if (!(other instanceof Trend)) {
+            return Boolean.FALSE;
         }
         Trend rhs = ((Trend) other);
-        return new EqualsBuilder().append(events, rhs.events).append(name, rhs.name).append(promotedContent, rhs.promotedContent).append(query, rhs.query).append(url, rhs.url).isEquals();
+        return new EqualsBuilder().append(name, rhs.name).isEquals();
     }
 
 }

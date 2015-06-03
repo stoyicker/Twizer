@@ -101,5 +101,8 @@
 # GSON
 -include proguard-com.google.code.gson.txt
 -include proguard-com.jpardogo.android.googleprogressbar.txt
-#Design Support
+# Design Support
 -dontwarn android.support.design.**
+
+# Possibly related to the FAB onclick?
+-dontwarn android.support.v4.**

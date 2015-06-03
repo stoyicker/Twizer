@@ -15,8 +15,6 @@ public final class Location {
 
     @Expose
     private String name;
-    @Expose
-    private Integer woeid;
 
     /**
      * @return The name
@@ -32,20 +30,6 @@ public final class Location {
         this.name = name;
     }
 
-    /**
-     * @return The woeid
-     */
-    public Integer getWoeid() {
-        return woeid;
-    }
-
-    /**
-     * @param woeid The woeid
-     */
-    public void setWoeid(final Integer woeid) {
-        this.woeid = woeid;
-    }
-
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -53,19 +37,19 @@ public final class Location {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(name).append(woeid).toHashCode();
+        return new HashCodeBuilder().append(name).toHashCode();
     }
 
     @Override
     public boolean equals(final Object other) {
         if (other == this) {
-            return true;
+            return Boolean.TRUE;
         }
-        if ((other instanceof Location) == false) {
-            return false;
+        if (!(other instanceof Location)) {
+            return Boolean.FALSE;
         }
         Location rhs = ((Location) other);
-        return new EqualsBuilder().append(name, rhs.name).append(woeid, rhs.woeid).isEquals();
+        return new EqualsBuilder().append(name, rhs.name).isEquals();
     }
 
 }

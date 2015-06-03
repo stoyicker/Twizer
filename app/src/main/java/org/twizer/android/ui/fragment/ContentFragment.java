@@ -25,10 +25,12 @@ import org.twizer.android.ui.widget.BoundNotifyingScrollView;
 import org.twizer.android.ui.widget.NiceLoadTweetView;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -39,6 +41,7 @@ import retrofit.client.Response;
 public final class ContentFragment extends Fragment implements NiceLoadTweetView.IErrorViewListener, BoundNotifyingScrollView.IScrollBoundNotificationListener {
 
     private static final String KEY_IS_SEARCH_BOX_OPEN = "IS_SEARCH_BOX_OPEN";
+    private static final String KEY_SEARCHABLES = "SEARCHABLES";
 
     @InjectView(R.id.searchBox)
     SearchBox mSearchBox;
@@ -84,7 +87,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
             mWasSearchBoxOpen = savedInstanceState.getBoolean(KEY_IS_SEARCH_BOX_OPEN);
         }
 
-        initSearchBox(mContext, mSearchBox);
+        initSearchBox(mContext, mSearchBox, savedInstanceState);
         setupTweetView(mNiceLoadTweetView);
         setupFab(mTweetContainer);
     }
@@ -116,9 +119,9 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void initSearchBox(final Context context, final SearchBox searchBox) {
+    private void initSearchBox(final Context context, final SearchBox searchBox, final Bundle savedInstanceState) {
         initSearchVoiceRecognition(searchBox);
-        initSearchables(context, searchBox);
+        initSearchables(context, searchBox, savedInstanceState);
         initSearchBoxVisibility(searchBox);
     }
 
@@ -137,13 +140,27 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         super.onSaveInstanceState(outState);
 
         outState.putBoolean(KEY_IS_SEARCH_BOX_OPEN, mSearchBox.isOpen());
+        outState.putStringArrayList(KEY_SEARCHABLES, mSearchBox.getSearchableNames());
     }
 
     private void initSearchVoiceRecognition(final SearchBox searchBox) {
         searchBox.enableVoiceRecognition(this);
     }
 
-    private void initSearchables(final Context context, final SearchBox searchBox) {
+    private void initSearchables(final Context context, final SearchBox searchBox, final Bundle savedInstanceState) {
+        List<String> searchables = null;
+
+        if (savedInstanceState != null)
+            searchables = savedInstanceState.getStringArrayList(KEY_SEARCHABLES);
+
+        if (searchables != null && !searchables.isEmpty()) {
+            createSearchablesFromStringList(searchables, searchBox);
+        } else {
+            loadSearchablesFromNetwork(context, searchBox);
+        }
+    }
+
+    private void loadSearchablesFromNetwork(final Context context, final SearchBox searchBox) {
         TwitterOAuthorizedApiClient.getInstance().getTrendService().asyncGetTrendingTopics(
                 context.getString(R.string.trend_location_id_world),
                 PreferenceAssistant.readSharedBoolean(context, context.getString(R.string
@@ -155,13 +172,13 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
                                     response) {
                                 if (trendResultWrappers.isEmpty())
                                     return;
-                                final Drawable resultDrawable = mContext.getDrawable(R.drawable.ic_search_suggestion);
                                 final List<Trend> trendList = trendResultWrappers.get(0).getTrends();
+                                final List<String> trendNames = new LinkedList<>();
+                                for (final Trend trend : trendList) {
+                                    trendNames.add(trend.getName());
+                                }
 
-                                searchBox.clearSearchables();
-
-                                for (Trend trend : trendList)
-                                    searchBox.addSearchable(new SearchResult(trend.getName(), resultDrawable));
+                                createSearchablesFromStringList(trendNames, searchBox);
                             }
 
                             @Override
@@ -171,11 +188,25 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
                         });
     }
 
+    private void createSearchablesFromStringList(final List<String> searchableNames, final SearchBox searchBox) {
+        searchBox.clearSearchables();
+
+        final Drawable resultDrawable = mContext.getDrawable(R.drawable.ic_search_suggestion);
+
+        for (final String searchableName : searchableNames)
+            searchBox.addSearchable(new SearchResult(searchableName, resultDrawable));
+    }
+
     @Override
     public void onErrorViewClick() {
+        mRandomizeFab.performClick();
+    }
+
+    @OnClick(R.id.randomizeFab)
+    public void loadNewTweet() {
         final String defaultTweetId;
 
-        //TODO This has to be a brand new, DIFFERENT tweet
+        //TODO This has to be a brand new, DIFFERENT tweet (right now it is just the last one)
         final String tweetId = PreferenceAssistant.readSharedString(mContext, mContext.getString(R.string.pref_key_last_tweet_id), defaultTweetId = mContext.getString(R.string.inital_tweet_id));
 
         try {
