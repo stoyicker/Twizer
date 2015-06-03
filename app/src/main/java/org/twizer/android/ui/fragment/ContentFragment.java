@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.RelativeLayout;
 
 import com.quinny898.library.persistentsearch.SearchBox;
@@ -203,7 +205,16 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
     }
 
     @OnClick(R.id.randomizeFab)
-    public void loadNewTweet() {
+    public void clickRandomizeFab() {
+        final RotateAnimation rotate = new RotateAnimation(180, 360, Animation.RELATIVE_TO_SELF,
+                0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(500);
+        mRandomizeFab.startAnimation(rotate);
+
+        loadNewTweet();
+    }
+
+    private void loadNewTweet() {
         final String defaultTweetId;
 
         //TODO This has to be a brand new, DIFFERENT tweet (right now it is just the last one)
