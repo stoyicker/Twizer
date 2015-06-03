@@ -135,18 +135,19 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
     }
 
     private void initSearchables(final Context context, final SearchBox searchBox) {
-        TwitterOAuthorizedApiClient.getContactApiClient(context).asyncGetTrendingTopics(
+        TwitterOAuthorizedApiClient.getInstance().getTrendService().asyncGetTrendingTopics(
                 context.getString(R.string.trend_location_id_world),
                 PreferenceAssistant.readSharedBoolean(context, context.getString(R.string
                         .pref_key_include_hashtags), Boolean.TRUE) ? null : context.getString(R.string
                         .special_hashtag_exclusion_key), new
-                        Callback<TrendResultWrapper>() {
+                        Callback<List<TrendResultWrapper>>() {
                             @Override
-                            public void success(final TrendResultWrapper trendResultWrapper, final Response
+                            public void success(final List<TrendResultWrapper> trendResultWrappers, final Response
                                     response) {
-                                Log.d("debug", "Trends loaded successfully"); //TODO Remove this log
+                                if (trendResultWrappers.isEmpty())
+                                    return;
                                 final Drawable resultDrawable = mContext.getDrawable(R.drawable.ic_search_suggestion);
-                                final List<Trend> trendList = trendResultWrapper.getTrends();
+                                final List<Trend> trendList = trendResultWrappers.get(0).getTrends();
 
                                 searchBox.clearSearchables();
 
