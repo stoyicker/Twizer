@@ -4,6 +4,7 @@ sudo: false
 # Enable container-based infrastructure ##END##
 android:
   components:
+    - build-tools-22.0.1
     - android-22
     - extra-android-m2repository
     - extra-google-m2repository
