@@ -44,6 +44,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
     private static final String KEY_IS_SEARCH_BOX_OPEN = "IS_SEARCH_BOX_OPEN";
     private static final String KEY_SEARCHABLES = "SEARCHABLES";
+    private static final String KEY_QUERY = "QUERY";
 
     @InjectView(R.id.searchBox)
     SearchBox mSearchBox;
@@ -59,6 +60,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
     Context mContext;
     private Boolean mWasSearchBoxOpen;
+    private String mQuery;
 
     @Override
     public void onAttach(Activity activity) {
@@ -87,6 +89,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
         if (savedInstanceState != null) {
             mWasSearchBoxOpen = savedInstanceState.getBoolean(KEY_IS_SEARCH_BOX_OPEN);
+            mQuery = savedInstanceState.getString(KEY_QUERY);
         }
 
         initSearchBox(mContext, mSearchBox, savedInstanceState);
@@ -125,13 +128,44 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         initSearchVoiceRecognition(searchBox);
         initSearchables(context, searchBox, savedInstanceState);
         initSearchBoxVisibility(searchBox);
+        initSearchBoxListener(searchBox);
+    }
+
+    private void initSearchBoxListener(final SearchBox searchBox) {
+        searchBox.setSearchListener(new SearchBox.SearchListener() {
+            @Override
+            public void onSearchOpened() {
+
+            }
+
+            @Override
+            public void onSearchCleared() {
+
+            }
+
+            @Override
+            public void onSearchClosed() {
+
+            }
+
+            @Override
+            public void onSearchTermChanged() {
+
+            }
+
+            @Override
+            public void onSearch(final String result) {
+                mQuery = result;
+                mRandomizeFab.performClick();
+            }
+        });
     }
 
     private void initSearchBoxVisibility(final SearchBox searchBox) {
         if (mWasSearchBoxOpen != null)
             searchBox.post(() -> {
                 if (mWasSearchBoxOpen)
-                    searchBox.openSearch(Boolean.FALSE);
+                    searchBox.openSearch(searchBox.getSearchables().isEmpty());
                 else
                     searchBox.mockSearch();
             });
@@ -143,6 +177,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
         outState.putBoolean(KEY_IS_SEARCH_BOX_OPEN, mSearchBox.isOpen());
         outState.putStringArrayList(KEY_SEARCHABLES, mSearchBox.getSearchableNames());
+        outState.putString(KEY_QUERY, mQuery);
     }
 
     private void initSearchVoiceRecognition(final SearchBox searchBox) {

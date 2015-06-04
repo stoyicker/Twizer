@@ -262,7 +262,7 @@ public class SearchBox extends RelativeLayout {
         if (searchOpen) {
             closeSearch();
         } else {
-            openSearch(Boolean.FALSE);
+            openSearch(getSearchables().isEmpty());
         }
     }
 
