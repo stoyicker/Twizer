@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -20,13 +19,11 @@ import java.util.Locale;
  */
 public final class DistanceDiscreteSliderPreference extends MaterialDialogPreference {
 
-    private final DiscreteSeekBar mSeekBar;
+    private DiscreteSeekBar mSeekBar;
 
-    @SuppressLint("InflateParams")
     public DistanceDiscreteSliderPreference(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-        mSeekBar = (DiscreteSeekBar) ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.widget_discrete_slider, null, Boolean.FALSE);
-        updateIndicatorAndSummary(context, null);
+        updateIndicatorAndSummary(getContext(), null);
     }
 
     @Override
@@ -35,10 +32,10 @@ public final class DistanceDiscreteSliderPreference extends MaterialDialogPrefer
         showSliderDialog();
     }
 
+    @SuppressLint("InflateParams")
     private void showSliderDialog() {
-        ((ViewGroup) mSeekBar.getParent()).removeView(mSeekBar);
         mDialog = new MaterialDialog.Builder(getContext())
-                .customView(mSeekBar, Boolean.FALSE)
+                .customView(mSeekBar = (DiscreteSeekBar) ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.widget_discrete_slider, null, Boolean.FALSE), Boolean.FALSE)
                 .negativeText(android.R.string.cancel)
                 .positiveText(android.R.string.ok)
                 .callback(new MaterialDialog.ButtonCallback() {
@@ -61,6 +58,7 @@ public final class DistanceDiscreteSliderPreference extends MaterialDialogPrefer
         final String newFormatter = context.getResources().getStringArray(R.array.search_distance_unit_formatters)[index];
 
         this.setSummary(String.format(Locale.ENGLISH, newFormatter, PreferenceAssistant.readSharedInteger(context, context.getString(R.string.pref_key_search_radius), context.getResources().getInteger(R.integer.search_radius_lower_cap))));
-        mSeekBar.setIndicatorFormatter(newFormatter);
+        if (mSeekBar != null)
+            mSeekBar.setIndicatorFormatter(newFormatter);
     }
 }

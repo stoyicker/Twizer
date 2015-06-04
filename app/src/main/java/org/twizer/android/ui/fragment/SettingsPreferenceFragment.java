@@ -11,6 +11,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 import org.twizer.android.R;
+import org.twizer.android.io.preference.PreferenceAssistant;
 import org.twizer.android.io.preference.widget.DistanceDiscreteSliderPreference;
 import org.twizer.android.io.preference.widget.LogOutPreference;
 import org.twizer.android.io.preference.widget.MaterialDialogPreference;
@@ -24,6 +25,7 @@ import java.util.Locale;
 public final class SettingsPreferenceFragment extends PreferenceFragment {
 
     private MaterialDialogPreference mDistanceRadiusPreference, mLogOutPreference;
+    private Preference mDistanceUnitPreference;
 
     @Override
     public void onAttach(final Activity activity) {
@@ -39,24 +41,19 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
         final Activity activity = getActivity();
         final Context context = activity.getApplicationContext();
 
-        final Preference distanceUnitPreference;
-
         mDistanceRadiusPreference = (MaterialDialogPreference) findPreference(context.getString(R.string
                 .pref_key_search_radius));
-        distanceUnitPreference = findPreference(context.getString(R.string
+        mDistanceUnitPreference = findPreference(context.getString(R.string
                 .pref_key_search_distance_unit));
 
-        distanceUnitPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+        mDistanceUnitPreference.setOnPreferenceChangeListener((preference, newValue) -> {
             ((DistanceDiscreteSliderPreference) mDistanceRadiusPreference).updateIndicatorAndSummary(context, Integer.parseInt((String) newValue));
 
             return Boolean.TRUE;
         });
 
         findPreference(context.getString(R.string.pref_key_search_type_nearby)).setOnPreferenceChangeListener((preference, newValue) -> {
-            final Boolean isNearbyOnlyModeEnabled = (Boolean) newValue;
-
-            mDistanceRadiusPreference.setEnabled(isNearbyOnlyModeEnabled);
-            distanceUnitPreference.setEnabled(isNearbyOnlyModeEnabled);
+            updateSearchPreferencesEnabledStatus((Boolean) newValue);
 
             return Boolean.TRUE;
         });
@@ -77,6 +74,13 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
         mLogOutPreference = (MaterialDialogPreference) findPreference(context.getString(R.string.pref_key_log_out));
         ((LogOutPreference) mLogOutPreference).setProvidedActivity(getActivity());
 
+        updateSearchPreferencesEnabledStatus(PreferenceAssistant.readSharedBoolean(context, context.getString(R.string.pref_key_search_type_nearby), context.getResources().getBoolean(R.bool.pref_default_search_type_nearby)));
+
+    }
+
+    private void updateSearchPreferencesEnabledStatus(final Boolean isNearbyOnlyModeEnabled) {
+        mDistanceRadiusPreference.setEnabled(isNearbyOnlyModeEnabled);
+        mDistanceUnitPreference.setEnabled(isNearbyOnlyModeEnabled);
     }
 
     @Override
