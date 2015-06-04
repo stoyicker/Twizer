@@ -206,7 +206,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
     @OnClick(R.id.randomizeFab)
     public void clickRandomizeFab() {
-        final RotateAnimation rotate = new RotateAnimation(180, 360, Animation.RELATIVE_TO_SELF,
+        final RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF,
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(500);
         mRandomizeFab.startAnimation(rotate);
