@@ -5,13 +5,16 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
 import android.widget.RelativeLayout;
 
@@ -19,10 +22,11 @@ import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 
 import org.twizer.android.R;
-import org.twizer.android.datamodel.Trend;
 import org.twizer.android.datamodel.TrendResultWrapper;
+import org.twizer.android.datamodel.TrendWrapper;
 import org.twizer.android.io.net.api.twitter.TwitterOAuthorizedApiClient;
-import org.twizer.android.io.prefs.PreferenceAssistant;
+import org.twizer.android.io.net.geo.CasualLocationProvider;
+import org.twizer.android.io.preference.PreferenceAssistant;
 import org.twizer.android.ui.widget.BoundNotifyingScrollView;
 import org.twizer.android.ui.widget.NiceLoadTweetView;
 
@@ -44,7 +48,6 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
     private static final String KEY_IS_SEARCH_BOX_OPEN = "IS_SEARCH_BOX_OPEN";
     private static final String KEY_SEARCHABLES = "SEARCHABLES";
-    private static final String KEY_QUERY = "QUERY";
 
     @InjectView(R.id.searchBox)
     SearchBox mSearchBox;
@@ -60,7 +63,6 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
     Context mContext;
     private Boolean mWasSearchBoxOpen;
-    private String mQuery;
 
     @Override
     public void onAttach(Activity activity) {
@@ -89,7 +91,6 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
         if (savedInstanceState != null) {
             mWasSearchBoxOpen = savedInstanceState.getBoolean(KEY_IS_SEARCH_BOX_OPEN);
-            mQuery = savedInstanceState.getString(KEY_QUERY);
         }
 
         initSearchBox(mContext, mSearchBox, savedInstanceState);
@@ -155,7 +156,6 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
             @Override
             public void onSearch(final String result) {
-                mQuery = result;
                 mRandomizeFab.performClick();
             }
         });
@@ -177,7 +177,6 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
         outState.putBoolean(KEY_IS_SEARCH_BOX_OPEN, mSearchBox.isOpen());
         outState.putStringArrayList(KEY_SEARCHABLES, mSearchBox.getSearchableNames());
-        outState.putString(KEY_QUERY, mQuery);
     }
 
     private void initSearchVoiceRecognition(final SearchBox searchBox) {
@@ -209,9 +208,9 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
                                     response) {
                                 if (trendResultWrappers.isEmpty())
                                     return;
-                                final List<Trend> trendList = trendResultWrappers.get(0).getTrends();
+                                final List<TrendWrapper> trendList = trendResultWrappers.get(0).getTrends();
                                 final List<String> trendNames = new LinkedList<>();
-                                for (final Trend trend : trendList) {
+                                for (final TrendWrapper trend : trendList) {
                                     trendNames.add(trend.getName());
                                 }
 
@@ -241,25 +240,47 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
     @OnClick(R.id.randomizeFab)
     public void clickRandomizeFab() {
-        loadNewTweet();
-
-        final RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF,
-                0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        rotate.setDuration(500);
-        mRandomizeFab.startAnimation(rotate);
+        if (loadNewTweet()) {
+            final RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF,
+                    0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            rotate.setDuration(500);
+            mRandomizeFab.startAnimation(rotate);
+        } else {
+            final Animation shake = AnimationUtils.loadAnimation(mContext, R.anim.shake);
+            mSearchBox.startAnimation(shake);
+        }
     }
 
-    private void loadNewTweet() {
-        final String defaultTweetId;
+    private Boolean loadNewTweet() {
+        if (TextUtils.isEmpty(mSearchBox.getSearchText()))
+            return Boolean.FALSE;
 
-        //TODO This has to be a brand new, DIFFERENT tweet (right now it is just the last one)
-        final String tweetId = PreferenceAssistant.readSharedString(mContext, mContext.getString(R.string.pref_key_last_tweet_id), defaultTweetId = mContext.getString(R.string.inital_tweet_id));
-
-        try {
-            mNiceLoadTweetView.loadTweet(Long.parseLong(tweetId));
-        } catch (NumberFormatException ex) {
-            mNiceLoadTweetView.loadTweet(Long.parseLong(defaultTweetId));
+        Location location = null;
+        if (PreferenceAssistant.readSharedBoolean(mContext, mContext.getString(R.string.pref_key_search_type_nearby), Boolean.TRUE)) {
+            location = CasualLocationProvider.getInstance(mContext).getLastKnownLocation();
         }
+
+        performSearchAndLoadTweet(location);
+
+        return Boolean.TRUE;
+    }
+
+    private void performSearchAndLoadTweet(final Location coordinates) {
+//        Geocode geocode = null;
+//        if (coordinates != null)
+//            geocode = new Geocode(coordinates.getLatitude(), coordinates.getLongitude(), /*radius*/, Geocode.Distance.KILOMETERS || Geocode.Distance.MILES);
+
+//        TwitterOAuthorizedApiClient.getInstance().getSearchService().tweets(mSearchBox.getSearchText(), geocode, null, null, mContext.getString(R.string.tweet_search_result_type_popular, null, null, null, null, null));
+        //TODO This has to be a brand new, DIFFERENT tweet (right now it is just the last one)
+//        String tweetId = PreferenceAssistant.readSharedString(mContext, mContext.getString(R.string.pref_key_last_tweet_id), );
+
+//        try {
+//            mNiceLoadTweetView.loadTweet(Long.parseLong(tweetId));
+//        } catch (NumberFormatException ex) {
+//            mNiceLoadTweetView.loadTweet(Long.parseLong(tweetId = defaultTweetId));
+//        }
+//
+//        PreferenceAssistant.writeSharedString(mContext, mContext.getString(R.string.pref_key_last_tweet_id), tweetId);
     }
 
     @Override

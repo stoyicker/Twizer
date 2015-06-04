@@ -11,7 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  *
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
-public final class Location {
+public final class TrendWrapper {
 
     @Expose
     private String name;
@@ -45,10 +45,10 @@ public final class Location {
         if (other == this) {
             return Boolean.TRUE;
         }
-        if (!(other instanceof Location)) {
+        if (!(other instanceof TrendWrapper)) {
             return Boolean.FALSE;
         }
-        Location rhs = ((Location) other);
+        TrendWrapper rhs = ((TrendWrapper) other);
         return new EqualsBuilder().append(name, rhs.name).isEquals();
     }
 

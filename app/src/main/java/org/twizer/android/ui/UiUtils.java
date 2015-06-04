@@ -17,7 +17,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import org.twizer.android.R;
 
 /**
- * @author stoyicker.
+ * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
 public abstract class UiUtils {
 

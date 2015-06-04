@@ -1,7 +1,6 @@
 package org.twizer.android.ui.fragment;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,14 +9,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.support.v4.app.ActivityCompat;
-
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.twitter.sdk.android.Twitter;
 
 import org.twizer.android.R;
-import org.twizer.android.io.prefs.PreferenceAssistant;
-import org.twizer.android.ui.activity.LoginActivity;
+import org.twizer.android.io.preference.widget.DistanceDiscreteSliderPreference;
+import org.twizer.android.io.preference.widget.LogOutPreference;
+import org.twizer.android.io.preference.widget.MaterialDialogPreference;
 
 import java.util.List;
 import java.util.Locale;
@@ -26,6 +22,8 @@ import java.util.Locale;
  * @author stoyicker.
  */
 public final class SettingsPreferenceFragment extends PreferenceFragment {
+
+    private MaterialDialogPreference mDistanceRadiusPreference, mLogOutPreference;
 
     @Override
     public void onAttach(final Activity activity) {
@@ -41,6 +39,28 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
         final Activity activity = getActivity();
         final Context context = activity.getApplicationContext();
 
+        final Preference distanceUnitPreference;
+
+        mDistanceRadiusPreference = (MaterialDialogPreference) findPreference(context.getString(R.string
+                .pref_key_search_radius));
+        distanceUnitPreference = findPreference(context.getString(R.string
+                .pref_key_search_distance_unit));
+
+        distanceUnitPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            ((DistanceDiscreteSliderPreference) mDistanceRadiusPreference).updateIndicatorAndSummary(context, Integer.parseInt((String) newValue));
+
+            return Boolean.TRUE;
+        });
+
+        findPreference(context.getString(R.string.pref_key_search_type_nearby)).setOnPreferenceChangeListener((preference, newValue) -> {
+            final Boolean isNearbyOnlyModeEnabled = (Boolean) newValue;
+
+            mDistanceRadiusPreference.setEnabled(isNearbyOnlyModeEnabled);
+            distanceUnitPreference.setEnabled(isNearbyOnlyModeEnabled);
+
+            return Boolean.TRUE;
+        });
+
         findPreference(context.getString(R.string.pref_key_about_the_author))
                 .setOnPreferenceClickListener(preference -> {
                     showMyLinkedInProfile(context);
@@ -54,36 +74,16 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
                 });
 
 
-        findPreference(context.getString(R.string.pref_key_log_out)).setOnPreferenceClickListener(preference -> {
-            confirmLogOut(activity);
-            return Boolean.FALSE;
-        });
+        mLogOutPreference = (MaterialDialogPreference) findPreference(context.getString(R.string.pref_key_log_out));
+        ((LogOutPreference) mLogOutPreference).setProvidedActivity(getActivity());
 
     }
 
-    private void confirmLogOut(final Activity activity) {
-        new MaterialDialog.Builder(activity)
-                .content(R.string.confirm_log_out)
-                .negativeText(android.R.string.cancel)
-                .positiveText(R.string.pref_title_log_out)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(final MaterialDialog dialog) {
-                        logOut(activity);
-                    }
-                })
-                .autoDismiss(Boolean.TRUE)
-                .show();
-    }
-
-    private void logOut(final Activity activity) {
-        Twitter.getSessionManager().clearActiveSession();
-        Twitter.logOut();
-        final Intent intent = new Intent(activity.getApplicationContext(), LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        ActivityCompat.finishAfterTransition(activity);
-        //noinspection unchecked
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+    @Override
+    public void onPause() {
+        mDistanceRadiusPreference.dismissDialog();
+        mLogOutPreference.dismissDialog();
+        super.onPause();
     }
 
     private void showGitHubRepository(final Context context) {

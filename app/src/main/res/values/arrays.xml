@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_distance_units_values">
+        <item>@string/search_distance_unit_mi_value</item>
+        <item>@string/search_distance_unit_km_value</item>
+    </string-array>
+    <string-array name="search_distance_units">
+        <item>@string/search_distance_unit_mi</item>
+        <item>@string/search_distance_unit_km</item>
+    </string-array>
+    <string-array name="search_distance_unit_formatters">
+        <item>@string/discrete_slider_formatter_miles</item>
+        <item>@string/discrete_slider_formatter_kilometers</item>
+    </string-array>
+</resources>

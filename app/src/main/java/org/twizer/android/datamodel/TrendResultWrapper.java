@@ -19,12 +19,12 @@ import java.util.List;
 public final class TrendResultWrapper {
 
     @Expose
-    private List<Trend> trends = new ArrayList<>();
+    private List<TrendWrapper> trends = new ArrayList<>();
 
     /**
      * @return The trends
      */
-    public List<Trend> getTrends() {
+    public List<TrendWrapper> getTrends() {
         return trends;
     }
 

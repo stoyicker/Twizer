@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:dsb_indicatorColor="?attr/colorAccent"
+    app:dsb_indicatorFormatter="@string/discrete_slider_formatter_kilometers"
+    app:dsb_max="@integer/search_radius_upper_cap"
+    app:dsb_min="@integer/search_radius_lower_cap"
+    app:dsb_progressColor="?attr/colorAccent"
+    app:dsb_trackColor="?attr/colorAccent"/>
+    <!-- Setting the indicatorFormatter to the largest choice is a workaround for https://github.com/AnderWeb/discreteSeekBar/issues/32 -->

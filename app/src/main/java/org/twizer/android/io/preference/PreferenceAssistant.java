@@ -1,4 +1,4 @@
-package org.twizer.android.io.prefs;
+package org.twizer.android.io.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,11 +10,16 @@ import android.support.annotation.NonNull;
  */
 public abstract class PreferenceAssistant {
 
-    public static void writeSharedString(final Context ctx, @NonNull final String settingName, final String settingValue) {
+    public static void writeSharedInteger(final Context ctx, @NonNull final String settingName, final Integer settingValue) {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
         final SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(settingName, settingValue);
+        editor.putInt(settingName, settingValue);
         editor.apply();
+    }
+
+    public static Integer readSharedInteger(final Context ctx, @NonNull final String settingName, final Integer defaultValue) {
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return sharedPref.getInt(settingName, defaultValue);
     }
 
     public static String readSharedString(final Context ctx, @NonNull final String settingName, final String defaultValue) {

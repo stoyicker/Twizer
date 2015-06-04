@@ -9,7 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import com.twitter.sdk.android.Twitter;
 
 import org.twizer.android.R;
-import org.twizer.android.io.files.FileOperations;
+import org.twizer.android.io.file.FileOperations;
 
 import java.io.File;
 

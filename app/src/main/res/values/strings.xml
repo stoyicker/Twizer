@@ -16,7 +16,7 @@
     <string name="about_the_author_link" translatable="false">https://www.linkedin
         .com/in/jorgediazbenitosoriano</string>
     <string name="author_linkedin_id" translatable="false">169653526</string>
-    <string name="linkedin_intent_pattern" translatable="false">linkedin://profile/%s</string>
+    <string name="linkedin_intent_pattern" formatted="false" translatable="false">linkedin://profile/%s</string>
     <string name="github_repository_url" translatable="false">https://github.com/Stoyicker/Twizer</string>
     <string name="fragment_tag_twitter_login" translatable="false">fragment_tag_twitter_login</string>
     <string name="error_msg_login">Could not login.</string>
@@ -29,4 +29,20 @@
     <string name="pref_key_last_tweet_id">key_last_tweet_id</string>
     <string name="special_hashtag_exclusion_key" translatable="false">hashtag</string>
     <string name="trend_location_id_world">1</string>
+    <string name="tweet_search_result_type_popular">popular</string>
+    <string name="location_template" formatted="false" translatable="false">%s,%s</string>
+    <string name="preference_category_title_search">SEARCH</string>
+    <string name="pref_key_search_distance_unit">key_search_distance_unit</string>
+    <string name="pref_key_search_radius">key_search_radius</string>
+    <string name="pref_title_search_distance_unit">Distance unit</string>
+    <string name="search_distance_unit_km">Kilometers</string>
+    <string name="search_distance_unit_mi">Miles</string>
+    <string name="pref_title_search_radius">Distance</string>
+    <string name="pref_key_search_type_nearby">key_search_type_nearby</string>
+    <string name="pref_title_search_type_nearby">Near me only</string>
+    <string name="discrete_slider_formatter_kilometers" formatted="false" translatable="false">%skm.</string>
+    <string name="discrete_slider_formatter_miles" formatted="false" translatable="false">%smi.</string>
+    <string name="default_search_distance_unit_value">1</string>
+    <string name="search_distance_unit_mi_value">0</string>
+    <string name="search_distance_unit_km_value">1</string>
 </resources>
