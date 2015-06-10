@@ -94,6 +94,7 @@ android {
 }
 
 repositories {
+    maven { url 'https://dl.bintray.com/drummer-aidan/maven' }
     maven { url 'https://maven.fabric.io/public' }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     maven { url "https://jitpack.io" }
@@ -123,6 +124,6 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.4'
 
     compile 'com.jpardogo.googleprogressbar:library:1.1.0'
-    compile 'com.afollestad:material-dialogs:0.7.2.8'
+    compile 'com.afollestad:material-dialogs:0.7.5.5'
     compile 'org.adw.library:discrete-seekbar:1.0.0'
 }
