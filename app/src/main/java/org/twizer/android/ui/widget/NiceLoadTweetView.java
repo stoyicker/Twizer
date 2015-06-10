@@ -65,7 +65,7 @@ public class NiceLoadTweetView extends FrameLayout {
 
             @Override
             public void failure(final TwitterException exception) {
-                Log.e("NETWORK_ERROR?", exception.toString());
+                Log.e("ERROR", exception.getMessage());
                 mTweetView = null;
                 NiceLoadTweetView.this.post(() -> {
                     mProgressView.setVisibility(View.GONE);

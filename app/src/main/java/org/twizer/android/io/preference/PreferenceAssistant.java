@@ -17,6 +17,13 @@ public abstract class PreferenceAssistant {
         editor.apply();
     }
 
+    public static void writeSharedString(final Context ctx, @NonNull final String settingName, final String settingValue) {
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
+        final SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(settingName, settingValue);
+        editor.apply();
+    }
+
     public static Integer readSharedInteger(final Context ctx, @NonNull final String settingName, final Integer defaultValue) {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
         return sharedPref.getInt(settingName, defaultValue);

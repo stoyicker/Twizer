@@ -8,4 +8,5 @@
     <integer name="activity_start_delay_millis">100</integer>
     <integer name="search_radius_upper_cap">100</integer>
     <integer name="search_radius_lower_cap">10</integer>
+    <integer name="default_search_radius">10</integer>
 </resources>

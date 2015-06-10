@@ -22,7 +22,7 @@
     <string name="error_msg_login">Could not login.</string>
     <string name="confirm_log_out">Log out?</string>
     <string name="error">Error</string>
-    <string name="inital_tweet_id" translatable="false">602884483973517314</string>
+    <string name="default_tweet_id" translatable="false">602884483973517314</string>
     <string name="twitter_api_endpoint" translatable="false">https://api.twitter.com/1.1</string>
     <string name="pref_title_include_hashtags">Include hashtags</string>
     <string name="preference_category_title_trends">TRENDS</string>

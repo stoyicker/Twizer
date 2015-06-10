@@ -48,7 +48,7 @@ public final class DistanceDiscreteSliderPreference extends MaterialDialogPrefer
                 })
                 .autoDismiss(Boolean.TRUE).build();
 
-        mSeekBar.setProgress(PreferenceAssistant.readSharedInteger(getContext(), DistanceDiscreteSliderPreference.super.getKey(), mSeekBar.getMin()));
+        mSeekBar.setProgress(PreferenceAssistant.readSharedInteger(getContext(), DistanceDiscreteSliderPreference.super.getKey(), getContext().getResources().getInteger(R.integer.default_search_radius)));
 
         mDialog.show();
     }

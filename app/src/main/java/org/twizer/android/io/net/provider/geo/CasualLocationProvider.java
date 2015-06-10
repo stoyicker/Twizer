@@ -1,4 +1,4 @@
-package org.twizer.android.io.net.geo;
+package org.twizer.android.io.net.provider.geo;
 
 import android.content.Context;
 import android.location.Location;
