@@ -26,4 +26,4 @@ before_install:
     - chmod +x ./gradlew
 # Mark Gradle as executable ##END##
 script:
-    - ./gradlew clean assembleStandardTravis
+    - ./gradlew clean assembleStandardDebug

@@ -2,7 +2,6 @@ package org.twizer.android.app;
 
 import android.app.Application;
 
-import com.crashlytics.android.Crashlytics;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
@@ -19,17 +18,12 @@ public class TwizerApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        initCrashlytics();
+        initTwitter();
     }
 
-    private void initCrashlytics() {
+    private void initTwitter() {
         final TwitterAuthConfig authConfig = new TwitterAuthConfig(BuildConfig.TWITTER_CONSUMER_KEY, BuildConfig.TWITTER_CONSUMER_SECRET);
-        Fabric fabricKits;
-        if (BuildConfig.USE_CRASHLYTICS) {
-            fabricKits = new Fabric.Builder(this).kits(new Crashlytics(), new Twitter(authConfig)).debuggable(BuildConfig.DEBUG).build();
-        } else {
-            fabricKits = new Fabric.Builder(this).kits(new Twitter(authConfig)).debuggable(BuildConfig.DEBUG).build();
-        }
+        final Fabric fabricKits = new Fabric.Builder(this).kits(new Twitter(authConfig)).debuggable(BuildConfig.DEBUG).build();
         Fabric.with(fabricKits);
     }
 }
