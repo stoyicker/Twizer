@@ -8,17 +8,17 @@ import org.twizer.android.io.net.api.twitter.service.TrendService;
 /**
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
-public final class TwitterOAuthorizedApiClient extends TwitterApiClient {
+public final class TwitterTrendServiceExtensionApiClient extends TwitterApiClient {
 
     private static final Object LOCK = new Object();
-    private static volatile TwitterOAuthorizedApiClient mInstance;
+    private static volatile TwitterTrendServiceExtensionApiClient mInstance;
 
-    public static TwitterOAuthorizedApiClient getInstance() {
-        TwitterOAuthorizedApiClient ret = mInstance;
+    public static TwitterTrendServiceExtensionApiClient getInstance() {
+        TwitterTrendServiceExtensionApiClient ret = mInstance;
         if (mInstance == null)
             synchronized (LOCK) {
                 if (mInstance == null) {
-                    ret = new TwitterOAuthorizedApiClient();
+                    ret = new TwitterTrendServiceExtensionApiClient();
                     mInstance = ret;
                 }
             }
@@ -26,7 +26,7 @@ public final class TwitterOAuthorizedApiClient extends TwitterApiClient {
         return ret;
     }
 
-    private TwitterOAuthorizedApiClient() {
+    private TwitterTrendServiceExtensionApiClient() {
         super(Twitter.getSessionManager().getActiveSession());
     }
 

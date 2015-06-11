@@ -42,7 +42,12 @@
     <string name="pref_title_search_type_nearby">Near me only</string>
     <string name="discrete_slider_formatter_kilometers" formatted="false" translatable="false">%skm.</string>
     <string name="discrete_slider_formatter_miles" formatted="false" translatable="false">%smi.</string>
-    <string name="default_search_distance_unit_value">1</string>
-    <string name="search_distance_unit_mi_value">0</string>
-    <string name="search_distance_unit_km_value">1</string>
+    <string name="default_search_distance_unit_value" translatable="false">1</string>
+    <string name="search_distance_unit_mi_value" translatable="false">0</string>
+    <string name="search_distance_unit_km_value" translatable="false">1</string>
+    <string name="default_max_tweet_id" translatable="false">0</string>
+    <string name="pref_key_max_tweet_id" translatable="false">key_max_tweet_id
+    </string>
+    <string name="pref_key_last_search_text" translatable="false">key_last_search_text</string>
+    <string name="default_last_search_text" translatable="false"/>
 </resources>

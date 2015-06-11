@@ -375,7 +375,7 @@ public class SearchBox extends RelativeLayout {
      * @param matches Matches
      */
     @SuppressWarnings("unused")
-    public void populateEditText(final ArrayList<String> matches) {
+    public void populateEditText(final List<String> matches) {
         toggleSearch();
         if (matches.isEmpty())
             return;

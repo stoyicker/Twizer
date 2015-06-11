@@ -27,7 +27,7 @@ import com.twitter.sdk.android.core.services.params.Geocode;
 import org.twizer.android.R;
 import org.twizer.android.datamodel.TrendResultWrapper;
 import org.twizer.android.datamodel.TrendWrapper;
-import org.twizer.android.io.net.api.twitter.TwitterOAuthorizedApiClient;
+import org.twizer.android.io.net.api.twitter.TwitterTrendServiceExtensionApiClient;
 import org.twizer.android.io.net.provider.geo.CasualLocationProvider;
 import org.twizer.android.io.net.provider.twitter.TweetProvider;
 import org.twizer.android.io.preference.PreferenceAssistant;
@@ -35,6 +35,7 @@ import org.twizer.android.ui.widget.BoundNotifyingScrollView;
 import org.twizer.android.ui.widget.NiceLoadTweetView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,6 +45,9 @@ import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+//FIXME Why the fuck does rotating make the box behave weird when there are things on it? Also, why does it trigger a search?
+//FIXME Why does the tweet load fail so much? Where are my preferences?
 
 /**
  * @author stoyicker.
@@ -85,6 +89,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         view.post(() -> {
             final RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mTweetContainer.getLayoutParams();
             layoutParams.setMargins(layoutParams.leftMargin, layoutParams.topMargin + mSearchBox.getHeight(), layoutParams.rightMargin, layoutParams.bottomMargin);
+            mSearchBox.populateEditText(Collections.singletonList(PreferenceAssistant.readSharedString(mContext, mContext.getString(R.string.pref_key_last_search_text), mContext.getString(R.string.default_last_search_text))));
         });
 
         return view;
@@ -99,26 +104,17 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
             mTweetIdList = savedInstanceState.getStringArrayList(KEY_TWEET_LIST);
         }
 
+        initTweetView(mNiceLoadTweetView);
         initSearchBox(mContext, mSearchBox, savedInstanceState);
-        setupTweetView(mNiceLoadTweetView);
-        setupFab(mTweetContainer);
+        initFab(mTweetContainer);
     }
 
-    private void setupFab(final BoundNotifyingScrollView scrollView) {
+    private void initFab(final BoundNotifyingScrollView scrollView) {
         scrollView.setBoundNotificationListener(this);
     }
 
-    private void setupTweetView(final NiceLoadTweetView niceLoadTweetView) {
+    private void initTweetView(final NiceLoadTweetView niceLoadTweetView) {
         niceLoadTweetView.setErrorListener(this);
-        final String defaultTweetId;
-
-        final String tweetId = PreferenceAssistant.readSharedString(mContext, mContext.getString(R.string.pref_key_last_tweet_id), defaultTweetId = mContext.getString(R.string.default_tweet_id));
-
-        try {
-            niceLoadTweetView.loadTweet(Long.parseLong(tweetId));
-        } catch (NumberFormatException ex) {
-            niceLoadTweetView.loadTweet(Long.parseLong(defaultTweetId));
-        }
     }
 
     @Override
@@ -162,6 +158,9 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
             @Override
             public void onSearch(final String result) {
+                if (mTweetIdList != null && !mTweetIdList.isEmpty())
+                    mTweetIdList.clear();
+                PreferenceAssistant.writeSharedString(mContext, mContext.getString(R.string.pref_key_last_search_text), mSearchBox.getSearchText());
                 mRandomizeFab.performClick();
             }
         });
@@ -204,7 +203,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
     }
 
     private void loadSearchablesFromNetwork(final Context context, final SearchBox searchBox) {
-        TwitterOAuthorizedApiClient.getInstance().getTrendService().asyncGetTrendingTopics(
+        TwitterTrendServiceExtensionApiClient.getInstance().getTrendService().asyncGetTrendingTopics(
                 context.getString(R.string.trend_location_id_world),
                 PreferenceAssistant.readSharedBoolean(context, context.getString(R.string
                         .pref_key_include_hashtags), Boolean.TRUE) ? null : context.getString(R.string
@@ -282,7 +281,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         final Geocode geocode = coordinates == null ? null :
                 new Geocode(coordinates.getLatitude(), coordinates.getLongitude(), PreferenceAssistant.readSharedInteger(mContext, mContext.getString(R.string.pref_key_search_radius), mContext.getResources().getInteger(R.integer.default_search_radius)), PreferenceAssistant.readSharedString(mContext, mContext.getString(R.string.pref_key_search_distance_unit), mContext.getString(R.string.default_search_distance_unit_value)).contentEquals(mContext.getString(R.string.search_distance_unit_km_value)) ? Geocode.Distance.KILOMETERS : Geocode.Distance.MILES);
 
-        TweetProvider.getTweets(mContext, geocode, mSearchBox.getSearchText(), null, this);
+        TweetProvider.getTweets(mContext, geocode, mSearchBox.getSearchText(), this);
     }
 
     @Override
@@ -311,12 +310,12 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
     }
 
     private void showNextTweet() {
-        String tweetId = mTweetIdList.remove(0);
+        String tweetId;
 
         try {
-            mNiceLoadTweetView.loadTweet(Long.parseLong(tweetId));
-        } catch (NumberFormatException ex) {
-            mNiceLoadTweetView.loadTweet(Long.parseLong(tweetId = mContext.getString(R.string.default_tweet_id)));
+            mNiceLoadTweetView.loadTweet(Long.parseLong(tweetId = mTweetIdList.remove(0)), mRandomizeFab);
+        } catch (NumberFormatException | NullPointerException | IndexOutOfBoundsException ex) {
+            mNiceLoadTweetView.loadTweet(Long.parseLong(tweetId = mContext.getString(R.string.default_tweet_id)), mRandomizeFab);
         }
 
         PreferenceAssistant.writeSharedString(mContext, mContext.getString(R.string.pref_key_last_tweet_id), tweetId);
