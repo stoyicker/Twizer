@@ -9,8 +9,8 @@
     <integer name="search_radius_upper_cap">100</integer>
     <integer name="search_radius_lower_cap">10</integer>
     <integer name="default_search_radius">10</integer>
-    <integer name="max_tweets_per_batch_post_filter">15</integer>
+    <integer name="max_tweets_per_batch_post_filter">65</integer>
     <integer name="max_tweets_per_batch_pre_filter">100</integer>
     <integer name="rotate_fab_duration_millis">500</integer>
-    <integer name="search_interval_millis">6000</integer>
+    <integer name="search_interval_seconds">30</integer>
 </resources>

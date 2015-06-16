@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.TextUtils;
@@ -177,6 +178,9 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
     public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        mCurrentQueryExecutor.shutdownNow();
+        mCurrentQueryExecutor = null;
+
         outState.putStringArrayList(KEY_SEARCHABLES, mSearchBox.getSearchableNames());
         outState.putStringArrayList(KEY_TWEET_LIST, (ArrayList<String>) mTweetIdList);
     }
@@ -276,7 +280,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         animateAndDisableFab();
         final Runnable gatherer = new TweetProviderTask(mContext, geocode, mSearchBox.getSearchText(), this);
         mCurrentQueryExecutor = Executors.newSingleThreadScheduledExecutor();
-        mCurrentQueryExecutor.scheduleAtFixedRate(gatherer, 0L, mContext.getResources().getInteger(R.integer.search_interval_millis), TimeUnit.MILLISECONDS);
+        mCurrentQueryExecutor.scheduleAtFixedRate(gatherer, 0L, mContext.getResources().getInteger(R.integer.search_interval_seconds), TimeUnit.SECONDS);
     }
 
     private void animateAndDisableFab() {
@@ -284,8 +288,25 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         final RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF,
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(mContext.getResources().getInteger(R.integer.rotate_fab_duration_millis));
-        rotate.setRepeatCount(Animation.INFINITE);
+        rotate.setRepeatCount(10);
         rotate.setRepeatMode(Animation.RESTART);
+        rotate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(final Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(final Animation animation) {
+                if (!mRandomizeFab.isEnabled())
+                    mRandomizeFab.setEnabled(Boolean.TRUE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         mRandomizeFab.startAnimation(rotate);
     }
 
@@ -310,6 +331,8 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
             if (mTweetIdList == null)
                 mTweetIdList = new ArrayList<>();
             mTweetIdList.addAll(tweetIds);
+            if (!mTweetIdList.isEmpty())
+                mTweetIdList.notify();
         }
     }
 
@@ -318,7 +341,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         Log.e("ERROR", e.getMessage());
     }
 
-    private void reshowLastTweet() {
+    private synchronized void reshowLastTweet() {
         final String defaultTweetId = mContext.getString(R.string.default_tweet_id);
 
         try {
@@ -328,21 +351,36 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         }
     }
 
-    private void showNextTweet() {
-        String tweetId;
-
+    private synchronized void showNextTweet() {
         if (mCurrentQueryExecutor == null)
             startResultGatheringPeriodicTask();
 
-        if (mTweetIdList.isEmpty())
-            return;
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(final Void... params) {
+                synchronized (mTweetIdList) {
+                    while (mTweetIdList.isEmpty())
+                        try {
+                            mTweetIdList.wait();
+                        } catch (final InterruptedException ignored) {
+                            Log.e("CONCURRENCY_ERROR", ignored.getMessage());
+                        }
+                }
 
-        try {
-            mNiceLoadTweetView.loadTweet(Long.parseLong(tweetId = mTweetIdList.remove(0)), mRandomizeFab);
-        } catch (NumberFormatException | NullPointerException | IndexOutOfBoundsException ex) {
-            mNiceLoadTweetView.loadTweet(Long.parseLong(tweetId = mContext.getString(R.string.default_tweet_id)), mRandomizeFab);
-        }
+                String tweetId;
 
-        PreferenceAssistant.writeSharedString(mContext, mContext.getString(R.string.pref_key_last_tweet_id), tweetId);
+                try {
+                    mNiceLoadTweetView.loadTweet(Long.parseLong(tweetId = mTweetIdList.remove(0)), mRandomizeFab);
+                } catch (NumberFormatException | NullPointerException | IndexOutOfBoundsException ex) {
+                    mNiceLoadTweetView.loadTweet(Long.parseLong(tweetId = mContext.getString(R.string.default_tweet_id)), mRandomizeFab);
+                }
+                return tweetId;
+            }
+
+            @Override
+            protected void onPostExecute(final String tweetId) {
+                PreferenceAssistant.writeSharedString(mContext, mContext.getString(R.string.pref_key_last_tweet_id), tweetId);
+            }
+        }.executeOnExecutor(Executors.newSingleThreadExecutor());
     }
 }

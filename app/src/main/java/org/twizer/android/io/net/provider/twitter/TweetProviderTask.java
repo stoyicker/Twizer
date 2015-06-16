@@ -28,7 +28,7 @@ public final class TweetProviderTask implements Runnable {
     private final String mQuery;
     private final ITweetReceiver mCallback;
 
-    public TweetProviderTask(@NonNull final Context mContext, @Nullable final Geocode mGeocode, @NonNull final String mQuery, @Nullable final ITweetReceiver mCallback) {
+    public TweetProviderTask(@NonNull final Context mContext, @Nullable final Geocode mGeocode, @NonNull final String mQuery, @NonNull final ITweetReceiver mCallback) {
         this.mContext = mContext;
         this.mGeocode = mGeocode;
         this.mQuery = mQuery;
@@ -59,6 +59,7 @@ public final class TweetProviderTask implements Runnable {
 
         sinceId++;
 
+        final Long finalSinceId = sinceId;
         TwitterTrendServiceExtensionApiClient.getInstance().getSearchService().tweets(query, geocode, null, null, context.getString(R.string.tweet_search_result_type_popular), count, null, sinceId, null, null, new Callback<Search>() {
             @Override
             public void success(final Result<Search> result) {
@@ -75,7 +76,8 @@ public final class TweetProviderTask implements Runnable {
                     idList = idList.subList(0, l);
 
                 PreferenceAssistant.writeSharedString(context, context.getString(R.string
-                        .pref_key_max_tweet_id), getMaxTweetId(context, idList));
+                        .pref_key_max_tweet_id), String.valueOf(Math.max(finalSinceId, Long.parseLong
+                        (getMaxTweetId(context, idList)))));
 
                 callback.onTweetsProvided(idList, query);
             }
