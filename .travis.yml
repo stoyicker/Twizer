@@ -20,7 +20,7 @@ before_install:
     - echo "stub key pwd" > twizer.pwd
 # Signature stub ##END##
 # Twitter data stub ##START##
-    - echo "stub twitter data" > app/twitter.properties
+    - echo "stub twitter data" > app/fabric.properties
 # Twitter data stub ##END#
 # Mark Gradle as executable ##START##
     - chmod +x ./gradlew

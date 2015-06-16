@@ -374,14 +374,23 @@ public class SearchBox extends RelativeLayout {
      *
      * @param matches Matches
      */
-    @SuppressWarnings("unused")
-    public void populateEditText(final List<String> matches) {
+    public void populateEditTextAndSearch(final List<String> matches) {
         toggleSearch();
         if (matches.isEmpty())
             return;
         final String text = matches.get(0).trim();
         setSearchText(text);
         search(text);
+    }
+
+    @SuppressWarnings("unused")
+    public void populateEditTextWithoutSearch(final List<String> matches) {
+        toggleSearch();
+        if (matches.isEmpty())
+            return;
+        final String text = matches.get(0).trim();
+        setSearchText(text);
+        toggleSearch();
     }
 
     /**

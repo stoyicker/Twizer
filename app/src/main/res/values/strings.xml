@@ -4,7 +4,7 @@
     <string name="preference_category_title_account">ACCOUNT</string>
     <string name="pref_title_log_out">Log out</string>
     <string name="preference_category_title_about">ABOUT</string>
-    <string name="pref_title_about_the_author">About the author</string>
+    <string name="pref_title_about_the_developer">About the developer</string>
     <string name="pref_title_see_the_source">This app is open-source</string>
     <string name="pref_summary_see_the_source">Fork it!</string>
     <string name="pref_summary_about_the_author" translatable="false">Jorge Antonio Diaz-Benito

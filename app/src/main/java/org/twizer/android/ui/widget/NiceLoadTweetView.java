@@ -47,31 +47,34 @@ public class NiceLoadTweetView extends FrameLayout {
         });
     }
 
-    public void loadTweet(final Long tweetId, final View controlButton) {
-        controlButton.setEnabled(Boolean.FALSE);
-        if (mTweetView != null)
-            removeView(mTweetView);
+    public synchronized void loadTweet(final Long tweetId, final View controlButton) {
         if (mErrorView.getVisibility() != View.GONE)
             mErrorView.setVisibility(View.GONE);
         if (mProgressView.getVisibility() != View.VISIBLE)
             mProgressView.setVisibility(View.VISIBLE);
         TweetUtils.loadTweet(tweetId, new LoadCallback<Tweet>() {
             @Override
-            public void success(final Tweet tweet) {
+            public synchronized void success(final Tweet tweet) {
                 NiceLoadTweetView.this.post(() -> {
                     mErrorView.setVisibility(View.GONE);
+                    if (mTweetView != null)
+                        removeView(mTweetView);
                     NiceLoadTweetView.this.addView(mTweetView = new TweetView(mContext, tweet));
+                    controlButton.clearAnimation();
                     controlButton.setEnabled(Boolean.TRUE);
                 });
             }
 
             @Override
-            public void failure(final TwitterException exception) {
+            public synchronized void failure(final TwitterException exception) {
                 Log.e("ERROR", exception.getMessage());
+                if (mTweetView != null)
+                    removeView(mTweetView);
                 mTweetView = null;
                 NiceLoadTweetView.this.post(() -> {
                     mProgressView.setVisibility(View.GONE);
                     mErrorView.setVisibility(View.VISIBLE);
+                    controlButton.clearAnimation();
                     controlButton.setEnabled(Boolean.TRUE);
                 });
             }

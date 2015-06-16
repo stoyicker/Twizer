@@ -21,7 +21,19 @@ import java.util.List;
 /**
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
-public abstract class TweetProvider {
+public final class TweetProviderTask implements Runnable {
+
+    private final Context mContext;
+    private final Geocode mGeocode;
+    private final String mQuery;
+    private final ITweetReceiver mCallback;
+
+    public TweetProviderTask(@NonNull final Context mContext, @Nullable final Geocode mGeocode, @NonNull final String mQuery, @Nullable final ITweetReceiver mCallback) {
+        this.mContext = mContext;
+        this.mGeocode = mGeocode;
+        this.mQuery = mQuery;
+        this.mCallback = mCallback;
+    }
 
     /**
      * Simplifies usage of <a href="https://dev.twitter.com/rest/reference/get/search/tweets">GET search/tweets | Twitter Developers</a>
@@ -29,9 +41,9 @@ public abstract class TweetProvider {
      * @param context  {@link Context} The context.
      * @param geocode  {@link Geocode} When null, the location is not taken into account.
      * @param query    {@link String} Query to run.
-     * @param callback {@link org.twizer.android.io.net.provider.twitter.TweetProvider.ITweetReceiver} The data handler.
+     * @param callback {@link TweetProviderTask.ITweetReceiver} The data handler.
      */
-    public static void getTweets(@NonNull final Context context, @Nullable final Geocode geocode, final String query, @NonNull final ITweetReceiver callback) {
+    private static void getTweets(@NonNull final Context context, @Nullable final Geocode geocode, final String query, @NonNull final ITweetReceiver callback) {
         final Integer count = context.getResources().getInteger(R.integer
                 .max_tweets_per_batch_pre_filter);
 
@@ -65,7 +77,7 @@ public abstract class TweetProvider {
                 PreferenceAssistant.writeSharedString(context, context.getString(R.string
                         .pref_key_max_tweet_id), getMaxTweetId(context, idList));
 
-                callback.onTweetsProvided(idList);
+                callback.onTweetsProvided(idList, query);
             }
 
             @Override
@@ -85,9 +97,14 @@ public abstract class TweetProvider {
         return maxId;
     }
 
+    @Override
+    public void run() {
+        getTweets(mContext, mGeocode, mQuery, mCallback);
+    }
+
     public interface ITweetReceiver {
 
-        void onTweetsProvided(final List<String> tweetIds);
+        void onTweetsProvided(final List<String> tweetIds, final String initialQuery);
 
         void onFailedToProvideTweets(final TwitterException e);
     }

@@ -3,10 +3,11 @@ local.properties
 .idea
 build
 *.iml
-crashlytics.properties
+fabric.properties
 *.keystore
 *.pwd
 class_files.txt
 mapping.txt
 seeds.txt
 unused.txt
+infer-out

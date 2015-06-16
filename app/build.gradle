@@ -16,9 +16,9 @@ apply plugin: 'me.tatarka.retrolambda'
 
 Properties props = new Properties()
 try {
-    props.load(file('twitter.properties').newDataInputStream())
+    props.load(file('fabric.properties').newDataInputStream())
 } catch (final Exception ignored) {
-    throw new GradleException("Missing twitter.properties, check the twitter.properties file.");
+    throw new GradleException("Missing fabric.properties, check the fabric.properties file.");
 }
 
 android {
@@ -54,7 +54,6 @@ android {
         release {
             buildConfigField "String", "TWITTER_CONSUMER_KEY", "\"${props.getProperty("twitterConsumerKey")}\""
             buildConfigField "String", "TWITTER_CONSUMER_SECRET", "\"${props.getProperty("twitterConsumerSecret")}\""
-            buildConfigField "String", "io.fabric.ApiKey", "\"${props.getProperty("apiKey")}\""
             minifyEnabled true
             proguardFiles 'proguard-rules.pro'
             zipAlignEnabled true
