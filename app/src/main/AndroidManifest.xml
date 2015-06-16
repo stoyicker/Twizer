@@ -45,5 +45,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.twizer.android.ui.activity.MainActivity"/>
         </activity>
+
+        <!-- This is just plain ridiculous... -->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="86e97245af3721940bc1f7a5fff3927950c2ac7c"/>
     </application>
 </manifest>
