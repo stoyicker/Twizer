@@ -57,7 +57,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
     private static final String KEY_SEARCHABLES = "SEARCHABLES";
     private static final String KEY_TWEET_LIST = "TWEET_LIST";
-    private List<String> mTweetIdList;
+    private List<String> mTweetIdList = new ArrayList<>();
 
     @InjectView(R.id.searchBox)
     SearchBox mSearchBox;
@@ -259,9 +259,6 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         if (TextUtils.isEmpty(mSearchBox.getSearchText()))
             return Boolean.FALSE;
 
-        if (mTweetIdList == null)
-            mTweetIdList = new ArrayList<>();
-
         showNextTweet();
 
         return Boolean.TRUE;
@@ -326,13 +323,14 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
 
     @Override
     public synchronized void onTweetsProvided(final List<String> tweetIds, final String query) {
-        final String currentSearchText;
-        if (!TextUtils.isEmpty(query) && !TextUtils.isEmpty(currentSearchText = mSearchBox.getSearchText()) && query.toLowerCase(Locale.ENGLISH).contentEquals(currentSearchText.toLowerCase(Locale.ENGLISH))) {
-            if (mTweetIdList == null)
-                mTweetIdList = new ArrayList<>();
-            mTweetIdList.addAll(tweetIds);
-            if (!mTweetIdList.isEmpty())
-                mTweetIdList.notify();
+        synchronized (mTweetIdList) {
+            final String currentSearchText;
+            if (!TextUtils.isEmpty(query) && !TextUtils.isEmpty(currentSearchText = mSearchBox.getSearchText()) && query.toLowerCase(Locale.ENGLISH).contentEquals(currentSearchText.toLowerCase(Locale.ENGLISH))) {
+                mTweetIdList.addAll(tweetIds);
+
+                if (!mTweetIdList.isEmpty())
+                    mTweetIdList.notify();
+            }
         }
     }
 
@@ -359,7 +357,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
             @Override
             protected String doInBackground(final Void... params) {
                 synchronized (mTweetIdList) {
-                    while (mTweetIdList.isEmpty())
+                    while (mTweetIdList == null || mTweetIdList.isEmpty())
                         try {
                             mTweetIdList.wait();
                         } catch (final InterruptedException ignored) {
