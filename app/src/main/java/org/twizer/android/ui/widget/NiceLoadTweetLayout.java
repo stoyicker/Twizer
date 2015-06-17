@@ -21,7 +21,7 @@ import butterknife.InjectView;
 /**
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
-public class NiceLoadTweetView extends FrameLayout {
+public final class NiceLoadTweetLayout extends FrameLayout {
 
     private Context mContext;
     private View mTweetView;
@@ -34,7 +34,7 @@ public class NiceLoadTweetView extends FrameLayout {
 
     private IErrorViewListener mErrorListener;
 
-    public NiceLoadTweetView(final Context context, final AttributeSet attrs) {
+    public NiceLoadTweetLayout(final Context context, final AttributeSet attrs) {
         super(context, attrs);
 
         mContext = context;
@@ -55,11 +55,11 @@ public class NiceLoadTweetView extends FrameLayout {
         TweetUtils.loadTweet(tweetId, new LoadCallback<Tweet>() {
             @Override
             public synchronized void success(final Tweet tweet) {
-                NiceLoadTweetView.this.post(() -> {
+                NiceLoadTweetLayout.this.post(() -> {
                     mErrorView.setVisibility(View.GONE);
                     if (mTweetView != null)
                         removeView(mTweetView);
-                    NiceLoadTweetView.this.addView(mTweetView = new TweetView(mContext, tweet));
+                    NiceLoadTweetLayout.this.addView(mTweetView = new TweetView(mContext, tweet));
                     controlButton.clearAnimation();
                     controlButton.setEnabled(Boolean.TRUE);
                 });
@@ -71,7 +71,7 @@ public class NiceLoadTweetView extends FrameLayout {
                 if (mTweetView != null)
                     removeView(mTweetView);
                 mTweetView = null;
-                NiceLoadTweetView.this.post(() -> {
+                NiceLoadTweetLayout.this.post(() -> {
                     mProgressView.setVisibility(View.GONE);
                     mErrorView.setVisibility(View.VISIBLE);
                     controlButton.clearAnimation();

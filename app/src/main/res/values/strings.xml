@@ -29,7 +29,7 @@
     <string name="pref_key_last_tweet_id">key_last_tweet_id</string>
     <string name="special_hashtag_exclusion_key" translatable="false">hashtag</string>
     <string name="trend_location_id_world">1</string>
-    <string name="tweet_search_result_type_popular">popular</string>
+    <string name="tweet_search_result_type_mixed" translatable="false">mixed</string>
     <string name="location_template" formatted="false" translatable="false">%s,%s</string>
     <string name="preference_category_title_search">SEARCH</string>
     <string name="pref_key_search_distance_unit">key_search_distance_unit</string>

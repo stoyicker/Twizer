@@ -32,7 +32,7 @@ import org.twizer.android.io.net.provider.geo.CasualLocationProvider;
 import org.twizer.android.io.net.provider.twitter.TweetProviderTask;
 import org.twizer.android.io.preference.PreferenceAssistant;
 import org.twizer.android.ui.widget.BoundNotifyingScrollView;
-import org.twizer.android.ui.widget.NiceLoadTweetView;
+import org.twizer.android.ui.widget.NiceLoadTweetLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,7 +53,7 @@ import retrofit.client.Response;
 /**
  * @author stoyicker.
  */
-public final class ContentFragment extends Fragment implements NiceLoadTweetView.IErrorViewListener, BoundNotifyingScrollView.IScrollBoundNotificationListener, TweetProviderTask.ITweetReceiver {
+public final class ContentFragment extends Fragment implements NiceLoadTweetLayout.IErrorViewListener, BoundNotifyingScrollView.IScrollBoundNotificationListener, TweetProviderTask.ITweetReceiver {
 
     private static final String KEY_SEARCHABLES = "SEARCHABLES";
     private static final String KEY_TWEET_LIST = "TWEET_LIST";
@@ -66,7 +66,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
     BoundNotifyingScrollView mTweetContainer;
 
     @InjectView(R.id.niceLoadTweetView)
-    NiceLoadTweetView mNiceLoadTweetView;
+    NiceLoadTweetLayout mNiceLoadTweetLayout;
 
     @InjectView(R.id.randomizeFab)
     View mRandomizeFab;
@@ -113,7 +113,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
             mTweetIdList = savedInstanceState.getStringArrayList(KEY_TWEET_LIST);
         }
 
-        initTweetView(mNiceLoadTweetView);
+        initTweetView(mNiceLoadTweetLayout);
         initSearchBox(mContext, mSearchBox, savedInstanceState);
         initFab(mTweetContainer);
     }
@@ -122,8 +122,8 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         scrollView.setBoundNotificationListener(this);
     }
 
-    private void initTweetView(final NiceLoadTweetView niceLoadTweetView) {
-        niceLoadTweetView.setErrorListener(this);
+    private void initTweetView(final NiceLoadTweetLayout niceLoadTweetLayout) {
+        niceLoadTweetLayout.setErrorListener(this);
     }
 
     @Override
@@ -178,8 +178,10 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
     public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        mCurrentQueryExecutor.shutdownNow();
-        mCurrentQueryExecutor = null;
+        if (mCurrentQueryExecutor != null) {
+            mCurrentQueryExecutor.shutdownNow();
+            mCurrentQueryExecutor = null;
+        }
 
         outState.putStringArrayList(KEY_SEARCHABLES, mSearchBox.getSearchableNames());
         outState.putStringArrayList(KEY_TWEET_LIST, (ArrayList<String>) mTweetIdList);
@@ -343,9 +345,9 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
         final String defaultTweetId = mContext.getString(R.string.default_tweet_id);
 
         try {
-            mNiceLoadTweetView.loadTweet(Long.parseLong(PreferenceAssistant.readSharedString(mContext, mContext.getString(R.string.pref_key_last_tweet_id), defaultTweetId)), mRandomizeFab);
+            mNiceLoadTweetLayout.loadTweet(Long.parseLong(PreferenceAssistant.readSharedString(mContext, mContext.getString(R.string.pref_key_last_tweet_id), defaultTweetId)), mRandomizeFab);
         } catch (NumberFormatException | NullPointerException | IndexOutOfBoundsException ex) {
-            mNiceLoadTweetView.loadTweet(Long.parseLong(defaultTweetId), mRandomizeFab);
+            mNiceLoadTweetLayout.loadTweet(Long.parseLong(defaultTweetId), mRandomizeFab);
         }
     }
 
@@ -368,9 +370,9 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetView
                 String tweetId;
 
                 try {
-                    mNiceLoadTweetView.loadTweet(Long.parseLong(tweetId = mTweetIdList.remove(0)), mRandomizeFab);
+                    mNiceLoadTweetLayout.loadTweet(Long.parseLong(tweetId = mTweetIdList.remove(0)), mRandomizeFab);
                 } catch (NumberFormatException | NullPointerException | IndexOutOfBoundsException ex) {
-                    mNiceLoadTweetView.loadTweet(Long.parseLong(tweetId = mContext.getString(R.string.default_tweet_id)), mRandomizeFab);
+                    mNiceLoadTweetLayout.loadTweet(Long.parseLong(tweetId = mContext.getString(R.string.default_tweet_id)), mRandomizeFab);
                 }
                 return tweetId;
             }

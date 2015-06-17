@@ -60,7 +60,7 @@ public final class TweetProviderTask implements Runnable {
         sinceId++;
 
         final Long finalSinceId = sinceId;
-        TwitterTrendServiceExtensionApiClient.getInstance().getSearchService().tweets(query, geocode, null, null, context.getString(R.string.tweet_search_result_type_popular), count, null, sinceId, null, null, new Callback<Search>() {
+        TwitterTrendServiceExtensionApiClient.getInstance().getSearchService().tweets(query, geocode, null, null, context.getString(R.string.tweet_search_result_type_mixed), count, null, sinceId, null, null, new Callback<Search>() {
             @Override
             public void success(final Result<Search> result) {
                 final List<Tweet> tweetList = result.data.tweets;

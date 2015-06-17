@@ -9,7 +9,7 @@ import android.widget.ScrollView;
  */
 public final class BoundNotifyingScrollView extends ScrollView {
 
-    private Boolean isScrollable;
+    private Boolean isScrollable, isBoundReached = Boolean.FALSE;
     private IScrollBoundNotificationListener mListener;
 
     public BoundNotifyingScrollView(final Context context) {
@@ -30,14 +30,18 @@ public final class BoundNotifyingScrollView extends ScrollView {
         if (isScrollable == null)
             isScrollable = calculateIsScrollable();
         if (isScrollable) {
-            if (!this.canScrollVertically(1)) {
+            if (isBoundReached && y != oldy) {
+                isBoundReached = Boolean.FALSE;
+                mListener.onBoundAbandoned();
+            }
+            if (!this.canScrollVertically(1) && this.canScrollVertically(-1)) {
+                isBoundReached = Boolean.TRUE;
                 mListener.onBottomBoundReached();
-            } else if (!this.canScrollVertically(-1)) {
+            } else if (!this.canScrollVertically(-1) && this.canScrollVertically(1)) {
+                isBoundReached = Boolean.TRUE;
                 mListener.onTopBoundReached();
             }
-            return;
         }
-        mListener.onBoundAbandoned();
     }
 
     public void setBoundNotificationListener(final IScrollBoundNotificationListener listener) {

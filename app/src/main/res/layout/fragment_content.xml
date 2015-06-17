@@ -24,7 +24,7 @@
         android:requiresFadingEdge="vertical"
         android:scrollbars="vertical">
 
-        <org.twizer.android.ui.widget.NiceLoadTweetView
+        <org.twizer.android.ui.widget.NiceLoadTweetLayout
             android:id="@+id/niceLoadTweetView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
