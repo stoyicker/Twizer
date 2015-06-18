@@ -21,6 +21,7 @@
             android:id="@+id/results"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/card_view">
         </ListView>
@@ -38,10 +39,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/material_menu_button"
+                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="54dp"
                 android:layout_marginStart="54dp"
+                android:layout_toLeftOf="@+id/mic"
                 android:layout_toStartOf="@+id/mic"
                 android:gravity="center_vertical"
                 android:singleLine="true"
@@ -60,8 +64,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/material_menu_button"
+                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                android:layout_marginLeft="64dp"
                 android:layout_marginStart="64dp"
                 android:background="@null"
                 android:ems="10"
@@ -81,8 +87,10 @@
                 android:layout_height="25dp"
                 android:layout_alignBottom="@+id/material_menu_button"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="13dp"
+                android:layout_marginRight="13dp"
                 android:src="@drawable/ic_action_mic"
                 tools:ignore="ContentDescription"/>
 
@@ -90,6 +98,7 @@
                 android:id="@+id/material_menu_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 app:mm_color="#616161"
                 app:mm_strokeWidth="2"
@@ -101,8 +110,11 @@
                 android:layout_height="25dp"
                 android:layout_alignBottom="@+id/material_menu_button"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_toLeftOf="@+id/mic"
                 android:layout_toStartOf="@+id/mic"
                 android:visibility="gone"/>
 
@@ -110,7 +122,9 @@
                 android:id="@+id/drawer_logo"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 tools:ignore="ContentDescription"/>

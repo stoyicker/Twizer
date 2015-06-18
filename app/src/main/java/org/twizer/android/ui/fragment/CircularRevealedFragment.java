@@ -3,6 +3,7 @@ package org.twizer.android.ui.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -32,7 +33,10 @@ public abstract class CircularRevealedFragment extends Fragment {
                                        final int oldLeft, final int oldTop, final int oldRight,
                                        final int oldBottom) {
                 v.removeOnLayoutChangeListener(this);
-                UiUtils.circularRevealView(mContext, v);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    UiUtils.circularRevealView(mContext, v);
+                else
+                    v.setVisibility(View.VISIBLE);
             }
 
         });

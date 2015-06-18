@@ -3,6 +3,7 @@ package org.twizer.android.ui.activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.andexert.ripple.RippleView;
@@ -31,7 +32,12 @@ public final class MainActivity extends DescribedActivity {
     }
 
     private void openSettings() {
-        //noinspection unchecked
-        startActivity(new Intent(mContext, SettingsActivity.class), ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        final Intent intent = new Intent(mContext, SettingsActivity.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            //noinspection unchecked
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        else
+            startActivity(intent);
     }
 }

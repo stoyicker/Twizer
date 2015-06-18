@@ -10,30 +10,22 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with Lollipop Budget. If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <lint>
-    <!--android:supportsRtl is not supported prior to API level 17, but it's not a problem as long
-    as <<x>>Left and <<x>>Right are used where <<x>>Start and <<x>>End -->
     <issue id="UnusedAttribute">
         <ignore path="src/main/AndroidManifest.xml"/>
-    </issue>
-    <!--It's the debug source...-->
-    <issue id="LogConditional">
-        <ignore path="src/debug/*"/>
+        <ignore path="src/main/res/layout/*.xml"/>
+        <ignore path="src/main/res/transition/*.xml"/>
     </issue>
     <issue id="InvalidPackage">
         <ignore path="*/*"/>
     </issue>
-    <!--I am not using an ActionBar.-->
+    <!--I am not using them in an ActionBar-->
     <issue id="IconColors">
         <ignore path="*/ic_action_settings.png"/>
     </issue>
-    <!-- Butterknife should be able to export itself as an id-type resource consumer...-->
+    <!-- Butterknife is not able to export itself as an id-type resource consumer-->
     <issue id="UnusedResources">
         <ignore path="*/*.xml"/>
-    </issue>
-    <!-- Lint what the heck... -->
-    <issue id="UnusedResources">
         <ignore regexp="ic_search_suggestion.png"/>
     </issue>
 </lint>

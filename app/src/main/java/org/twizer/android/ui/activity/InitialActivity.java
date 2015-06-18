@@ -3,6 +3,7 @@ package org.twizer.android.ui.activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
@@ -46,7 +47,10 @@ public final class InitialActivity extends DescribedActivity {
         final Intent intent = new Intent(context, isUserLoggedIn() ? MainActivity.class : LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         ActivityCompat.finishAfterTransition(this);
-        //noinspection unchecked
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            //noinspection unchecked
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        else
+            startActivity(intent);
     }
 }

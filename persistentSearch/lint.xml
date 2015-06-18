@@ -8,4 +8,7 @@
     </issue>
     <issue id="IconDensities" severity="ignore"/>
     <issue id="IconMissingDensityFolder" severity="ignore"/>
+    <issue id="UnusedAttribute">
+        <ignore path="src/main/AndroidManifest.xml"/>
+    </issue>
 </lint>

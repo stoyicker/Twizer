@@ -1,6 +1,7 @@
 package org.twizer.android.ui.activity;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 
 import org.twizer.android.ui.UiUtils;
@@ -14,7 +15,8 @@ public abstract class DescribedActivity extends Activity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UiUtils.setTaskDescription(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            UiUtils.setTaskDescription(this);
     }
 
 }

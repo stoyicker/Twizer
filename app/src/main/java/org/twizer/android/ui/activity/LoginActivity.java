@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -105,8 +106,14 @@ public final class LoginActivity extends DescribedActivity implements TwitterLog
     @Override
     public void onLoginSuccessful() {
         ActivityCompat.finishAfterTransition(this);
-        //noinspection unchecked
-        startActivity(new Intent(mContext, MainActivity.class), ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+
+        final Intent intent = new Intent(mContext, MainActivity.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            //noinspection unchecked
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        else
+            startActivity(intent);
     }
 
     @Override

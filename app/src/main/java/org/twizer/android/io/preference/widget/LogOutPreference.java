@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.util.AttributeSet;
 
@@ -57,8 +58,12 @@ public class LogOutPreference extends MaterialDialogPreference {
         final Intent intent = new Intent(context.getApplicationContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         ActivityCompat.finishAfterTransition(mProvidedActivity);
-        //noinspection unchecked
-        getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mProvidedActivity).toBundle());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            //noinspection unchecked
+            getContext().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(mProvidedActivity).toBundle());
+        else
+            getContext().startActivity(intent);
     }
 
     private void cleanSessionPreferences(final Context context) {

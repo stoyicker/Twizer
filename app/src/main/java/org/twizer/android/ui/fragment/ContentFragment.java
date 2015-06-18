@@ -235,7 +235,9 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetLayo
     private void createSearchablesFromStringList(final List<String> searchableNames, final SearchBox searchBox) {
         searchBox.clearSearchables();
 
-        final Drawable resultDrawable = mContext.getDrawable(R.drawable.ic_search_suggestion);
+        @SuppressWarnings("deprecation")
+        final Drawable resultDrawable = mContext.getResources().getDrawable(R
+                .drawable.ic_search_suggestion);
 
         for (final String searchableName : searchableNames)
             searchBox.addSearchable(new SearchResult(searchableName, resultDrawable));

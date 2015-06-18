@@ -1,5 +1,6 @@
 package org.twizer.android.ui.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
@@ -18,7 +19,8 @@ public final class SettingsActivity extends AppCompatActivity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UiUtils.setTaskDescription(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            UiUtils.setTaskDescription(this);
 
         setContentView(R.layout.activity_settings);
 

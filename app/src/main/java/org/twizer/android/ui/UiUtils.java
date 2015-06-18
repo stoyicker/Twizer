@@ -40,6 +40,7 @@ public abstract class UiUtils {
                 .material_light_blue_500)));
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void circularRevealView(final Context context, final View viewToReveal) {
         final Integer cx = (viewToReveal.getLeft() + viewToReveal.getRight()) / 2,
                 cy = (viewToReveal.getTop() + viewToReveal.getBottom()) / 2;
