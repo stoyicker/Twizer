@@ -93,13 +93,16 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetLayo
         final View view = inflater.inflate(R.layout.fragment_content, container, Boolean.FALSE);
         ButterKnife.inject(this, view);
 
-        view.post(() -> {
-            final RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mTweetContainer.getLayoutParams();
-            layoutParams.setMargins(layoutParams.leftMargin, layoutParams.topMargin + mSearchBox.getHeight(), layoutParams.rightMargin, layoutParams.bottomMargin);
-            final String lastSearchText = PreferenceAssistant.readSharedString(mContext, mContext.getString(R.string.pref_key_last_search_text), mContext.getString(R.string.default_last_search_text));
-            mSearchBox.populateEditTextWithoutSearch(Collections.singletonList(lastSearchText));
-            if (!TextUtils.isEmpty(lastSearchText))
-                startResultGatheringPeriodicTask();
+        view.post(new Runnable() {
+            @Override
+            public void run() {
+                final RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mTweetContainer.getLayoutParams();
+                layoutParams.setMargins(layoutParams.leftMargin, layoutParams.topMargin + mSearchBox.getHeight(), layoutParams.rightMargin, layoutParams.bottomMargin);
+                final String lastSearchText = PreferenceAssistant.readSharedString(mContext, mContext.getString(R.string.pref_key_last_search_text), mContext.getString(R.string.default_last_search_text));
+                mSearchBox.populateEditTextWithoutSearch(Collections.singletonList(lastSearchText));
+                if (!TextUtils.isEmpty(lastSearchText))
+                    startResultGatheringPeriodicTask();
+            }
         });
 
         return view;

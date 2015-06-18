@@ -28,7 +28,12 @@ public final class MainActivity extends DescribedActivity {
 
         mContext = getApplicationContext();
 
-        actionSettings.setOnRippleCompleteListener(rippleView -> MainActivity.this.openSettings());
+        actionSettings.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+            @Override
+            public void onComplete(final RippleView rippleView) {
+                MainActivity.this.openSettings();
+            }
+        });
     }
 
     private void openSettings() {

@@ -46,28 +46,40 @@ public final class SettingsPreferenceFragment extends PreferenceFragment {
         mDistanceUnitPreference = findPreference(context.getString(R.string
                 .pref_key_search_distance_unit));
 
-        mDistanceUnitPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-            ((DistanceDiscreteSliderPreference) mDistanceRadiusPreference).updateIndicatorAndSummary(context, Integer.parseInt((String) newValue));
+        mDistanceUnitPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
+                ((DistanceDiscreteSliderPreference) mDistanceRadiusPreference).updateIndicatorAndSummary(context, Integer.parseInt((String) newValue));
 
-            return Boolean.TRUE;
+                return Boolean.TRUE;
+            }
         });
 
-        findPreference(context.getString(R.string.pref_key_search_type_nearby)).setOnPreferenceChangeListener((preference, newValue) -> {
-            updateSearchPreferencesEnabledStatus((Boolean) newValue);
+        findPreference(context.getString(R.string.pref_key_search_type_nearby)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
+                updateSearchPreferencesEnabledStatus((Boolean) newValue);
 
-            return Boolean.TRUE;
+                return Boolean.TRUE;
+            }
         });
 
         findPreference(context.getString(R.string.pref_key_about_the_author))
-                .setOnPreferenceClickListener(preference -> {
-                    showMyLinkedInProfile(context);
-                    return Boolean.TRUE;
+                .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        showMyLinkedInProfile(context);
+                        return Boolean.TRUE;
+                    }
                 });
 
         findPreference(context.getString(R.string.pref_key_see_the_source))
-                .setOnPreferenceClickListener(preference -> {
-                    showGitHubRepository(context);
-                    return Boolean.TRUE;
+                .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        showGitHubRepository(context);
+                        return Boolean.TRUE;
+                    }
                 });
 
 

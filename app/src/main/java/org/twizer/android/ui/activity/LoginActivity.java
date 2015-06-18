@@ -56,39 +56,44 @@ public final class LoginActivity extends DescribedActivity implements TwitterLog
 
     private void scheduleSplashAwayWithContentReveal(final Fragment contentToReveal, final String fragmentTag) {
         final Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(() -> {
-            final Integer shift = -(UiUtils.getScreenHeight(mContext) - logoView
-                    .getMeasuredHeight()) / 2;
-            final Animation translateAnimation = new TranslateAnimation(Animation
-                    .RELATIVE_TO_SELF, 0, Animation
-                    .RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-                    Animation.ABSOLUTE, shift);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                {
+                    final Integer shift = -(UiUtils.getScreenHeight(mContext) - logoView
+                            .getMeasuredHeight()) / 2;
+                    final Animation translateAnimation = new TranslateAnimation(Animation
+                            .RELATIVE_TO_SELF, 0, Animation
+                            .RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+                            Animation.ABSOLUTE, shift);
 
-            translateAnimation.setDuration(mContext.getResources().getInteger(R.integer
-                    .splash_anim_duration_millis));
-            translateAnimation.setFillAfter(Boolean.TRUE);
-            translateAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
+                    translateAnimation.setDuration(mContext.getResources().getInteger(R.integer
+                            .splash_anim_duration_millis));
+                    translateAnimation.setFillAfter(Boolean.TRUE);
+                    translateAnimation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            final RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)
+                                    bodyGroup.getLayoutParams();
+                            lp.setMargins(0, logoView.getHeight(), 0, 0);
+
+                            bodyGroup.setLayoutParams(lp);
+                            getFragmentManager().beginTransaction().replace(R.id.content_layout,
+                                    contentToReveal, fragmentTag)
+                                    .commitAllowingStateLoss();
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+                        }
+                    });
+                    logoView.startAnimation(translateAnimation);
                 }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    final RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)
-                            bodyGroup.getLayoutParams();
-                    lp.setMargins(0, logoView.getHeight(), 0, 0);
-
-                    bodyGroup.setLayoutParams(lp);
-                    getFragmentManager().beginTransaction().replace(R.id.content_layout,
-                            contentToReveal, fragmentTag)
-                            .commitAllowingStateLoss();
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                }
-            });
-            logoView.startAnimation(translateAnimation);
+            }
         }, mContext.getResources().getInteger(R.integer
                 .splash_delay_millis));
     }

@@ -41,9 +41,12 @@ public final class NiceLoadTweetLayout extends FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.widget_niceloadtweetview, this);
         ButterKnife.inject(this);
 
-        mErrorView.setOnClickListener(v -> {
-            if (mErrorListener != null)
-                mErrorListener.onErrorViewClick();
+        mErrorView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (mErrorListener != null)
+                    mErrorListener.onErrorViewClick();
+            }
         });
     }
 
@@ -55,13 +58,16 @@ public final class NiceLoadTweetLayout extends FrameLayout {
         TweetUtils.loadTweet(tweetId, new LoadCallback<Tweet>() {
             @Override
             public synchronized void success(final Tweet tweet) {
-                NiceLoadTweetLayout.this.post(() -> {
-                    mErrorView.setVisibility(View.GONE);
-                    if (mTweetView != null)
-                        removeView(mTweetView);
-                    NiceLoadTweetLayout.this.addView(mTweetView = new TweetView(mContext, tweet));
-                    controlButton.clearAnimation();
-                    controlButton.setEnabled(Boolean.TRUE);
+                NiceLoadTweetLayout.this.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mErrorView.setVisibility(View.GONE);
+                        if (mTweetView != null)
+                            removeView(mTweetView);
+                        NiceLoadTweetLayout.this.addView(mTweetView = new TweetView(mContext, tweet));
+                        controlButton.clearAnimation();
+                        controlButton.setEnabled(Boolean.TRUE);
+                    }
                 });
             }
 
@@ -71,11 +77,14 @@ public final class NiceLoadTweetLayout extends FrameLayout {
                 if (mTweetView != null)
                     removeView(mTweetView);
                 mTweetView = null;
-                NiceLoadTweetLayout.this.post(() -> {
-                    mProgressView.setVisibility(View.GONE);
-                    mErrorView.setVisibility(View.VISIBLE);
-                    controlButton.clearAnimation();
-                    controlButton.setEnabled(Boolean.TRUE);
+                NiceLoadTweetLayout.this.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mProgressView.setVisibility(View.GONE);
+                        mErrorView.setVisibility(View.VISIBLE);
+                        controlButton.clearAnimation();
+                        controlButton.setEnabled(Boolean.TRUE);
+                    }
                 });
             }
         });
