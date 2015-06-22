@@ -69,5 +69,6 @@ public class LogOutPreference extends MaterialDialogPreference {
     private void cleanSessionPreferences(final Context context) {
         PreferenceAssistant.writeSharedString(context, context.getString(R.string.pref_key_max_tweet_id), context.getString(R.string.default_max_tweet_id));
         PreferenceAssistant.writeSharedString(context, context.getString(R.string.pref_key_last_search_text), context.getString(R.string.default_last_search_text));
+        PreferenceAssistant.writeSharedString(context, context.getString(R.string.pref_key_last_tweet_id), context.getString(R.string.default_tweet_id));
     }
 }
