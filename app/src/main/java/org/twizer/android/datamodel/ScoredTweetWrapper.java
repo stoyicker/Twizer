@@ -28,23 +28,25 @@ public final class ScoredTweetWrapper {
     private Integer calculateScore() {
         Integer currentSum = 0;
 
-        final List<HashtagEntity> hashtags = mTweet.entities.hashtags;
         final List<String> usernames = new ArrayList<>();
         usernames.add(mTweet.user.screenName);
         final List<MentionEntity> mentionEntities = mTweet.entities.userMentions;
-        for (final MentionEntity x : mentionEntities)
-            usernames.add(x.screenName);
+        if (mentionEntities != null)
+            for (final MentionEntity x : mentionEntities)
+                usernames.add(x.screenName);
 
         final SQLiteDAO sqliteDaoInstance = SQLiteDAO.getInstance();
-
-        for (final HashtagEntity hashtag : hashtags)
-            if (sqliteDaoInstance.containsHashtag(hashtag))
-                currentSum += POINTS_PER_HASHTAG_MATCH;
 
         for (final String username : usernames) {
             if (sqliteDaoInstance.containsUsername(username))
                 currentSum += POINTS_PER_USER_MATCH;
         }
+
+        final List<HashtagEntity> hashtags = mTweet.entities.hashtags;
+        if (hashtags != null)
+            for (final HashtagEntity hashtag : hashtags)
+                if (sqliteDaoInstance.containsHashtag(hashtag))
+                    currentSum += POINTS_PER_HASHTAG_MATCH;
 
         return currentSum;
     }
