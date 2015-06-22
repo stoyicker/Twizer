@@ -3,7 +3,7 @@ package org.twizer.android.io.net.api.twitter.service;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.twizer.android.datamodel.TrendResultWrapper;
+import org.twizer.android.datamodel.api.twitter.TrendResult;
 
 import java.util.List;
 
@@ -20,8 +20,8 @@ public interface TrendService {
      *                 for world trends.
      * @param exclude  {@link String} Not required. Setting this equal to hashtags will remove all hashtags from the trends list.
      * @param callback {@link Callback <  TrendResultWrapper  >} The callback to execute when the request is done. Happens on the UI thread.
-     * @see TrendResultWrapper
+     * @see TrendResult
      */
     @GET("/1.1/trends/place.json")
-    void asyncGetTrendingTopics(@Query("id") @NonNull final String id, @Query("exclude") @Nullable final String exclude, @NonNull final Callback<List<TrendResultWrapper>> callback);
+    void asyncGetTrendingTopics(@Query("id") @NonNull final String id, @Query("exclude") @Nullable final String exclude, @NonNull final Callback<List<TrendResult>> callback);
 }

@@ -25,8 +25,8 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.services.params.Geocode;
 
 import org.twizer.android.R;
-import org.twizer.android.datamodel.TrendResultWrapper;
-import org.twizer.android.datamodel.TrendWrapper;
+import org.twizer.android.datamodel.api.twitter.TrendResult;
+import org.twizer.android.datamodel.api.twitter.Trend;
 import org.twizer.android.io.net.api.twitter.TwitterTrendServiceExtensionApiClient;
 import org.twizer.android.io.net.provider.geo.CasualLocationProvider;
 import org.twizer.android.io.net.provider.twitter.TweetProviderTask;
@@ -213,15 +213,15 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetLayo
                 PreferenceAssistant.readSharedBoolean(context, context.getString(R.string
                         .pref_key_include_hashtags), Boolean.TRUE) ? null : context.getString(R.string
                         .special_hashtag_exclusion_key), new
-                        Callback<List<TrendResultWrapper>>() {
+                        Callback<List<TrendResult>>() {
                             @Override
-                            public void success(final List<TrendResultWrapper> trendResultWrappers, final Response
+                            public void success(final List<TrendResult> trendResultWrappers, final Response
                                     response) {
                                 if (trendResultWrappers.isEmpty())
                                     return;
-                                final List<TrendWrapper> trendList = trendResultWrappers.get(0).getTrends();
+                                final List<Trend> trendList = trendResultWrappers.get(0).getTrends();
                                 final List<String> trendNames = new LinkedList<>();
-                                for (final TrendWrapper trend : trendList) {
+                                for (final Trend trend : trendList) {
                                     trendNames.add(trend.getName());
                                 }
 

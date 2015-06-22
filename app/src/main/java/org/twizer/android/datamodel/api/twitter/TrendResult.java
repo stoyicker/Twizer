@@ -1,6 +1,6 @@
 
 
-package org.twizer.android.datamodel;
+package org.twizer.android.datamodel.api.twitter;
 
 import com.google.gson.annotations.Expose;
 
@@ -16,15 +16,15 @@ import java.util.List;
  *
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
-public final class TrendResultWrapper {
+public final class TrendResult {
 
     @Expose
-    private List<TrendWrapper> trends = new ArrayList<>();
+    private List<Trend> trends = new ArrayList<>();
 
     /**
      * @return The trends
      */
-    public List<TrendWrapper> getTrends() {
+    public List<Trend> getTrends() {
         return trends;
     }
 
@@ -43,10 +43,10 @@ public final class TrendResultWrapper {
         if (other == this) {
             return Boolean.TRUE;
         }
-        if (!(other instanceof TrendResultWrapper)) {
+        if (!(other instanceof TrendResult)) {
             return Boolean.FALSE;
         }
-        TrendResultWrapper rhs = ((TrendResultWrapper) other);
+        TrendResult rhs = ((TrendResult) other);
         return new EqualsBuilder().append(trends, rhs.trends).isEquals();
     }
 

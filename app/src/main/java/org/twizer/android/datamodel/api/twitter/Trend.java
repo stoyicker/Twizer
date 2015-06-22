@@ -1,4 +1,4 @@
-package org.twizer.android.datamodel;
+package org.twizer.android.datamodel.api.twitter;
 
 import com.google.gson.annotations.Expose;
 
@@ -11,7 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  *
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
-public final class LocationWrapper {
+public final class Trend {
 
     @Expose
     private String name;
@@ -45,10 +45,10 @@ public final class LocationWrapper {
         if (other == this) {
             return Boolean.TRUE;
         }
-        if (!(other instanceof LocationWrapper)) {
+        if (!(other instanceof Trend)) {
             return Boolean.FALSE;
         }
-        LocationWrapper rhs = ((LocationWrapper) other);
+        Trend rhs = ((Trend) other);
         return new EqualsBuilder().append(name, rhs.name).isEquals();
     }
 
