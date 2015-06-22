@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Build;
+import android.os.Looper;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -20,6 +21,15 @@ import org.twizer.android.R;
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
  */
 public abstract class UiUtils {
+
+    /**
+     * Checks if the caller thread is the UI thread.
+     *
+     * @return {@link Boolean} <value>Boolean.TRUE</value> if the caller and the UI threads are the same; <value>Boolean.FALSE</value> otherwise
+     */
+    public static Boolean isMainThread() {
+        return Looper.myLooper() == Looper.getMainLooper();
+    }
 
     public static Integer getScreenHeight(final Context context) {
         final Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE))

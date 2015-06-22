@@ -50,4 +50,6 @@
     </string>
     <string name="pref_key_last_search_text" translatable="false">key_last_search_text</string>
     <string name="default_last_search_text" translatable="false"/>
+    <string name="database_name" translatable="false">twizer.db</string>
+    <string name="error_database_operation_on_main_thread" translatable="false">Attempted to perform a database operation on the main thread!</string>
 </resources>

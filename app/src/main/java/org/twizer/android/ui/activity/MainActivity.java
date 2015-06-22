@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.andexert.ripple.RippleView;
 
 import org.twizer.android.R;
+import org.twizer.android.io.db.SQLiteDAO;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -28,12 +29,23 @@ public final class MainActivity extends DescribedActivity {
 
         mContext = getApplicationContext();
 
+        initDatabase(mContext);
+
         actionSettings.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
             @Override
             public void onComplete(final RippleView rippleView) {
                 MainActivity.this.openSettings();
             }
         });
+    }
+
+    /**
+     * Initializes the database
+     *
+     * @param context {@link Context} Context
+     */
+    private void initDatabase(final Context context) {
+        SQLiteDAO.setup(context);
     }
 
     private void openSettings() {
