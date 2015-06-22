@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 import android.support.annotation.NonNull;
 
 import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.models.HashtagEntity;
 
 import org.jetbrains.annotations.Contract;
 import org.twizer.android.BuildConfig;
@@ -25,8 +26,8 @@ import java.util.Locale;
 public final class SQLiteDAO extends RobustSQLiteOpenHelper {
 
     public static final Object DB_LOCK = new Object();
-    private static final String TOP_HASHTAGS_TABLE_NAME = "%s+TABLE_TOP_HASHTAGS",
-            TOP_USERNAMES_TABLE_NAME = "%s+TABLE_TOP_USERNAMES";
+    private static final String TOP_HASHTAGS_TABLE_NAME_PATTERN = "%s+TABLE_TOP_HASHTAGS",
+            TOP_USERNAMES_TABLE_NAME_PATTERN = "%s+TABLE_TOP_USERNAMES";
     private static final String TABLE_KEY_HASHTAG = "TABLE_KEY_HASHTAG";
     private static final String TABLE_KEY_USERNAME = "TABLE_KEY_USERNAME";
     private static Context mContext;
@@ -60,12 +61,12 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
     }
 
     private String getTopHashtagsTableName() {
-        return String.format(Locale.ENGLISH, TOP_HASHTAGS_TABLE_NAME, Twitter.getSessionManager()
+        return String.format(Locale.ENGLISH, TOP_HASHTAGS_TABLE_NAME_PATTERN, Twitter.getSessionManager()
                 .getActiveSession().getUserName());
     }
 
     private String getTopUsersTableName() {
-        return String.format(Locale.ENGLISH, TOP_USERNAMES_TABLE_NAME, Twitter.getSessionManager
+        return String.format(Locale.ENGLISH, TOP_USERNAMES_TABLE_NAME_PATTERN, Twitter.getSessionManager
                 ().getActiveSession().getUserName());
     }
 
@@ -131,29 +132,13 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
         return "'" + input.replace("'", "''") + "'";
     }
 
-    /**
-     * Unescapes a string.
-     *
-     * @param output {@link String} The string to unescape. It is assumed to be
-     *               escaped. Otherwise unexpected behavior may occur.
-     * @return {@link String} The unescaped string.
-     */
-    @Contract("null -> null")
-    private String unescapeString(final String output) {
-        if (output == null)
-            return null;
-
-        return output.substring(1, output.length() - 1);
-    }
-
-
-    private ContentValues mapHashtagToStorable(@NonNull final String hashtag) {
+    private ContentValues mapHashtagToStorable(@NonNull final HashtagEntity hashtag) {
         final ContentValues ret = new ContentValues();
-        ret.put(TABLE_KEY_HASHTAG, escapeString(hashtag));
+        ret.put(TABLE_KEY_HASHTAG, escapeString(hashtag.text));
         return ret;
     }
 
-    public Boolean insertHashtag(@NonNull final String hashtag) {
+    public Boolean insertHashtag(@NonNull final HashtagEntity hashtag) {
         final SQLiteDatabase db = getWritableDatabase();
         final ContentValues storableHashtag = mapHashtagToStorable(hashtag);
 
@@ -161,7 +146,7 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
 
         synchronized (DB_LOCK) {
             db.beginTransaction();
-            inserted = db.insert(TOP_HASHTAGS_TABLE_NAME, null, storableHashtag) != -1;
+            inserted = db.insert(getTopHashtagsTableName(), null, storableHashtag) != -1;
             db.setTransactionSuccessful();
             db.endTransaction();
         }
@@ -169,14 +154,14 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
         return inserted;
     }
 
-    public Boolean containsHashtag(@NonNull final String hashtag) {
+    public Boolean containsHashtag(@NonNull final HashtagEntity hashtag) {
         final SQLiteDatabase db = getReadableDatabase();
 
         Boolean found;
 
-        final Cursor c = db.query(Boolean.TRUE, TOP_HASHTAGS_TABLE_NAME, new
+        final Cursor c = db.query(Boolean.TRUE, getTopHashtagsTableName(), new
                 String[]{TABLE_KEY_HASHTAG}, TABLE_KEY_HASHTAG + " = ?", new String[]{escapeString
-                (hashtag)}, null, null, null, null);
+                (hashtag.text)}, null, null, null, null);
         found = c.getCount() > 0;
         c.close();
 
@@ -197,7 +182,7 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
 
         synchronized (DB_LOCK) {
             db.beginTransaction();
-            inserted = db.insert(TOP_USERNAMES_TABLE_NAME, null, storableUsername) != -1;
+            inserted = db.insert(getTopUsersTableName(), null, storableUsername) != -1;
             db.setTransactionSuccessful();
             db.endTransaction();
         }
@@ -210,7 +195,7 @@ public final class SQLiteDAO extends RobustSQLiteOpenHelper {
 
         Boolean found;
 
-        final Cursor c = db.query(Boolean.TRUE, TOP_USERNAMES_TABLE_NAME, new
+        final Cursor c = db.query(Boolean.TRUE, getTopUsersTableName(), new
                 String[]{TABLE_KEY_USERNAME}, TABLE_KEY_USERNAME + " = ?", new String[]{escapeString
                 (username)}, null, null, null, null);
         found = c.getCount() > 0;

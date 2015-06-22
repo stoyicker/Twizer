@@ -12,10 +12,13 @@ import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.services.params.Geocode;
 
 import org.twizer.android.R;
+import org.twizer.android.datamodel.ScoredTweetWrapper;
 import org.twizer.android.io.net.api.twitter.TwitterTrendServiceExtensionApiClient;
 import org.twizer.android.io.preference.PreferenceAssistant;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -64,11 +67,20 @@ public final class TweetProviderTask implements Runnable {
             @Override
             public void success(final Result<Search> result) {
                 final List<Tweet> tweetList = result.data.tweets;
-                List<String> idList = new ArrayList<>();
+                final List<ScoredTweetWrapper> scoredTweetList = new ArrayList<>();
                 for (final Tweet x : tweetList)
-                    idList.add(x.idStr);
+                    scoredTweetList.add(new ScoredTweetWrapper(x));
 
-                //TODO Sort
+                Collections.sort(scoredTweetList, new Comparator<ScoredTweetWrapper>() {
+                    @Override
+                    public int compare(final @NonNull ScoredTweetWrapper lhs, final @NonNull ScoredTweetWrapper rhs) {
+                        return rhs.getScore() - lhs.getScore();
+                    }
+                });
+
+                List<String> idList = new ArrayList<>();
+                for (final ScoredTweetWrapper x : scoredTweetList)
+                    idList.add(x.getTweetIdStr());
 
                 final Integer l = context.getResources().getInteger(R.integer
                         .max_tweets_per_batch_post_filter);
