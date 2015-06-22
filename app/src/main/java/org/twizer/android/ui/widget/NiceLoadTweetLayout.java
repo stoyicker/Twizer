@@ -1,12 +1,17 @@
 package org.twizer.android.ui.widget;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.tweetui.LoadCallback;
@@ -14,6 +19,8 @@ import com.twitter.sdk.android.tweetui.TweetUtils;
 import com.twitter.sdk.android.tweetui.TweetView;
 
 import org.twizer.android.R;
+
+import java.util.concurrent.Executors;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -33,6 +40,7 @@ public final class NiceLoadTweetLayout extends FrameLayout {
     View mProgressView;
 
     private IErrorViewListener mErrorListener;
+    private Tweet mTweetData;
 
     public NiceLoadTweetLayout(final Context context, final AttributeSet attrs) {
         super(context, attrs);
@@ -88,10 +96,43 @@ public final class NiceLoadTweetLayout extends FrameLayout {
                 });
             }
         });
+
+        Twitter.getApiClient().getStatusesService().show(tweetId, Boolean.TRUE, null, null, new Callback<Tweet>() {
+            @Override
+            public void success(final Result<Tweet> result) {
+                NiceLoadTweetLayout.this.setCurrentTweetData(result.data);
+            }
+
+            @Override
+            public void failure(final TwitterException e) {
+                NiceLoadTweetLayout.this.setCurrentTweetData(null);
+            }
+        });
+    }
+
+    private void setCurrentTweetData(final Tweet data) {
+        mTweetData = data;
     }
 
     public void setErrorListener(IErrorViewListener mErrorListener) {
         this.mErrorListener = mErrorListener;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(final MotionEvent ev) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(final Void[] params) {
+                storeTweetAsLiked();
+                return null;
+            }
+
+            private void storeTweetAsLiked() {
+                //TODO storeTweetAsLiked
+            }
+        }.executeOnExecutor(Executors.newSingleThreadExecutor());
+
+        return super.onInterceptTouchEvent(ev);
     }
 
     public interface IErrorViewListener {

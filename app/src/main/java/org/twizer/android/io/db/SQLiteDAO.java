@@ -26,8 +26,8 @@ import java.util.Locale;
 public final class SQLiteDAO extends RobustSQLiteOpenHelper {
 
     public static final Object DB_LOCK = new Object();
-    private static final String TOP_HASHTAGS_TABLE_NAME_PATTERN = "%s+TABLE_TOP_HASHTAGS",
-            TOP_USERNAMES_TABLE_NAME_PATTERN = "%s+TABLE_TOP_USERNAMES";
+    private static final String TOP_HASHTAGS_TABLE_NAME_PATTERN = "%s__TABLE_TOP_HASHTAGS",
+            TOP_USERNAMES_TABLE_NAME_PATTERN = "%s__TABLE_TOP_USERNAMES";
     private static final String TABLE_KEY_HASHTAG = "TABLE_KEY_HASHTAG";
     private static final String TABLE_KEY_USERNAME = "TABLE_KEY_USERNAME";
     private static Context mContext;
