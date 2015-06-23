@@ -13,13 +13,17 @@ import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.models.HashtagEntity;
+import com.twitter.sdk.android.core.models.MentionEntity;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.tweetui.LoadCallback;
 import com.twitter.sdk.android.tweetui.TweetUtils;
 import com.twitter.sdk.android.tweetui.TweetView;
 
 import org.twizer.android.R;
+import org.twizer.android.io.db.SQLiteDAO;
 
+import java.util.List;
 import java.util.concurrent.Executors;
 
 import butterknife.ButterKnife;
@@ -120,20 +124,49 @@ public final class NiceLoadTweetLayout extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(final MotionEvent ev) {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(final Void[] params) {
-                storeTweetAsLiked();
-                return null;
-            }
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_UP:
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(final Void[] params) {
 
-            private void storeTweetAsLiked() {
-                //TODO storeTweetAsLiked
-            }
-        }.executeOnExecutor(Executors.newSingleThreadExecutor());
+                        storeTweetAsLiked();
+                        return null;
+                    }
+
+                    private void storeTweetAsLiked() {
+                        if (mTweetData != null) {
+                            final SQLiteDAO sqliteDaoInstance = SQLiteDAO.getInstance();
+
+                            final String username = mTweetData.user.screenName;
+
+                            sqliteDaoInstance.insertUsername(username);
+
+                            final List<MentionEntity> mentions = mTweetData.entities.userMentions;
+
+                            if (mentions != null)
+                                for (final MentionEntity mention : mentions)
+                                    sqliteDaoInstance.insertUsername(mention.screenName);
+
+                            final List<HashtagEntity> hashtags = mTweetData.entities.hashtags;
+
+                            if (hashtags != null)
+                                for (final HashtagEntity hashtag : hashtags)
+                                    sqliteDaoInstance.insertHashtag(hashtag);
+
+                            Log.d("debug", "Tweet liked");
+                        }
+                    }
+                }.executeOnExecutor(Executors.newSingleThreadExecutor());
+                break;
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_CANCEL:
+        }
 
         return super.onInterceptTouchEvent(ev);
     }
+
 
     public interface IErrorViewListener {
         void onErrorViewClick();
