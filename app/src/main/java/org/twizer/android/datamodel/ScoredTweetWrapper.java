@@ -21,11 +21,36 @@ public final class ScoredTweetWrapper {
     private static final Integer POINTS_PER_HASHTAG_MATCH = 1;
 
     private final Tweet mTweet;
-    private Integer mScore = -1;
+    private final Integer mScore;
 
     public ScoredTweetWrapper(final Tweet tweet) {
         this.mTweet = tweet;
-        calculateScore();
+        mScore = calculateScoreOnMainThread();
+    }
+
+    private Integer calculateScoreOnMainThread() {
+        Integer currentSum = 0;
+
+        final List<String> usernames = new ArrayList<>();
+        usernames.add(mTweet.user.screenName);
+        final List<MentionEntity> mentionEntities = mTweet.entities.userMentions;
+        if (mentionEntities != null)
+            for (final MentionEntity x : mentionEntities)
+                usernames.add(x.screenName);
+
+        final SQLiteDAO sqliteDaoInstance = SQLiteDAO.getInstance();
+
+        for (final String username : usernames) {
+            if (sqliteDaoInstance.containsUsername(username))
+                currentSum += POINTS_PER_USER_MATCH;
+        }
+
+        final List<HashtagEntity> hashtags = mTweet.entities.hashtags;
+        if (hashtags != null)
+            for (final HashtagEntity hashtag : hashtags)
+                if (sqliteDaoInstance.containsHashtag(hashtag))
+                    currentSum += POINTS_PER_HASHTAG_MATCH;
+        return currentSum;
     }
 
     private void calculateScore() {
@@ -59,7 +84,7 @@ public final class ScoredTweetWrapper {
 
             @Override
             protected void onPostExecute(final Integer sum) {
-                ScoredTweetWrapper.this.setScore(sum);
+//                ScoredTweetWrapper.this.setScore(sum);
             }
         }.executeOnExecutor(Executors.newSingleThreadExecutor());
     }
@@ -72,7 +97,7 @@ public final class ScoredTweetWrapper {
         return mScore;
     }
 
-    public void setScore(final Integer score) {
-        this.mScore = score;
-    }
+//    public void setScore(final Integer score) {
+//        this.mScore = score;
+//    }
 }

@@ -1,6 +1,7 @@
 package org.twizer.android.io.net.provider.twitter;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 /**
  * @author Jorge Antonio Diaz-Benito Soriano (github.com/Stoyicker).
@@ -66,32 +68,44 @@ public final class TweetProviderTask implements Runnable {
         TwitterTrendServiceExtensionApiClient.getInstance().getSearchService().tweets(query, geocode, null, null, context.getString(R.string.tweet_search_result_type_mixed), count, null, sinceId, null, null, new Callback<Search>() {
             @Override
             public void success(final Result<Search> result) {
-                final List<Tweet> tweetList = result.data.tweets;
-                final List<ScoredTweetWrapper> scoredTweetList = new ArrayList<>();
-                for (final Tweet x : tweetList)
-                    scoredTweetList.add(new ScoredTweetWrapper(x));
-
-                Collections.sort(scoredTweetList, new Comparator<ScoredTweetWrapper>() {
+                new AsyncTask<Void, Void, List<ScoredTweetWrapper>>() {
                     @Override
-                    public int compare(final @NonNull ScoredTweetWrapper lhs, final @NonNull ScoredTweetWrapper rhs) {
-                        return rhs.getScore() - lhs.getScore();
+                    protected List<ScoredTweetWrapper> doInBackground(final Void... params) {
+                        final List<Tweet> tweetList = result.data.tweets;
+                        final List<ScoredTweetWrapper> scoredTweetList = new ArrayList<>();
+                        for (final Tweet x : tweetList)
+                            scoredTweetList.add(new ScoredTweetWrapper(x));
+                        return scoredTweetList;
                     }
-                });
 
-                List<String> idList = new ArrayList<>();
-                for (final ScoredTweetWrapper x : scoredTweetList)
-                    idList.add(x.getTweetIdStr());
+                    @Override
+                    protected void onPostExecute(final List<ScoredTweetWrapper> scoredTweetList) {
+                        if (scoredTweetList.isEmpty())
+                            failure((TwitterException) null);
 
-                final Integer l = context.getResources().getInteger(R.integer
-                        .max_tweets_per_batch_post_filter);
-                if (idList.size() > l)
-                    idList = idList.subList(0, l);
+                        Collections.sort(scoredTweetList, new Comparator<ScoredTweetWrapper>() {
+                            @Override
+                            public int compare(final @NonNull ScoredTweetWrapper lhs, final @NonNull ScoredTweetWrapper rhs) {
+                                return rhs.getScore() - lhs.getScore();
+                            }
+                        });
 
-                PreferenceAssistant.writeSharedString(context, context.getString(R.string
-                        .pref_key_max_tweet_id), String.valueOf(Math.max(finalSinceId, Long.parseLong
-                        (getMaxTweetId(context, idList)))));
+                        List<String> idList = new ArrayList<>();
+                        for (final ScoredTweetWrapper x : scoredTweetList)
+                            idList.add(x.getTweetIdStr());
 
-                callback.onTweetsProvided(idList, query);
+                        final Integer l = context.getResources().getInteger(R.integer
+                                .max_tweets_per_batch_post_filter);
+                        if (idList.size() > l)
+                            idList = idList.subList(0, l);
+
+                        PreferenceAssistant.writeSharedString(context, context.getString(R.string
+                                .pref_key_max_tweet_id), String.valueOf(Math.max(finalSinceId, Long.parseLong
+                                (getMaxTweetId(context, idList)))));
+
+                        callback.onTweetsProvided(idList, query);
+                    }
+                }.executeOnExecutor(Executors.newSingleThreadExecutor());
             }
 
             @Override

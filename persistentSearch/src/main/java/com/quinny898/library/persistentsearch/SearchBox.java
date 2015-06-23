@@ -765,22 +765,18 @@ public class SearchBox extends RelativeLayout {
         search(option);
     }
 
-    public void mockSearch() {
-        final String text = getSearchText();
-        final SearchResult option = new SearchResult(text, null);
-        if (!searchWithoutSuggestions && getNumberOfResults() == 0) return;
-        setSearchText(option.mTitle);
-        logo.setHint(option.mTitle);
-    }
+//    public void mockSearch() {
+//        final String text = getSearchText();
+//        final SearchResult option = new SearchResult(text, null);
+//        if (!searchWithoutSuggestions && getNumberOfResults() == 0) return;
+//        setSearchText(option.mTitle);
+//        logo.setHint(option.mTitle);
+//    }
 
     public void setSearchText(final String text) {
         mEditText.setText(text);
         invalidate();
         requestLayout();
-    }
-
-    public Boolean isOpen() {
-        return searchOpen;
     }
 
     public final ArrayList<String> getSearchableNames() {

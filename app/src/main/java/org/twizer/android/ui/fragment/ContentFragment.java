@@ -9,6 +9,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,8 +26,8 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.services.params.Geocode;
 
 import org.twizer.android.R;
-import org.twizer.android.datamodel.api.twitter.TrendResult;
 import org.twizer.android.datamodel.api.twitter.Trend;
+import org.twizer.android.datamodel.api.twitter.TrendResult;
 import org.twizer.android.io.net.api.twitter.TwitterTrendServiceExtensionApiClient;
 import org.twizer.android.io.net.provider.geo.CasualLocationProvider;
 import org.twizer.android.io.net.provider.twitter.TweetProviderTask;
@@ -73,6 +74,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetLayo
 
     Context mContext;
     private ScheduledExecutorService mCurrentQueryExecutor;
+    private String mCurrentQuery;
 
     @Override
     public void onAttach(Activity activity) {
@@ -282,7 +284,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetLayo
                 new Geocode(coordinates.getLatitude(), coordinates.getLongitude(), PreferenceAssistant.readSharedInteger(mContext, mContext.getString(R.string.pref_key_search_radius), mContext.getResources().getInteger(R.integer.default_search_radius)), PreferenceAssistant.readSharedString(mContext, mContext.getString(R.string.pref_key_search_distance_unit), mContext.getString(R.string.default_search_distance_unit_value)).contentEquals(mContext.getString(R.string.search_distance_unit_km_value)) ? Geocode.Distance.KILOMETERS : Geocode.Distance.MILES);
 
         animateAndDisableFab();
-        final Runnable gatherer = new TweetProviderTask(mContext, geocode, mSearchBox.getSearchText(), this);
+        final Runnable gatherer = new TweetProviderTask(mContext, geocode, mCurrentQuery = mSearchBox.getSearchText(), this);
         mCurrentQueryExecutor = Executors.newSingleThreadScheduledExecutor();
         mCurrentQueryExecutor.scheduleAtFixedRate(gatherer, 0L, mContext.getResources().getInteger(R.integer.search_interval_seconds), TimeUnit.SECONDS);
     }
@@ -342,8 +344,10 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetLayo
     }
 
     @Override
-    public void onFailedToProvideTweets(final TwitterException e) {
-        Log.e("ERROR", e.getMessage());
+    public void onFailedToProvideTweets(@Nullable final TwitterException e) {
+        if (e != null)
+            Log.e("ERROR", e.getMessage());
+        mNiceLoadTweetLayout.fail(mRandomizeFab);
     }
 
     private synchronized void reshowLastTweet() {
@@ -357,7 +361,7 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetLayo
     }
 
     private synchronized void showNextTweet() {
-        if (mCurrentQueryExecutor == null)
+        if (mCurrentQueryExecutor == null || !TextUtils.equals(mCurrentQuery, mSearchBox.getSearchText()))
             startResultGatheringPeriodicTask();
 
         new AsyncTask<Void, Void, String>() {

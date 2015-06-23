@@ -63,10 +63,15 @@ public final class NiceLoadTweetLayout extends FrameLayout {
     }
 
     public synchronized void loadTweet(final Long tweetId, final View controlButton) {
-        if (mErrorView.getVisibility() != View.GONE)
-            mErrorView.setVisibility(View.GONE);
-        if (mProgressView.getVisibility() != View.VISIBLE)
-            mProgressView.setVisibility(View.VISIBLE);
+        post(new Runnable() {
+            @Override
+            public void run() {
+                if (mErrorView.getVisibility() != View.GONE)
+                    mErrorView.setVisibility(View.GONE);
+                if (mProgressView.getVisibility() != View.VISIBLE)
+                    mProgressView.setVisibility(View.VISIBLE);
+            }
+        });
         TweetUtils.loadTweet(tweetId, new LoadCallback<Tweet>() {
             @Override
             public synchronized void success(final Tweet tweet) {
@@ -86,18 +91,7 @@ public final class NiceLoadTweetLayout extends FrameLayout {
             @Override
             public synchronized void failure(final TwitterException exception) {
                 Log.e("ERROR", exception.getMessage());
-                if (mTweetView != null)
-                    removeView(mTweetView);
-                mTweetView = null;
-                NiceLoadTweetLayout.this.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mProgressView.setVisibility(View.GONE);
-                        mErrorView.setVisibility(View.VISIBLE);
-                        controlButton.clearAnimation();
-                        controlButton.setEnabled(Boolean.TRUE);
-                    }
-                });
+                fail(controlButton);
             }
         });
 
@@ -110,6 +104,21 @@ public final class NiceLoadTweetLayout extends FrameLayout {
             @Override
             public void failure(final TwitterException e) {
                 NiceLoadTweetLayout.this.setCurrentTweetData(null);
+            }
+        });
+    }
+
+    public void fail(final View controlButton) {
+        NiceLoadTweetLayout.this.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mTweetView != null)
+                    removeView(mTweetView);
+                mTweetView = null;
+                mProgressView.setVisibility(View.GONE);
+                mErrorView.setVisibility(View.VISIBLE);
+                controlButton.clearAnimation();
+                controlButton.setEnabled(Boolean.TRUE);
             }
         });
     }
@@ -153,8 +162,6 @@ public final class NiceLoadTweetLayout extends FrameLayout {
                             if (hashtags != null)
                                 for (final HashtagEntity hashtag : hashtags)
                                     sqliteDaoInstance.insertHashtag(hashtag);
-
-                            Log.d("debug", "Tweet liked");
                         }
                     }
                 }.executeOnExecutor(Executors.newSingleThreadExecutor());
