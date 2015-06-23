@@ -258,7 +258,7 @@ public class SearchBox extends RelativeLayout {
     /**
      * Toggle the searchbox's open/closed state manually
      */
-    public void toggleSearch() {
+    private void toggleSearch() {
         if (searchOpen) {
             closeSearch();
         } else {
@@ -640,7 +640,7 @@ public class SearchBox extends RelativeLayout {
     }
 
 
-    public void openSearch(final Boolean openKeyboard) {
+    private void openSearch(final Boolean openKeyboard) {
         this.materialMenu.animateState(IconState.ARROW);
         this.logo.setVisibility(View.GONE);
         this.drawerLogo.setVisibility(View.GONE);
@@ -718,6 +718,7 @@ public class SearchBox extends RelativeLayout {
             @Override
             public void run() {
                 mEditText.requestFocus();
+                mEditText.setSelection(mEditText.getText().length());
             }
         });
         searchOpen = Boolean.TRUE;

@@ -284,9 +284,12 @@ public final class ContentFragment extends Fragment implements NiceLoadTweetLayo
                 new Geocode(coordinates.getLatitude(), coordinates.getLongitude(), PreferenceAssistant.readSharedInteger(mContext, mContext.getString(R.string.pref_key_search_radius), mContext.getResources().getInteger(R.integer.default_search_radius)), PreferenceAssistant.readSharedString(mContext, mContext.getString(R.string.pref_key_search_distance_unit), mContext.getString(R.string.default_search_distance_unit_value)).contentEquals(mContext.getString(R.string.search_distance_unit_km_value)) ? Geocode.Distance.KILOMETERS : Geocode.Distance.MILES);
 
         animateAndDisableFab();
-        final Runnable gatherer = new TweetProviderTask(mContext, geocode, mCurrentQuery = mSearchBox.getSearchText(), this);
-        mCurrentQueryExecutor = Executors.newSingleThreadScheduledExecutor();
-        mCurrentQueryExecutor.scheduleAtFixedRate(gatherer, 0L, mContext.getResources().getInteger(R.integer.search_interval_seconds), TimeUnit.SECONDS);
+        mCurrentQuery = mSearchBox.getSearchText();
+        if (!TextUtils.isEmpty(mCurrentQuery)) {
+            final Runnable gatherer = new TweetProviderTask(mContext, geocode, mCurrentQuery, this);
+            mCurrentQueryExecutor = Executors.newSingleThreadScheduledExecutor();
+            mCurrentQueryExecutor.scheduleAtFixedRate(gatherer, 0L, mContext.getResources().getInteger(R.integer.search_interval_seconds), TimeUnit.SECONDS);
+        }
     }
 
     private void animateAndDisableFab() {
