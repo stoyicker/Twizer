@@ -15,8 +15,6 @@ Free and open-source app for Android.
 I am not affiliated with Twitter in any ways, this app does not represent Twitter nor its
 employees' opinions nor they do represent mine, and all that stuff.
 
-<!--[![Get it now!](http://developer.android.com/images/brand/en_generic_rgb_wo_60.png "Get it
-now!")
-](https://play.google.com/store/apps/details?id=org.jorge.twizer)-->
+[![Get it now!](http://developer.android.com/images/brand/en_generic_rgb_wo_60.png "Get it now!")](https://play.google.com/store/apps/details?id=org.twizer.android)
 
 Pull requests are welcome.
