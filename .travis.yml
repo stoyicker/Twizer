@@ -27,3 +27,5 @@ before_install:
 # Mark Gradle as executable ##END##
 script:
     - ./gradlew clean assembleStandardDebug
+after_script:
+    - echo file:///home/travis/build/stoyicker/AligningRecyclerView/library/build/outputs/lint-results.html
